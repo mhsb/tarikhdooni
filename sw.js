@@ -1,5 +1,5 @@
 /* تاریخ‌دونی: کار بدون اینترنت. شمارهٔ نسخه هنگام ساخت عوض می‌شود. */
-const VERSION = 'e203b988';
+const VERSION = '7f46039f';
 const CACHE = 'tarikhdooni-' + VERSION;
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'packs/index.json'];
 
@@ -31,6 +31,10 @@ self.addEventListener('fetch', e => {
   if (!same && !font) return;
   e.respondWith((async () => {
     const c = await caches.open(CACHE);
+    if (same && url.pathname.endsWith('/packs/index.json')) {   // فهرست بسته‌ها: اول شبکه تا بستهٔ تازه زود دیده شود
+      try { const r = await fetch(req, { cache: 'no-cache' }); if (r.ok) c.put(req, r.clone()); return r; }
+      catch (_) { const h = await c.match(req, { ignoreSearch: true }); if (h) return h; }
+    }
     const hit = await c.match(req, { ignoreSearch: true });
     const net = fetch(req).then(r => { if (r && (r.ok || r.type === 'opaque')) c.put(req, r.clone()); return r; }).catch(() => null);
     if (hit) { e.waitUntil(net); return hit; }      // اول حافظه، پشت‌صحنه تازه می‌شود

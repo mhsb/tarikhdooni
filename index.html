@@ -220,6 +220,47 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
   .drawer:not([hidden]){animation:fade .2s}
   .drawer:not([hidden]) .card{animation:pop .28s cubic-bezier(.2,.8,.2,1)}
 }
+
+/* ---- mobile ---- */
+.mob{display:none}
+.tools{display:contents}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+@media (max-width:700px){
+  .mob{display:inline-flex}
+  body{padding-left:max(6px,env(safe-area-inset-left,0px));padding-right:max(6px,env(safe-area-inset-right,0px))}
+  .top{position:relative;flex-wrap:nowrap;align-items:center;padding-block:calc(8px + env(safe-area-inset-top,0px)) 4px}
+  h1{font-size:26px}
+  .sub{display:none}
+  .menubtn{padding:2px 14px;font-size:18px;line-height:1.6;display:inline-block}
+  .acts{display:none}
+  .acts.open{display:grid;position:absolute;inset-inline-start:0;top:100%;z-index:35;min-width:190px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;gap:6px;box-shadow:0 14px 34px -12px var(--shadowc)}
+  .acts.open .btn{width:100%;text-align:start;padding:9px 14px}
+  .controls{gap:6px;padding-block:2px 8px}
+  .r1{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding-bottom:2px;margin-inline:-6px;padding-inline:6px}
+  .r1::-webkit-scrollbar{display:none}
+  .r1>.lab{display:none}
+  .r1 .chip,.r1 .row{flex:none}
+  #presets{flex-wrap:nowrap}
+  .chip{padding:5px 14px}
+  .tools{display:none}
+  .tools.open{display:grid;gap:8px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--panel);animation:fade .18s}
+  .tools .settings{border:0;padding:0}
+  .search{flex:1 1 100%;max-width:none}
+  .goto input{width:110px}
+  input,select,textarea{font-size:16px!important}
+  .tg{min-width:26px;min-height:24px;padding:0 6px;margin-inline-start:3px}
+  .th{top:2px;right:4px;gap:4px;padding:0 4px}
+  .detail{margin-top:8px;max-height:46vh;border-radius:14px 14px 0 0;padding:10px 12px}
+  .detail.peek{max-height:92px;overflow:hidden}
+  .foot{font-size:11px;padding-inline:6px}
+  .top{padding-inline:6px}
+  .controls>.row,.tools{margin-inline:0}
+  .drawer{padding:0;align-items:stretch}
+  .card{width:100%;min-height:100%;border-radius:0;border-width:0;padding:14px 14px calc(24px + env(safe-area-inset-bottom,0px))}
+  .dh{position:sticky;top:0;background:var(--panel);z-index:2;padding-block:6px;margin-top:calc(-1 * 6px)}
+  .mrow>div{flex:1 1 auto;min-width:0}
+  .mrow>.btn{flex:none;padding:6px 14px}
+}
 </style>
 </head>
 <body>
@@ -231,11 +272,13 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
       <h1>تاریخ‌دونی</h1>
       <p class="sub">جایی برای نگه‌داشتن تاریخ، مثل آشغال‌دونی و مرغ‌دونی، فقط بدون بو. تاریخ رو می‌دونی؟ نمی‌دونی؟ بدون: ببینید هر پادشاه، دانشمند یا رویداد با چه کسانی هم‌عصر بوده است. نمودار را بکشید، با دکمه‌ها یا Ctrl به‌علاوهٔ چرخ ماوس بزرگ کنید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
     </div>
-    <div class="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
+    <button class="btn ghost menubtn mob" id="menuBtn" type="button" aria-expanded="false" aria-controls="acts" aria-label="منو">☰</button>
+    <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
   </header>
 
   <section class="controls" aria-label="تنظیمات نمایش">
-    <div class="row"><span class="lab">بازه‌ها</span><div class="row" id="presets"></div></div>
+    <div class="row r1"><button class="chip mob" id="toolsBtn" type="button" aria-expanded="false" aria-controls="tools">ابزارها ▾</button><button class="chip zoom mob" id="zin2" type="button" aria-label="بزرگ‌نمایی">+</button><button class="chip zoom mob" id="zout2" type="button" aria-label="کوچک‌نمایی">−</button><span class="lab">بازه‌ها</span><div class="row" id="presets"></div></div>
+    <div class="tools" id="tools">
     <details class="settings" id="settings">
       <summary>بسته‌ها، ردیف‌ها و تقویم‌ها</summary>
       <div class="row"><span class="lab">بسته‌ها</span><div class="row" id="packs"></div></div>
@@ -258,6 +301,7 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
       <button class="chip" id="expandAll" type="button">باز کردن همهٔ ردیف‌ها</button>
       <button class="chip" id="resetOrder" type="button">ترتیب اولیهٔ ردیف‌ها</button>
       <span class="hint">نوار خط‌دار یعنی تاریخ تقریبی است.</span>
+    </div>
     </div>
   </section>
 
@@ -1095,6 +1139,19 @@ mgrEl.addEventListener('click',function(e){
   }
   else if(b.getAttribute('data-ccancel')){ rmConfirm=null; buildMgr(); }
 });
+
+
+/* ---------- mobile menus ---------- */
+(function(){
+  var mb=$('menuBtn'), acts=$('acts'), tb=$('toolsBtn'), tools=$('tools');
+  function setMenu(o){ acts.classList.toggle('open',o); mb.setAttribute('aria-expanded',String(o)); }
+  mb.addEventListener('click',function(e){ e.stopPropagation(); setMenu(!acts.classList.contains('open')); });
+  acts.addEventListener('click',function(e){ if(e.target.closest('button')) setMenu(false); });
+  document.addEventListener('click',function(e){ if(acts.classList.contains('open')&&!e.target.closest('#acts')) setMenu(false); });
+  tb.addEventListener('click',function(){ var o=!tools.classList.contains('open'); tools.classList.toggle('open',o); tb.setAttribute('aria-expanded',String(o)); tb.textContent=o?'ابزارها ▴':'ابزارها ▾'; });
+  $('zin2').addEventListener('click',function(){ zoomBy(1.6); });
+  $('zout2').addEventListener('click',function(){ zoomBy(1/1.6); });
+})();
 
 /* ---------- PWA ---------- */
 function toast(t){ var el=$('toast'); el.textContent=t; el.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(function(){ el.hidden=true; },6000); }
