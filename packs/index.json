@@ -1,0 +1,70 @@
+{
+  "packs": [
+    {
+      "id": "iran",
+      "file": "iran.json",
+      "title": "ایران",
+      "desc": "سلسله‌ها، پادشاهان و رویدادهای ایران از ماد تا امروز",
+      "hue": 175,
+      "default": true,
+      "order": 1,
+      "tracks": 4,
+      "events": 80
+    },
+    {
+      "id": "rome",
+      "file": "rome.json",
+      "title": "روم و بیزانس",
+      "desc": "دوره‌ها، امپراتوران و رویدادهای روم و بیزانس",
+      "hue": 355,
+      "default": true,
+      "order": 2,
+      "tracks": 3,
+      "events": 46
+    },
+    {
+      "id": "egypt",
+      "file": "egypt.json",
+      "title": "مصر",
+      "desc": "دوره‌ها و فرمانروایان مصر از عصر فراعنه تا امروز",
+      "hue": 38,
+      "default": true,
+      "order": 3,
+      "tracks": 3,
+      "events": 40
+    },
+    {
+      "id": "thinkers",
+      "file": "thinkers.json",
+      "title": "دانشمندان و ادیبان",
+      "desc": "زندگی دانشمندان، فیلسوفان و شاعران در جهان باستان، دوران اسلامی و دوران نو",
+      "hue": 150,
+      "default": false,
+      "order": 4,
+      "tracks": 4,
+      "events": 63
+    },
+    {
+      "id": "religion",
+      "file": "religion.json",
+      "title": "ادیان",
+      "desc": "بنیان‌گذاران، شخصیت‌ها و رویدادهای دینی",
+      "hue": 275,
+      "default": false,
+      "order": 5,
+      "tracks": 2,
+      "events": 30
+    },
+    {
+      "id": "world",
+      "file": "world.json",
+      "title": "جهان",
+      "desc": "چین، هند، یونان و رویدادهای بزرگ جهان",
+      "hue": 240,
+      "default": false,
+      "order": 6,
+      "tracks": 4,
+      "events": 38
+    }
+  ]
+}

@@ -1,0 +1,1130 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2D55D6">
+<meta name="description" content="تاریخ‌دونی؛ خط زمان هم‌زمان رویدادهای تاریخی. تاریخ رو می‌دونی؟ تاریخ رو بدون.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>تاریخ‌دونی</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky calendar rulers over parallel horizontal tracks (one per group); drag/zoom the time axis; readout panel pinned below. */
+:root{
+  --bg:#EEF1F7; --panel:#FFFFFF; --band:rgba(30,45,95,.04); --fg:#111B3A; --mut:#5A6688; --line:#D8DEEC;
+  --accent:#2D55D6; --accent-soft:#E4EBFF; --cur:#E0452B; --cur-fg:#FFFFFF; --btn-fg:#FFFFFF;
+  --hit:rgba(45,85,214,.16); --scrim:rgba(255,255,255,.92); --glow:rgba(45,85,214,.11); --shadowc:rgba(25,40,100,.34);
+  --bs:64%; --bl:44%;
+  --f-body:'Vazirmatn',system-ui,'Segoe UI',Tahoma,sans-serif;
+  --f-display:'Aref Ruqaa','Vazirmatn',serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A0F20; --panel:#111A33; --band:rgba(255,255,255,.035); --fg:#E7ECFB; --mut:#8F9CC4; --line:#222F52;
+    --accent:#7F9CFF; --accent-soft:#1A2750; --cur:#FF7B5C; --cur-fg:#2A0A02; --btn-fg:#0A1230;
+    --hit:rgba(127,156,255,.22); --scrim:rgba(17,26,51,.92); --glow:rgba(127,156,255,.13); --shadowc:rgba(0,0,0,.7);
+    --bs:62%; --bl:64%; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A0F20; --panel:#111A33; --band:rgba(255,255,255,.035); --fg:#E7ECFB; --mut:#8F9CC4; --line:#222F52;
+  --accent:#7F9CFF; --accent-soft:#1A2750; --cur:#FF7B5C; --cur-fg:#2A0A02; --btn-fg:#0A1230;
+  --hit:rgba(127,156,255,.22); --scrim:rgba(17,26,51,.92); --glow:rgba(127,156,255,.13); --shadowc:rgba(0,0,0,.7);
+  --bs:62%; --bl:64%; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--f-body); font-size:14px; line-height:1.7;
+  padding-block:0 24px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+button,input,textarea{font:inherit;color:inherit}
+.wrap{max-width:1560px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding-block:20px 10px}
+.top>div{min-width:0}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,5vw,40px);line-height:1.25;margin:0}
+.sub{color:var(--mut);margin:2px 0 0;max-width:62ch}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--btn-fg);border-radius:9px;padding:6px 16px;cursor:pointer;font-weight:500}
+.btn.ghost{background:transparent;color:var(--accent);border-color:var(--line)}
+.btn:focus-visible,.chip:focus-visible,.lb:focus-visible,.evchip:focus-visible,input:focus-visible,textarea:focus-visible,.tracks:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.controls{display:grid;gap:8px;padding-block:6px 12px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-width:0}
+.lab{font-size:12px;color:var(--mut);min-width:56px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:2px 12px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;font-size:13px;line-height:1.8;transition:background-color .15s,border-color .15s,color .15s,transform .15s}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:hsl(var(--h) var(--bs) var(--bl))}
+.chip.zoom{min-width:36px;justify-content:center;padding-inline:10px;font-weight:700}
+.search{position:relative;flex:1 1 220px;max-width:340px}
+.search input{width:100%;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:5px 12px}
+.results{position:absolute;inset-inline:0;top:100%;margin-top:4px;background:var(--panel);border:1px solid var(--line);border-radius:8px;z-index:28;max-height:260px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.results button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:start;background:none;border:0;padding:6px 12px;cursor:pointer}
+.results button:hover,.results button:focus-visible{background:var(--accent-soft)}
+.results small{color:var(--mut)}
+.hint{color:var(--mut);font-size:12px}
+
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:10px;position:relative;direction:ltr}
+.rulers{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.ruler{position:relative;height:30px;border-top:1px solid var(--line);overflow:hidden}
+.ruler:first-child{border-top:0}
+.tick{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.tick b{position:absolute;top:5px;left:5px;font-weight:500;font-size:11px;color:var(--mut);white-space:nowrap;font-variant-numeric:tabular-nums}
+.calname{position:absolute;top:0;right:0;height:100%;padding:5px 10px 0 8px;font-size:11px;font-weight:700;color:var(--accent);background:var(--scrim);z-index:2;direction:rtl}
+.tracks{position:relative;overflow:hidden;transition:height .32s cubic-bezier(.2,.8,.2,1);touch-action:pan-y;cursor:grab;border-radius:0 0 10px 10px;user-select:none;-webkit-user-select:none;direction:ltr}
+.tracks.drag{cursor:grabbing}
+.track{position:absolute;left:0;right:0;border-bottom:1px solid var(--line)}
+.track:nth-child(even){background:var(--band)}
+.th{position:absolute;top:4px;right:8px;z-index:3;display:flex;gap:6px;align-items:center;font-size:11px;font-weight:700;color:var(--fg);background:var(--scrim);padding:0 8px;border-radius:6px;direction:rtl;pointer-events:none}
+.th i{width:8px;height:8px;border-radius:50%;background:hsl(var(--h) var(--bs) var(--bl))}
+.th span{font-weight:400;color:var(--mut)}
+.gl{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.55;z-index:1;pointer-events:none}
+.lb{position:absolute;height:17px;line-height:17px;padding:0 5px;white-space:nowrap;font-size:12px;font-weight:500;cursor:pointer;z-index:2;border-radius:4px;direction:rtl}
+.bar{position:absolute;height:7px;border-radius:4px;background-color:hsl(var(--h) var(--bs) var(--bl));box-shadow:0 1px 4px hsl(var(--h) 55% 35% / .35);z-index:2;cursor:pointer}
+.bar.ap{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.4) 0 3px,transparent 3px 6px)}
+.bar.pt{width:9px;height:9px;border-radius:2px;transform:rotate(45deg);box-shadow:0 0 0 2px var(--panel),0 1px 4px hsl(var(--h) 55% 35% / .4)}
+.lb.hit{background:var(--hit)}
+.lb.sel{color:var(--accent);font-weight:700;background:var(--accent-soft)}
+.bar.sel{outline:2px solid var(--fg);outline-offset:1px}
+.dim{opacity:.2}
+.cur{position:absolute;top:0;bottom:0;width:0;border-left:1.5px solid var(--cur);pointer-events:none;z-index:6}
+.curlab{position:absolute;top:0;left:0;transform:translateX(-50%);background:var(--cur);color:var(--cur-fg);font-size:11px;line-height:17px;padding:0 6px;border-radius:0 0 5px 5px;white-space:nowrap;direction:rtl}
+.empty{padding:48px 16px;color:var(--mut);text-align:center;direction:rtl}
+
+/* z layers: track content 1-6 < year rulers 20 < description panel 22 < search results 28 < safe-area band 30 < add-data drawer 40 */
+.detail{position:sticky;bottom:env(safe-area-inset-bottom,0px);z-index:22;margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;max-height:44vh;overflow:auto;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+.dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.dh h2{margin:0;font-size:18px;line-height:1.4}
+.dh .meta{color:var(--mut);font-size:12px}
+.dates{display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0;font-size:13px}
+.dates span{white-space:nowrap}
+.dates em{font-style:normal;color:var(--mut);margin-inline-end:4px}
+.note{margin:4px 0 8px}
+.badge{display:inline-block;font-size:11px;border:1px solid var(--line);color:var(--mut);border-radius:6px;padding:0 6px;margin-inline-start:6px;font-weight:400}
+.grp{display:flex;gap:8px 10px;align-items:baseline;flex-wrap:wrap;padding-block:5px;border-top:1px solid var(--line)}
+.gt{font-size:12px;color:var(--mut);display:inline-flex;gap:6px;align-items:center;min-width:130px}
+.gt i{width:8px;height:8px;border-radius:50%;background:hsl(var(--h) var(--bs) var(--bl))}
+.evchip{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:0 8px;cursor:pointer;font-size:13px;display:inline-flex;gap:6px;align-items:baseline;border-inline-start:3px solid hsl(var(--h) var(--bs) var(--bl))}
+.evchip small{color:var(--mut);font-size:11px;font-variant-numeric:tabular-nums}
+.evchip:hover{background:var(--accent-soft)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.acts .x{padding:0 12px;font-size:20px;line-height:1.5}
+.desc{margin:6px 0 8px;max-width:72ch;line-height:2}
+.note{color:var(--mut);font-size:13px}
+.reopen{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:22;display:block;width:max-content;margin:12px 0 0;margin-inline-end:auto;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.fields{margin:0;padding-inline-start:20px;display:grid;gap:2px}
+.fields code{direction:ltr;unicode-bidi:isolate;font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.card h3{margin:6px 0 0;font-size:16px}
+.card textarea.fa{direction:rtl;text-align:right;font-family:var(--f-body);font-size:13px;line-height:1.9;min-height:260px}
+.tg{pointer-events:auto;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--accent);border-radius:6px;padding:0 8px;font-size:11px;line-height:18px;margin-inline-start:4px}
+.tg:hover{background:var(--accent-soft)}
+.tg:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.track.col{background:var(--band)}
+.colhint{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--mut);direction:rtl;pointer-events:none}
+.prow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0}
+#packs{display:grid;gap:8px;flex:1 1 320px;min-width:0}
+.tcs{display:flex;flex-wrap:wrap;gap:4px;padding-inline-start:10px;border-inline-start:2px solid hsl(var(--h) var(--bs) var(--bl));min-width:0}
+.chip.tk{font-size:12px;padding:0 10px;line-height:1.8;background:transparent}
+.chip.tk[aria-pressed="true"]{background:var(--accent-soft)}
+.chip.tk[aria-pressed="false"]{color:var(--mut);text-decoration:line-through}
+.chip.tk small{color:var(--mut);font-variant-numeric:tabular-nums;text-decoration:none}
+.prow.off .tcs{opacity:.45}
+.foot{color:var(--mut);font-size:12px;margin:12px 0 0;max-width:80ch}
+
+.drawer{position:fixed;inset:0;z-index:40;background:rgba(5,12,16,.55);display:flex;justify-content:center;align-items:flex-start;overflow:auto;
+  padding:calc(24px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;width:min(720px,100%);display:grid;gap:12px}
+.card h2{margin:0;font-size:20px}
+.card p{margin:0}
+.card textarea{width:100%;min-height:150px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;direction:ltr;text-align:left}
+.card pre{margin:0;overflow-x:auto;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;direction:ltr;text-align:left}
+.err{color:#C0392B;font-weight:500}
+.ok{color:#1E8449;font-weight:500}
+:root[data-theme="dark"] .err{color:#FF8C7A}
+:root[data-theme="dark"] .ok{color:#6FD3A0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .err{color:#FF8C7A}:root:not([data-theme="light"]) .ok{color:#6FD3A0}}
+.plist{display:grid;gap:6px}
+.plist div{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+@media (max-width:560px){.lab{min-width:100%}.detail{max-height:50vh}}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+
+/* ---- polish ---- */
+body{background-image:radial-gradient(900px 340px at 88% -90px,var(--glow),transparent 70%)}
+select{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{box-shadow:0 2px 10px -3px var(--glow);transition:filter .15s,transform .15s,background-color .15s}
+.btn:hover{filter:brightness(1.1)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{box-shadow:none}
+.btn.ghost:hover{background:var(--accent-soft);filter:none}
+.chip:hover{border-color:var(--accent)}
+.chip:active{transform:scale(.97)}
+.tg{transition:background-color .15s,border-color .15s,color .15s}
+.tg.mv{padding:0 6px;font-size:12px}
+.tg:disabled{opacity:.35;cursor:default}
+.tg:disabled:hover{background:var(--panel)}
+.lb{transition:background-color .15s,color .15s}
+.lb:hover{background:var(--accent-soft)}
+.bar{transition:filter .15s}
+.bar:hover{filter:brightness(1.18)}
+.stage{box-shadow:0 18px 40px -28px var(--shadowc)}
+.detail{box-shadow:0 -14px 34px -18px var(--shadowc)}
+.goto input{width:130px;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:5px 12px;direction:ltr;text-align:left}
+.linkbtn{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;text-decoration:underline;font-size:inherit}
+.foot a{color:var(--accent)}
+.top .acts{align-items:center}
+.detail.peek{max-height:24vh}
+.settings{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:0 14px 2px;display:grid;gap:10px}
+.settings>summary{cursor:pointer;padding:8px 0;font-weight:500;display:flex;justify-content:space-between;align-items:center;list-style:none}
+.settings>summary::-webkit-details-marker{display:none}
+.settings>summary::after{content:"▾";color:var(--mut);transition:transform .2s}
+.settings:not([open])>summary::after{transform:rotate(90deg)}
+.settings:not([open]){gap:0}
+.settings>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.settings>.row:last-child{padding-bottom:10px}
+.about{width:min(760px,100%);gap:14px}
+.about h2{font-family:var(--f-display);font-size:30px;line-height:1.3}
+.about ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+.credit{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;border:1px solid var(--line);background:var(--accent-soft);border-radius:12px;padding:14px 18px}
+.credit .who{font-family:var(--f-display);font-size:24px;line-height:1.3}
+.credit .role{color:var(--mut);font-size:12px}
+.credit a{color:var(--accent);font-weight:700;direction:ltr;unicode-bidi:isolate}
+.mlist{display:grid;gap:8px}
+.mrow{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 12px;border-inline-start:4px solid hsl(var(--h) var(--bs) var(--bl));transition:background-color .2s}
+.mrow.in{background:var(--accent-soft)}
+.mrow b{font-weight:700}
+.mrow .hint{display:block}
+.btn.warn{background:#C0392B;color:#fff}
+.toast{position:fixed;left:16px;right:16px;margin:auto;width:fit-content;max-width:90vw;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;box-shadow:0 10px 30px -10px var(--shadowc)}
+@media (max-width:560px){.th span{display:none}}
+@media (prefers-reduced-motion: no-preference){
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes rowIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .top,.controls,.stage{animation:rise .55s cubic-bezier(.2,.8,.2,1) backwards}
+  .controls{animation-delay:.07s}
+  .stage{animation-delay:.14s}
+  .track.enter{animation:rowIn .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*45ms + .3s)}
+  .detail:not([hidden]){animation:rise .26s cubic-bezier(.2,.8,.2,1)}
+  .reopen:not([hidden]){animation:fade .2s}
+  .drawer:not([hidden]){animation:fade .2s}
+  .drawer:not([hidden]) .card{animation:pop .28s cubic-bezier(.2,.8,.2,1)}
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap" dir="rtl" lang="fa">
+  <header class="top">
+    <div>
+      <h1>تاریخ‌دونی</h1>
+      <p class="sub">جایی برای نگه‌داشتن تاریخ، مثل آشغال‌دونی و مرغ‌دونی، فقط بدون بو. تاریخ رو می‌دونی؟ نمی‌دونی؟ بدون: ببینید هر پادشاه، دانشمند یا رویداد با چه کسانی هم‌عصر بوده است. نمودار را بکشید، با دکمه‌ها یا Ctrl به‌علاوهٔ چرخ ماوس بزرگ کنید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
+    </div>
+    <div class="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
+  </header>
+
+  <section class="controls" aria-label="تنظیمات نمایش">
+    <div class="row"><span class="lab">بازه‌ها</span><div class="row" id="presets"></div></div>
+    <details class="settings" id="settings">
+      <summary>بسته‌ها، ردیف‌ها و تقویم‌ها</summary>
+      <div class="row"><span class="lab">بسته‌ها</span><div class="row" id="packs"></div></div>
+      <div class="row"><button class="chip" id="openMgr2" type="button">+ نصب یا برداشتن بسته‌ها از انبار</button></div>
+      <div class="row"><span class="lab">تقویم‌ها</span><div class="row" id="cals"></div><button class="chip" id="flip" type="button" aria-pressed="true">قدیم در راست</button></div>
+    </details>
+    <form class="row goto" id="gotoForm" autocomplete="off">
+      <span class="lab">رفتن به سال</span>
+      <select id="gtCal" aria-label="تقویم"></select>
+      <input id="gtYear" type="text" inputmode="numeric" placeholder="مثلاً ۱۴۰۰" aria-label="سال">
+      <select id="gtEra" aria-label="پیش یا پس از مبدأ تقویم"></select>
+      <button class="btn" id="gtGo" type="submit">برو</button>
+      <span id="gtMsg" class="hint" role="status"></span>
+    </form>
+    <div class="row">
+      <div class="search"><input id="q" type="search" placeholder="جستجو: تاریخ رو بگرد، بدون" autocomplete="off" aria-label="جستجو"><div class="results" id="results" hidden></div></div>
+      <button class="chip zoom" id="zin" type="button" aria-label="بزرگ‌نمایی">+</button>
+      <button class="chip zoom" id="zout" type="button" aria-label="کوچک‌نمایی">−</button>
+      <button class="chip" id="collapseAll" type="button">بستن همهٔ ردیف‌ها</button>
+      <button class="chip" id="expandAll" type="button">باز کردن همهٔ ردیف‌ها</button>
+      <button class="chip" id="resetOrder" type="button">ترتیب اولیهٔ ردیف‌ها</button>
+      <span class="hint">نوار خط‌دار یعنی تاریخ تقریبی است.</span>
+    </div>
+  </section>
+
+  <main class="stage" id="stage">
+    <div class="rulers" id="rulers"></div>
+    <div class="tracks" id="tracks" tabindex="0" aria-label="خط زمان؛ با کلیدهای جهت‌دار جابه‌جا و با به‌علاوه و منها بزرگ‌نمایی کنید">
+      <div id="content"></div>
+      <div class="cur" id="cur"><span class="curlab" id="curlab"></span></div>
+    </div>
+  </main>
+
+  <aside class="detail" id="detail" aria-live="polite"></aside>
+  <button class="btn reopen" id="reopen" type="button" hidden>باز کردن پنل توضیحات</button>
+  <p class="foot">تبدیل تقویم‌ها در سطح سال و تقریبی است و ممکن است تا یک سال اختلاف داشته باشد. تاریخ‌های دوران باستان در منابع گوناگون تفاوت دارند و نمایش داده‌شده یکی از برآوردهای رایج است.</p>
+  <p class="foot">ساخته‌شده توسط حسین شیبه · <a href="https://sheibah.ir" target="_blank" rel="noopener noreferrer">sheibah.ir</a> · <button class="linkbtn" id="openAbout2" type="button">درباره</button></p>
+</div>
+
+<div class="drawer" id="drawer" dir="rtl" lang="fa" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <div class="dh"><h2 id="addTitle">افزودن بستهٔ داده (قفسهٔ تازه برای تاریخ‌دونی)</h2><button class="btn ghost" id="closeAdd" type="button">بستن</button></div>
+    <p>هر بسته یک فایل JSON است با چند ردیف و رویدادهای هر ردیف. سال‌ها میلادی هستند و سال منفی یعنی پیش از میلاد. سال صفر وجود ندارد و ۱ ق.م را <bdi dir="ltr">-1</bdi> بنویسید.</p>
+    <ul class="fields">
+      <li><code>name</code> نام شخص، حکومت یا رویداد (لازم)</li>
+      <li><code>start</code> سال شروع (لازم) و <code>end</code> سال پایان. برای رویداد نقطه‌ای <code>null</code> بگذارید.</li>
+      <li><code>approx</code> مقدار <code>true</code> یعنی تاریخ تقریبی است.</li>
+      <li><code>note</code> نکتهٔ کوتاه دربارهٔ تاریخ (اختیاری)</li>
+      <li><code>desc</code> معرفی کوتاه که در پنل توضیحات نمایش داده می‌شود (اختیاری)</li>
+    </ul>
+    <pre id="tpl"></pre>
+    <div class="row"><button class="btn ghost" id="copyTpl" type="button">کپی الگو</button><span id="copyMsg" class="hint" role="status"></span></div>
+    <h3>پرامپت آماده برای هوش مصنوعی</h3>
+    <p>این متن را در ChatGPT، Gemini، Claude یا هر هوش مصنوعی دیگر بچسبانید، موضوع را جایگزین کنید و خروجی JSON را در کادر پایین بچسبانید.</p>
+    <textarea id="aiPrompt" class="fa" readonly spellcheck="false" aria-label="پرامپت ساخت بستهٔ داده"></textarea>
+    <div class="row"><button class="btn ghost" id="copyPrompt" type="button">کپی پرامپت</button><span id="copyPromptMsg" class="hint" role="status"></span></div>
+    <label for="file" class="lab">فایل JSON</label>
+    <input id="file" type="file" accept=".json,application/json">
+    <label for="paste" class="lab">یا متن JSON را اینجا بچسبانید</label>
+    <textarea id="paste" spellcheck="false" placeholder='{ "id": "my-pack", "title": "…", "tracks": [ … ] }'></textarea>
+    <div class="row"><button class="btn" id="doImport" type="button">افزودن به نمودار</button><span id="impMsg" role="status"></span></div>
+    <div class="plist" id="plist"></div>
+    <p class="hint">بسته‌های افزوده‌شده فقط در همین مرورگر ذخیره می‌شوند. برای اینکه برای همهٔ بازدیدکنندگان نمایش داده شوند، فایل بسته را در پوشهٔ packs مخزن بگذارید و دستور <code>node tools/build-index.mjs</code> را اجرا کنید.</p>
+  </div>
+</div>
+
+<div class="drawer" id="about" dir="rtl" lang="fa" hidden>
+  <div class="card about" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="dh"><h2 id="aboutTitle">دربارهٔ تاریخ‌دونی</h2><button class="btn ghost" id="closeAbout" type="button">بستن</button></div>
+    <p>تاریخ‌دونی جایی است برای نگه‌داشتن تاریخ، درست مثل آشغال‌دونی، مرغ‌دونی یا نمک‌دونی. فرقش این است که اینجا هیچ‌چیز بو نمی‌گیرد و فرعون‌ها هم تمیز می‌مانند. چند ردیف را کنار هم می‌گذارید و می‌بینید فلان پادشاه ایرانی با کدام امپراتور روم یا فرعون مصر هم‌دوره بوده، یا یک دانشمند در دورهٔ کدام حکومت می‌زیسته است.</p>
+    <h3>چرا «تاریخ‌دونی»؟</h3>
+    <p>چون دو معنا دارد. اول ظرفی برای تاریخ: هر بسته یک قفسه است و هر ردیف یک کشو. دوم از «دانستن» می‌آید: تاریخ رو می‌دونی؟ نمی‌دونی؟ اشکالی ندارد، تاریخ رو بدون. حالا هم ظرفش را دارید، هم دانستنش را.</p>
+    <h3>امکانات</h3>
+    <ul>
+      <li>ردیف‌های موازی برای حکومت‌ها، پادشاهان، دانشمندان، ادیان و رویدادها، با فهرست هم‌زمانی زیر نمودار.</li>
+      <li>تقویم میلادی، شمسی، قمری و شاهنشاهی کنار هم.</li>
+      <li>رفتن به یک سال مشخص، جستجو، بزرگ‌نمایی و کشیدن نمودار با لغزش نرم.</li>
+      <li>بستن، غیرفعال‌کردن و بالا و پایین بردن ردیف‌ها تا هر دو ردیف دلخواه کنار هم قرار بگیرند.</li>
+      <li>انبار بسته‌ها: فقط قفسه‌هایی را نگه دارید که می‌خواهید و بقیه را بردارید. هر وقت خواستید برمی‌گردند، چون تاریخ جایی نمی‌رود.</li>
+      <li>بسته‌های ماژولار. هر بسته یک فایل JSON است و می‌توانید بستهٔ خودتان را، حتی با کمک هوش مصنوعی، اضافه کنید.</li>
+      <li>نصب به‌صورت برنامه و کار بدون اینترنت. تاریخی که در قفسه باشد با قطع اینترنت هم همان‌جاست.</li>
+    </ul>
+    <h3>نصب روی دستگاه</h3>
+    <p>در کروم و اج روی «نصب برنامه» بالای صفحه بزنید. در سافاری iOS از دکمهٔ اشتراک‌گذاری گزینهٔ «افزودن به صفحهٔ آغازین» را انتخاب کنید. نصب فقط روی نشانی https کار می‌کند، مثل GitHub Pages.</p>
+    <h3>دربارهٔ دقت داده‌ها</h3>
+    <p>تاریخ‌های دوران باستان در منابع گوناگون تفاوت دارند و هر انباری گوشه‌ای گرد و غبار دارد. موارد نامطمئن با نوار خط‌دار و برچسب «تاریخ تقریبی» مشخص شده‌اند. تبدیل تقویم‌ها در سطح سال است و ممکن است تا یک سال اختلاف داشته باشد. پیش از استناد، تاریخ‌ها را با منابع معتبر بسنجید.</p>
+    <h3>سازنده</h3>
+    <div class="credit">
+      <div><div class="who">حسین شیبه</div><div class="role">طراحی و ساخت</div></div>
+      <a href="https://sheibah.ir" target="_blank" rel="noopener noreferrer">sheibah.ir</a>
+    </div>
+  </div>
+</div>
+
+<div class="drawer" id="mgr" dir="rtl" lang="fa" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="mgrTitle">
+    <div class="dh"><h2 id="mgrTitle">مدیریت بسته‌ها</h2><button class="btn ghost" id="closeMgr" type="button">بستن</button></div>
+    <p>تاریخ‌دونی یک انبار است و هر بسته یک قفسه. هر کدام را که جایش را ندارید بردارید؛ تاریخ جایی نمی‌رود و هر وقت خواستید همین‌جا منتظر است.</p>
+    <div class="mlist" id="mgrList"></div>
+    <h3>بسته‌های شخصی شما</h3>
+    <div class="mlist" id="mgrCustom"></div>
+    <div class="row"><button class="btn ghost" id="mgrAdd" type="button">افزودن بستهٔ شخصی…</button><button class="btn ghost" id="mgrDefaults" type="button">بازگردانی پیش‌فرض‌ها</button><button class="btn ghost" id="mgrAll" type="button">نصب همهٔ بسته‌ها</button><button class="btn ghost" id="mgrNone" type="button">برداشتن همه</button></div>
+    <p class="hint" id="mgrMsg" role="status"></p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- language scaffold (Persian only for now) ---------- */
+var lang='fa';
+function L(x){ if(x&&typeof x==='object') return x[lang]||x.fa||Object.keys(x).map(function(k){return x[k]})[0]||''; return x==null?'':String(x); }
+
+/* ---------- helpers ---------- */
+var nf=new Intl.NumberFormat('fa-IR',{useGrouping:false});
+function fa(n){ return nf.format(Math.round(n)); }
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function $(id){ return document.getElementById(id); }
+function norm(s){ return String(s).replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[‌ً-ْ]/g,' ').replace(/\s+/g,' ').trim().toLowerCase(); }
+function hashHue(s){ var h=0; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return h%360; }
+function store(k,v){ try{ if(v===undefined) return JSON.parse(localStorage.getItem(k)); localStorage.setItem(k,JSON.stringify(v)); }catch(e){ return null; } }
+
+/* ---------- calendars (year level) ----------
+   Years in data: historical numbering, negative = BCE, no year zero.
+   Internally: astronomical year (1 BCE = 0). */
+var LUN=1.030684; /* lunar years per solar year */
+var CALS={
+  greg:{name:'میلادی',era:'ق.م',toAstro:function(a){return a;},fromAstro:function(y){return y;}},
+  sh:{name:'شمسی',era:'ق.ه',toAstro:function(a){return a+621;},fromAstro:function(y){return y-621;}},
+  lunar:{name:'قمری',era:'ق.ه',approx:true,toAstro:function(a){return 622+(a-1)/LUN;},fromAstro:function(y){return (y-622)*LUN+1;}},
+  imp:{name:'شاهنشاهی',era:'ق.ش',toAstro:function(a){return a-559;},fromAstro:function(y){return y+559;}}
+};
+CALS.greg.after='م'; CALS.sh.after='ه.ش'; CALS.lunar.after='ه.ق'; CALS.imp.after='ش.';
+var CAL_ORDER=['greg','sh','lunar','imp'];
+function h2a(h){ return h<0?h+1:h; }
+function aToL(a){ return a>=1?a:a-1; }
+function lToA(l){ return l<0?l+1:l; }
+function yearLabel(astro,cal){
+  var C=CALS[cal], a=Math.round(C.fromAstro(astro));
+  return (C.approx?'≈':'')+(a>=1?fa(a):fa(1-a)+' '+C.era);
+}
+function rangeStr(s,e,cal,pt,ap){
+  var C=CALS[cal], a1=Math.round(C.fromAstro(s)), a2=Math.round(C.fromAstro(e)), pre=(ap?'~':'')+(C.approx?'≈':''), out;
+  if(pt||a1===a2) return pre+(a1>=1?fa(a1):fa(1-a1)+' '+C.era);
+  if(a1<1&&a2<1) out=fa(1-a1)+'–'+fa(1-a2)+' '+C.era;
+  else if(a1>=1&&a2>=1) out=fa(a1)+'–'+fa(a2);
+  else out=fa(1-a1)+' '+C.era+' – '+fa(a2);
+  return pre+out;
+}
+var STEPS=[1,2,5,10,20,25,50,100,200,250,500,1000,2000];
+function ticks(cal,y0,y1,ppy){
+  var C=CALS[cal], pp=ppy*(cal==='lunar'?1/LUN:1), step=2000, i, out=[];
+  for(i=0;i<STEPS.length;i++){ if(STEPS[i]*pp>=78){ step=STEPS[i]; break; } }
+  var a0=C.fromAstro(y0), a1=C.fromAstro(y1), L0=aToL(Math.min(a0,a1)), L1=aToL(Math.max(a0,a1));
+  for(var Lv=Math.ceil(L0/step)*step; Lv<=L1; Lv+=step){
+    if(Lv===0) continue;
+    out.push({L:Lv,y:C.toAstro(lToA(Lv))});
+    if(out.length>500) break;
+  }
+  return out;
+}
+function tickLabel(Lv,cal){ return Lv<0?fa(-Lv)+' '+CALS[cal].era:fa(Lv); }
+
+/* ---------- state ---------- */
+var prefs=store('tl.prefs.v1')||{};
+var CG0=store('tl.collapsed.v1'); if(!CG0||typeof CG0!=='object'||Array.isArray(CG0)) CG0={};
+var OFF0=store('tl.off.v1'); if(!OFF0||typeof OFF0!=='object'||Array.isArray(OFF0)) OFF0={};
+var ORD=store('tl.order.v1'); if(!Array.isArray(ORD)) ORD=[];
+var ORDREV=0, flipFrom=null, pendingEnter=false;
+var state={c:100,ppy:2,W:1000,flip:prefs.flip!==false,cals:prefs.cals||{greg:true,sh:true,lunar:false,imp:false},on:{},collapsed:CG0,off:OFF0,sel:null,cur:100,q:'',panel:true};
+var CATALOG=[], RAW={}, INSTALLED=null;
+var PACKS=[], CUSTOM=[], ALLPACKS=[], ALL=[], REV=0, loaded=false, loadError='';
+var PRESETS=[
+  ['مصر باستان',-3000,-300],
+  ['هخامنشیان و یونان',-600,-300],
+  ['روم و اشکانیان',-150,350],
+  ['ساسانیان و بیزانس',200,700],
+  ['عصر زرین اسلامی',700,1300],
+  ['ایران نو',1500,2026],
+  ['همهٔ تاریخ',-3200,2030]
+];
+
+/* ---------- data ---------- */
+function normalizePack(raw,custom){
+  if(!raw||typeof raw!=='object') throw new Error('ساختار بسته معتبر نیست.');
+  if(!Array.isArray(raw.tracks)||!raw.tracks.length) throw new Error('بسته باید فهرستی از ردیف‌ها در کلید tracks داشته باشد.');
+  var id=String(raw.id||('pack-'+Date.now().toString(36)));
+  var pack={id:id,title:raw.title||id,hue:isFinite(+raw.hue)&&raw.hue!==undefined&&raw.hue!==null?+raw.hue:hashHue(id),desc:raw.desc||'',custom:!!custom,raw:raw,tracks:[]};
+  raw.tracks.forEach(function(t,ti){
+    var tr={id:String(t.id||ti),name:t.name||('ردیف '+(ti+1)),events:[]};
+    (t.events||[]).forEach(function(e,ei){
+      var name,s,en,note,ap,desc;
+      if(Array.isArray(e)){ name=e[0]; s=e[1]; en=e[2]; note=e[3]; ap=e[4]; desc=e[5]; }
+      else if(e&&typeof e==='object'){ name=e.name; s=e.start; en=e.end; note=e.note; ap=e.approx; desc=e.desc; }
+      else throw new Error('رویداد '+fa(ei+1)+' در «'+L(tr.name)+'» معتبر نیست.');
+      if(!name) throw new Error('رویداد '+fa(ei+1)+' در «'+L(tr.name)+'» نام ندارد.');
+      s=Number(s);
+      if(!isFinite(s)||s===0) throw new Error('سال شروع «'+L(name)+'» معتبر نیست. سال صفر وجود ندارد و ۱ ق.م را باید -1 نوشت.');
+      var hasEnd=en!==null&&en!==undefined&&en!=='';
+      var e2=hasEnd?Number(en):s;
+      if(hasEnd&&(!isFinite(e2)||e2===0)) throw new Error('سال پایان «'+L(name)+'» معتبر نیست.');
+      var sa=h2a(s), ea=h2a(e2); if(ea<sa){ var tmp=sa; sa=ea; ea=tmp; }
+      tr.events.push({name:name,s:sa,e:ea,pt:!hasEnd||sa===ea,note:note||'',desc:desc||'',ap:!!ap,track:tr,pack:pack});
+    });
+    pack.tracks.push(tr);
+  });
+  return pack;
+}
+function rebuild(){
+  ALLPACKS=PACKS.concat(CUSTOM); ALL=[]; REV++;
+  ALLPACKS.forEach(function(p){ if(!(p.id in state.on)) state.on[p.id]=true; p.tracks.forEach(function(t){ t.events.forEach(function(ev){ ev.k=ALL.length; ALL.push(ev); }); }); });
+  if(state.sel&&ALL.indexOf(state.sel)<0) state.sel=null;
+  syncOrder();
+}
+function visiblePacks(){ return ALLPACKS.filter(function(p){ return state.on[p.id]!==false; }); }
+function visibleEvents(){ var r=[]; visiblePacks().forEach(function(p){ p.tracks.forEach(function(t){ var k=p.id+'|'+t.id; if(!state.collapsed[k]&&!state.off[k]) r=r.concat(t.events); }); }); return r; }
+
+/* ---------- view math ---------- */
+var tracksEl=$('tracks'), rulersEl=$('rulers'), contentEl=$('content'), curEl=$('cur'), curLab=$('curlab'), detailEl=$('detail'), stageEl=$('stage');
+function xOf(y){ var x0=(y-state.c)*state.ppy+state.W/2; return state.flip?state.W-x0:x0; }
+function yOf(x){ var x0=state.flip?state.W-x:x; return (x0-state.W/2)/state.ppy+state.c; }
+function anchorAt(y,x){ var x0=state.flip?state.W-x:x; state.c=y-(x0-state.W/2)/state.ppy; }
+function clampView(){
+  var minP=Math.max(0.02,state.W*0.9/5700);
+  state.ppy=Math.min(80,Math.max(minP,state.ppy));
+  state.c=Math.min(2300,Math.max(-3500,state.c));
+}
+function primaryCal(){ for(var i=0;i<CAL_ORDER.length;i++) if(state.cals[CAL_ORDER[i]]) return CAL_ORDER[i]; return 'greg'; }
+function fitRange(a,b){ var A=h2a(a),B=h2a(b); return {c:(A+B)/2,ppy:state.W*0.94/Math.max(1,B-A)}; }
+
+/* ---------- text measure + layout ---------- */
+var mctx=document.createElement('canvas').getContext('2d'), wcache={};
+function textW(s){ if(wcache[s]===undefined){ mctx.font='500 12px Vazirmatn, system-ui, sans-serif'; wcache[s]=mctx.measureText(s).width; } return wcache[s]; }
+var layoutCache=null, HEAD=26, LANE=30, COLH=32;
+function getLayout(){
+  var vp=visiblePacks(), key=state.ppy.toFixed(4)+'|'+vp.map(function(p){return p.id;}).join(',')+'|'+REV+'|'+ORDREV+'|'+Object.keys(state.collapsed).filter(function(k){return state.collapsed[k];}).join(',')+'|'+Object.keys(state.off).filter(function(k){return state.off[k];}).join(',');
+  if(layoutCache&&layoutCache.key===key) return layoutCache;
+  var list=[];
+  vp.forEach(function(p){ p.tracks.forEach(function(t){ var k=p.id+'|'+t.id; if(!state.off[k]) list.push({p:p,t:t,key:k}); }); });
+  list.sort(function(a,b){ return ORD.indexOf(a.key)-ORD.indexOf(b.key); });
+  var tracks=[], y=0;
+  list.forEach(function(it){
+    var p=it.p, t=it.t, tkey=it.key;
+    if(state.collapsed[tkey]){ tracks.push({pack:p,track:t,key:tkey,top:y,h:COLH,col:true}); y+=COLH; return; }
+    var evs=t.events.slice().sort(function(a,b){ return a.s-b.s||a.e-b.e; }), ends=[];
+    evs.forEach(function(ev){
+      var w=textW(L(ev.name))+10, l=ev.s*state.ppy, r=Math.max(ev.e*state.ppy,l+w,l+10), lane=-1;
+      for(var i=0;i<ends.length;i++){ if(ends[i]+8<=l){ lane=i; break; } }
+      if(lane<0){ lane=ends.length; ends.push(0); }
+      ends[lane]=r; ev.lane=lane; ev.w=w;
+    });
+    var lanes=Math.max(1,ends.length), h=HEAD+lanes*LANE+6;
+    tracks.push({pack:p,track:t,key:tkey,top:y,h:h}); y+=h;
+  });
+  layoutCache={key:key,tracks:tracks,height:y};
+  return layoutCache;
+}
+
+/* ---------- render ---------- */
+function renderRulers(){
+  var W=state.W, ya=yOf(0), yb=yOf(W), y0=Math.min(ya,yb), y1=Math.max(ya,yb), h='';
+  CAL_ORDER.forEach(function(cal){
+    if(!state.cals[cal]) return;
+    h+='<div class="ruler">';
+    ticks(cal,y0,y1,state.ppy).forEach(function(t){
+      var x=xOf(t.y); if(x<-70||x>W+70) return;
+      h+='<div class="tick" style="left:'+x.toFixed(1)+'px"><b>'+tickLabel(t.L,cal)+'</b></div>';
+    });
+    h+='<span class="calname">'+CALS[cal].name+'</span></div>';
+  });
+  rulersEl.innerHTML=h;
+}
+function render(){
+  state.W=tracksEl.clientWidth||state.W;
+  clampView();
+  renderRulers();
+  if(!loaded){
+    tracksEl.style.height='160px';
+    contentEl.innerHTML='<div class="empty">'+(loadError?esc(loadError):'در حال چیدن تاریخ در قفسه‌ها…')+'</div>';
+    placeCursor(); return;
+  }
+  var lay=getLayout(), W=state.W, ya=yOf(0), yb=yOf(W), y0=Math.min(ya,yb), y1=Math.max(ya,yb), q=norm(state.q), html='', pc=primaryCal();
+  if(!lay.tracks.length){ tracksEl.style.height='160px'; contentEl.innerHTML='<div class="empty">'+(ALLPACKS.length?'هیچ بسته‌ای روشن نیست. یک بسته را از بالا انتخاب کنید.':'تاریخ‌دونی فعلاً خالی است و همهٔ قفسه‌ها خالی‌اند. تاریخ که قرار نبود خودش فرار کند!')+'<br><button class="btn" type="button" data-mgr="1" style="margin-top:12px">مدیریت بسته‌ها</button></div>'; placeCursor(); return; }
+  tracksEl.style.height=lay.height+'px';
+  ticks(pc,y0,y1,state.ppy).forEach(function(t){ var x=xOf(t.y); if(x>=0&&x<=W) html+='<div class="gl" style="left:'+x.toFixed(1)+'px"></div>'; });
+  var enter=pendingEnter&&!flipFrom; pendingEnter=false;
+  lay.tracks.forEach(function(T,ti){
+    var nm=esc(L(T.track.name));
+    html+='<div class="track'+(T.col?' col':'')+(enter?' enter':'')+'" data-key="'+esc(T.key)+'" style="top:'+T.top+'px;height:'+T.h+'px;--h:'+T.pack.hue+';--i:'+ti+'"><div class="th"><i></i>'+nm+'<span>'+esc(L(T.pack.title))+'</span>'+
+      '<button type="button" class="tg mv" data-mv="up|'+esc(T.key)+'" aria-label="بالا بردن ردیف '+nm+'" title="بالا بردن"'+(ti===0?' disabled':'')+'>↑</button>'+
+      '<button type="button" class="tg mv" data-mv="down|'+esc(T.key)+'" aria-label="پایین بردن ردیف '+nm+'" title="پایین بردن"'+(ti===lay.tracks.length-1?' disabled':'')+'>↓</button>'+
+      '<button type="button" class="tg" data-tg="'+esc(T.key)+'" aria-expanded="'+(!T.col)+'" aria-label="'+(T.col?'باز کردن':'بستن')+' ردیف '+nm+'">'+(T.col?'باز کردن':'بستن')+'</button></div>';
+    if(T.col){ html+='<div class="colhint">'+fa(T.track.events.length)+' مورد (بسته)</div></div>'; return; }
+    T.track.events.forEach(function(ev){
+      var xs=xOf(ev.s), xe=xOf(ev.e), bl=Math.min(xs,xe), br=Math.max(xs,xe), w=ev.w;
+      if(ev.pt){ bl=xs-4.5; br=xs+4.5; }
+      else if(br-bl<3){ var m=(bl+br)/2; bl=m-1.5; br=m+1.5; }
+      var lblEnd=ev.pt?(xs+(state.flip?-1:1)*(w-5)):null;
+      var reach=Math.max(ev.e,ev.s+w/state.ppy);
+      if(ev.s>y1||reach<y0) return;
+      var ll, ta, ly=HEAD+ev.lane*LANE, by=ly+20;
+      if(state.flip){
+        var ar=ev.pt?xs+5:br;
+        if(!ev.pt&&br-bl>w){ ar=Math.max(Math.min(br,W-6),bl+w); }
+        ll=ar-w; ta='right';
+      }else{
+        var al=ev.pt?xs-5:bl;
+        if(!ev.pt&&br-bl>w){ al=Math.min(Math.max(bl,6),br-w); }
+        ll=al; ta='left';
+      }
+      var cls=(state.sel===ev?' sel':'')+(q?(norm(L(ev.name)+' '+L(ev.note)).indexOf(q)>=0?' hit':' dim'):'');
+      html+='<div class="lb'+cls+'" role="button" tabindex="0" data-k="'+ev.k+'" style="left:'+ll.toFixed(1)+'px;top:'+ly+'px;width:'+w.toFixed(1)+'px;text-align:'+ta+'">'+esc(L(ev.name))+'</div>';
+      var cl=Math.max(bl,-30), cr=Math.min(br,W+30);
+      if(ev.pt) html+='<i class="bar pt'+(ev.ap?' ap':'')+cls+'" data-k="'+ev.k+'" style="left:'+(xs-4.5).toFixed(1)+'px;top:'+(by-2)+'px"></i>';
+      else html+='<i class="bar'+(ev.ap?' ap':'')+cls+'" data-k="'+ev.k+'" style="left:'+cl.toFixed(1)+'px;top:'+by+'px;width:'+Math.max(3,cr-cl).toFixed(1)+'px"></i>';
+    });
+    html+='</div>';
+  });
+  contentEl.innerHTML=html;
+  if(flipFrom){ var pv=flipFrom; flipFrom=null; applyFlip(pv); }
+  placeCursor();
+}
+function placeCursor(){
+  var x=xOf(state.cur);
+  curEl.style.left=x.toFixed(1)+'px';
+  curEl.style.display=(x<-2||x>state.W+2)?'none':'';
+  curLab.textContent=yearLabel(state.cur,primaryCal());
+}
+function snapshotTops(){ var m={}; if(layoutCache) layoutCache.tracks.forEach(function(T){ m[T.key]=T.top; }); return m; }
+function applyFlip(prev){
+  if(reduce||!contentEl.animate) return;
+  var els=contentEl.querySelectorAll('.track[data-key]');
+  for(var i=0;i<els.length;i++){
+    var el=els[i], k=el.getAttribute('data-key'), nt=parseFloat(el.style.top);
+    if(k in prev){
+      var d=prev[k]-nt;
+      if(Math.abs(d)>1) el.animate([{transform:'translateY('+d+'px)'},{transform:'translateY(0)'}],{duration:340,easing:'cubic-bezier(.2,.8,.2,1)'});
+    }else{
+      el.animate([{opacity:0,transform:'translateY(-8px)'},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'});
+    }
+  }
+}
+function syncOrder(){
+  ALLPACKS.forEach(function(p){ p.tracks.forEach(function(t){ var k=p.id+'|'+t.id; if(ORD.indexOf(k)<0) ORD.push(k); }); });
+}
+var raf=0;
+function sched(){ if(raf) return; raf=requestAnimationFrame(function(){ raf=0; render(); }); }
+
+/* ---------- detail panel ---------- */
+var reopenEl=$('reopen');
+function setPanel(open){ state.panel=open; detailEl.hidden=!open; reopenEl.hidden=open; if(open) renderDetail(); }
+function dot(h){ return '--h:'+h; }
+function datesHtml(s,e,pt,ap){
+  var h='<div class="dates">';
+  CAL_ORDER.forEach(function(c){ if(state.cals[c]) h+='<span><em>'+CALS[c].name+'</em>'+(pt&&e===undefined?yearLabel(s,c):rangeStr(s,e===undefined?s:e,c,pt,ap))+'</span>'; });
+  return h+'</div>';
+}
+function chip(ev){
+  return '<button type="button" class="evchip" data-k="'+ev.k+'" title="'+esc(L(ev.desc))+'" style="'+dot(ev.pack.hue)+'">'+esc(L(ev.name))+' <small>'+rangeStr(ev.s,ev.e,primaryCal(),ev.pt,ev.ap)+'</small></button>';
+}
+function groupHtml(list){
+  var groups=[], map={};
+  list.forEach(function(ev){ var key=ev.pack.id+'|'+ev.track.id; if(!map[key]){ map[key]={pack:ev.pack,track:ev.track,items:[]}; groups.push(map[key]); } map[key].items.push(ev); });
+  return groups.map(function(g){
+    var shown=g.items.slice(0,14), more=g.items.length-shown.length;
+    return '<div class="grp"><span class="gt" style="'+dot(g.pack.hue)+'"><i></i>'+esc(L(g.track.name))+'</span><span class="row">'+shown.map(chip).join('')+(more>0?'<span class="hint">و '+fa(more)+' مورد دیگر</span>':'')+'</span></div>';
+  }).join('');
+}
+function overlapsOf(ev){
+  return visibleEvents().filter(function(o){
+    if(o===ev) return false;
+    var lo=Math.max(ev.s,o.s), hi=Math.min(ev.e,o.e);
+    return (ev.pt||o.pt)?hi>=lo:hi-lo>=1;
+  });
+}
+function activeAt(y){
+  var tol=8/state.ppy;
+  return visibleEvents().filter(function(ev){ return ev.pt?Math.abs(ev.s-y)<=tol:(ev.s<=y&&y<=ev.e); });
+}
+function renderDetail(){
+  if(!state.panel) return;
+  detailEl.classList.toggle('peek',!state.sel);
+  var h='';
+  if(!loaded){ detailEl.innerHTML='<span class="hint">در حال بارگذاری…</span>'; return; }
+  var X='<button class="btn ghost x" type="button" data-act="close" aria-label="بستن پنل توضیحات" title="بستن">×</button>';
+  if(state.sel){
+    var ev=state.sel, ov=overlapsOf(ev);
+    h+='<div class="dh"><div><h2>'+esc(L(ev.name))+(ev.ap?'<span class="badge">تاریخ تقریبی</span>':'')+'</h2><div class="meta">'+esc(L(ev.track.name))+' · '+esc(L(ev.pack.title))+'</div></div>'+
+       '<div class="acts"><button class="btn ghost" type="button" data-act="center">نمایش در مرکز</button><button class="btn ghost" type="button" data-act="clear">لغو انتخاب</button>'+X+'</div></div>';
+    h+=datesHtml(ev.s,ev.e,ev.pt,ev.ap);
+    if(ev.desc) h+='<p class="desc">'+esc(L(ev.desc))+'</p>';
+    else h+='<p class="hint">برای این مورد هنوز معرفی ثبت نشده است. فیلد desc را در فایل بسته پر کنید.</p>';
+    if(ev.note) h+='<p class="note">یادداشت: '+esc(L(ev.note))+'</p>';
+    h+=ov.length?'<div class="hint" style="margin-top:6px">هم‌زمان با ('+fa(ov.length)+')</div>'+groupHtml(ov):'<div class="hint">در بسته‌های روشن چیزی هم‌زمان با این رویداد ثبت نشده است.</div>';
+  }else{
+    var act=activeAt(state.cur);
+    h+='<div class="dh"><div><h2>سال '+yearLabel(state.cur,primaryCal())+'</h2><div class="meta">نشانگر روی این سال است. نمودار را لمس کنید یا ماوس را روی آن ببرید.</div></div><div class="acts">'+X+'</div></div>';
+    var d='<div class="dates">'; CAL_ORDER.forEach(function(c){ if(state.cals[c]) d+='<span><em>'+CALS[c].name+'</em>'+yearLabel(state.cur,c)+'</span>'; }); h+=d+'</div>';
+    h+=act.length?groupHtml(act):'<div class="hint">در این سال رویدادی در بسته‌های روشن ثبت نشده است.</div>';
+  }
+  detailEl.innerHTML=h;
+}
+var draf=0;
+function schedDetail(){ if(draf) return; draf=requestAnimationFrame(function(){ draf=0; renderDetail(); }); }
+
+/* ---------- navigation ---------- */
+var tween=null, reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function animateTo(c,ppy){
+  stopInertia();
+  if(tween) cancelAnimationFrame(tween);
+  var minP=Math.max(0.02,state.W*0.9/5700); ppy=Math.min(80,Math.max(minP,ppy));
+  if(reduce){ state.c=c; state.ppy=ppy; sched(); return; }
+  var c0=state.c, p0=Math.log(state.ppy), p1=Math.log(ppy), t0=performance.now(), D=380;
+  (function step(now){
+    var t=Math.min(1,(now-t0)/D), e=1-Math.pow(1-t,3);
+    state.c=c0+(c-c0)*e; state.ppy=Math.exp(p0+(p1-p0)*e); render();
+    if(t<1) tween=requestAnimationFrame(step); else tween=null;
+  })(t0);
+}
+function stopTween(){ if(tween){ cancelAnimationFrame(tween); tween=null; } stopInertia(); }
+var inertia=0;
+function stopInertia(){ if(inertia){ cancelAnimationFrame(inertia); inertia=0; } }
+function startInertia(v){
+  if(reduce) return;
+  stopInertia();
+  var last=performance.now();
+  function step(now){
+    var dt=Math.min(40,Math.max(1,now-last)); last=now;
+    state.c-=(state.flip?-1:1)*v*dt/state.ppy;
+    v*=Math.exp(-dt/380);
+    var c0=state.c; clampView();
+    var hit=state.c!==c0;
+    render();
+    if(hit||Math.abs(v)<0.015){ inertia=0; return; }
+    inertia=requestAnimationFrame(step);
+  }
+  inertia=requestAnimationFrame(step);
+}
+function zoomBy(f,x){
+  stopTween();
+  var px=x===undefined?state.W/2:x, y=yOf(px);
+  state.ppy*=f; clampView(); anchorAt(y,px); clampView(); sched();
+}
+function setCursor(y){ state.cur=y; placeCursor(); if(!state.sel) schedDetail(); }
+function select(ev,center){
+  state.sel=ev;
+  if(center){
+    var span=ev.e-ev.s, c=(ev.s+ev.e)/2, ppy=state.ppy;
+    if(span*ppy>state.W*0.9) ppy=state.W*0.8/span; else if(ppy<2.5&&span<800) ppy=Math.min(2.5,state.W*0.5/Math.max(span,1));
+    if(span*ppy<state.W*0.9&&ppy<2.5) ppy=2.5;
+    animateTo(c,ppy);
+  }
+  state.cur=(ev.s+ev.e)/2; sched(); setPanel(true);
+}
+
+/* ---------- pointer interaction ---------- */
+var ptrs={}, nptr=0, drag=null, pinch=null;
+function localX(e){ return e.clientX-tracksEl.getBoundingClientRect().left; }
+stageEl.addEventListener('pointerdown',function(e){
+  if(e.target.closest&&e.target.closest('[data-tg],[data-mv],[data-mgr]')) return;
+  if(e.pointerType==='mouse'&&e.button!==0) return;
+  stopTween();
+  ptrs[e.pointerId]={x:localX(e),t:e.target}; nptr=Object.keys(ptrs).length;
+  try{ stageEl.setPointerCapture(e.pointerId); }catch(_){}
+  if(nptr===1){ drag={id:e.pointerId,x0:localX(e),c0:state.c,moved:false,target:e.target,s:[{t:performance.now(),x:localX(e)}]}; }
+  else if(nptr===2){
+    var ks=Object.keys(ptrs), a=ptrs[ks[0]], b=ptrs[ks[1]], mx=(a.x+b.x)/2;
+    pinch={d0:Math.max(10,Math.abs(a.x-b.x)),ppy0:state.ppy,y:yOf(mx)}; drag=null;
+  }
+});
+stageEl.addEventListener('pointermove',function(e){
+  var x=localX(e);
+  if(ptrs[e.pointerId]) ptrs[e.pointerId].x=x;
+  if(nptr===2&&pinch){
+    var ks=Object.keys(ptrs), a=ptrs[ks[0]], b=ptrs[ks[1]], mx=(a.x+b.x)/2, d=Math.max(10,Math.abs(a.x-b.x));
+    state.ppy=pinch.ppy0*d/pinch.d0; clampView(); anchorAt(pinch.y,mx); clampView(); sched(); return;
+  }
+  if(drag&&drag.id===e.pointerId){
+    var dx=x-drag.x0, tnow=performance.now();
+    drag.s.push({t:tnow,x:x}); while(drag.s.length>2&&tnow-drag.s[0].t>120) drag.s.shift();
+    if(!drag.moved&&Math.abs(dx)>5){ drag.moved=true; tracksEl.classList.add('drag'); }
+    if(drag.moved){ state.c=drag.c0-(state.flip?-1:1)*dx/state.ppy; clampView(); sched(); }
+    return;
+  }
+  if(e.pointerType==='mouse'&&e.buttons===0){ setCursor(yOf(x)); }
+});
+function endPtr(e,cancel){
+  var rec=ptrs[e.pointerId]; delete ptrs[e.pointerId]; nptr=Object.keys(ptrs).length;
+  tracksEl.classList.remove('drag');
+  if(nptr<2) pinch=null;
+  if(drag&&drag.id===e.pointerId){
+    var d=drag; drag=null;
+    if(!cancel&&d.moved&&d.s.length>1){
+      var a0=d.s[0], a1=d.s[d.s.length-1], dtv=a1.t-a0.t, since=performance.now()-a1.t;
+      if(dtv>8&&since<90){ var vel=(a1.x-a0.x)/dtv; if(Math.abs(vel)>0.1) startInertia(Math.max(-4,Math.min(4,vel))); }
+    }
+    if(!cancel&&!d.moved){
+      var el=d.target&&d.target.closest?d.target.closest('[data-k]'):null;
+      if(el&&tracksEl.contains(el)){ select(ALL[+el.getAttribute('data-k')],false); }
+      else if(rec){
+        state.sel=null; setCursor(yOf(localX(e))); renderDetail(); sched();
+      }
+    }
+  }
+}
+stageEl.addEventListener('pointerup',function(e){ endPtr(e,false); });
+stageEl.addEventListener('pointercancel',function(e){ endPtr(e,true); });
+stageEl.addEventListener('dblclick',function(e){ zoomBy(2,localX(e)); });
+stageEl.addEventListener('wheel',function(e){
+  if(e.ctrlKey||e.metaKey){ e.preventDefault(); zoomBy(Math.exp(-e.deltaY*0.012),localX(e)); }
+  else if(Math.abs(e.deltaX)>Math.abs(e.deltaY)||e.shiftKey){ e.preventDefault(); stopTween(); var d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY; state.c+=(state.flip?-1:1)*d/state.ppy; clampView(); sched(); }
+},{passive:false});
+tracksEl.addEventListener('keydown',function(e){
+  var el=e.target.closest&&e.target.closest('[data-k]');
+  if(el&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); select(ALL[+el.getAttribute('data-k')],true); return; }
+  if(e.target!==tracksEl) return;
+  var step=state.W*0.2/state.ppy;
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ e.preventDefault(); stopTween(); var s=(e.key==='ArrowRight'?1:-1)*(state.flip?-1:1); state.c+=s*step; clampView(); sched(); }
+  else if(e.key==='+'||e.key==='='){ e.preventDefault(); zoomBy(1.5); }
+  else if(e.key==='-'){ e.preventDefault(); zoomBy(1/1.5); }
+});
+detailEl.addEventListener('click',function(e){
+  var act=e.target.closest('[data-act]');
+  if(act){ var a=act.getAttribute('data-act'); if(a==='close'){ setPanel(false); } else if(a==='clear'){ state.sel=null; renderDetail(); sched(); } else if(a==='center'&&state.sel){ select(state.sel,true); } return; }
+  var el=e.target.closest('[data-k]'); if(el) select(ALL[+el.getAttribute('data-k')],true);
+});
+
+/* ---------- per-row close / open ---------- */
+function toggleTrack(key){
+  flipFrom=snapshotTops();
+  if(state.collapsed[key]) delete state.collapsed[key]; else state.collapsed[key]=true;
+  store('tl.collapsed.v1',state.collapsed);
+  if(state.sel&&state.collapsed[state.sel.pack.id+'|'+state.sel.track.id]) state.sel=null;
+  layoutCache=null; render(); renderDetail();
+  var bs=contentEl.querySelectorAll('[data-tg]');
+  for(var i=0;i<bs.length;i++){ if(bs[i].getAttribute('data-tg')===key){ try{ bs[i].focus({preventScroll:true}); }catch(_){} break; } }
+}
+contentEl.addEventListener('click',function(e){
+  var m=e.target.closest('[data-mv]');
+  if(m){ if(!m.disabled){ var pp=m.getAttribute('data-mv').split('|'); moveTrack(pp.slice(1).join('|'),pp[0]); } return; }
+  var b=e.target.closest('[data-tg]'); if(!b) return;
+  toggleTrack(b.getAttribute('data-tg'));
+});
+
+/* ---------- controls ---------- */
+function buildPresets(){
+  $('presets').innerHTML=PRESETS.map(function(p,i){ return '<button type="button" class="chip" data-i="'+i+'" aria-pressed="false">'+p[0]+'</button>'; }).join('');
+}
+$('presets').addEventListener('click',function(e){
+  var b=e.target.closest('[data-i]'); if(!b) return; var p=PRESETS[+b.getAttribute('data-i')], f=fitRange(p[1],p[2]); animateTo(f.c,f.ppy);
+});
+function trackKey(p,t){ return p.id+'|'+t.id; }
+function buildPacks(){
+  $('packs').innerHTML=ALLPACKS.map(function(p){
+    var on=state.on[p.id]!==false;
+    var tks=p.tracks.map(function(t){
+      var k=trackKey(p,t), act=!state.off[k];
+      return '<button type="button" class="chip tk" data-t="'+esc(k)+'" aria-pressed="'+act+'" title="'+(act?'غیرفعال کردن این ردیف':'فعال کردن این ردیف')+'">'+esc(L(t.name))+' <small>'+fa(t.events.length)+'</small></button>';
+    }).join('');
+    return '<div class="prow'+(on?'':' off')+'" style="--h:'+p.hue+'"><button type="button" class="chip pk" data-p="'+esc(p.id)+'" aria-pressed="'+on+'" title="'+esc(L(p.desc))+'"><span class="dot"></span>'+esc(L(p.title))+(p.custom?' ✦':'')+'</button><span class="tcs">'+tks+'</span></div>';
+  }).join('');
+}
+function rebuildPacks(attr,val){
+  buildPacks();
+  var bs=$('packs').querySelectorAll('['+attr+']');
+  for(var i=0;i<bs.length;i++){ if(bs[i].getAttribute(attr)===val){ try{ bs[i].focus({preventScroll:true}); }catch(_){} break; } }
+}
+function dropSelIfHidden(){
+  if(!state.sel) return;
+  var k=trackKey(state.sel.pack,state.sel.track);
+  if(state.on[state.sel.pack.id]===false||state.off[k]||state.collapsed[k]) state.sel=null;
+}
+function toggleOff(k){
+  flipFrom=snapshotTops();
+  if(state.off[k]) delete state.off[k]; else state.off[k]=true;
+  store('tl.off.v1',state.off); dropSelIfHidden(); layoutCache=null;
+  rebuildPacks('data-t',k); render(); renderDetail();
+}
+$('packs').addEventListener('click',function(e){
+  var t=e.target.closest('[data-t]'); if(t){ toggleOff(t.getAttribute('data-t')); return; }
+  var b=e.target.closest('[data-p]'); if(!b) return; var id=b.getAttribute('data-p');
+  flipFrom=snapshotTops(); state.on[id]=state.on[id]===false; dropSelIfHidden();
+  rebuildPacks('data-p',id); sched(); renderDetail();
+});
+function setAllRows(close){
+  flipFrom=snapshotTops();
+  visiblePacks().forEach(function(p){ p.tracks.forEach(function(t){
+    var k=trackKey(p,t); if(state.off[k]) return;
+    if(close) state.collapsed[k]=true; else delete state.collapsed[k];
+  }); });
+  store('tl.collapsed.v1',state.collapsed); dropSelIfHidden(); layoutCache=null; render(); renderDetail();
+}
+$('collapseAll').addEventListener('click',function(){ setAllRows(true); });
+$('expandAll').addEventListener('click',function(){ setAllRows(false); });
+function buildCals(){
+  $('cals').innerHTML=CAL_ORDER.map(function(c){ return '<button type="button" class="chip" data-c="'+c+'" aria-pressed="'+!!state.cals[c]+'">'+CALS[c].name+'</button>'; }).join('');
+}
+$('cals').addEventListener('click',function(e){
+  var b=e.target.closest('[data-c]'); if(!b) return; var c=b.getAttribute('data-c');
+  var count=CAL_ORDER.filter(function(k){return state.cals[k];}).length;
+  if(state.cals[c]&&count===1) return;
+  state.cals[c]=!state.cals[c]; b.setAttribute('aria-pressed',String(!!state.cals[c]));
+  store('tl.prefs.v1',{flip:state.flip,cals:state.cals}); sched(); renderDetail();
+});
+$('flip').addEventListener('click',function(){
+  var cy=yOf(state.W/2); state.flip=!state.flip; anchorAt(cy,state.W/2);
+  this.textContent=state.flip?'قدیم در راست':'قدیم در چپ';
+  store('tl.prefs.v1',{flip:state.flip,cals:state.cals}); sched();
+});
+$('zin').addEventListener('click',function(){ zoomBy(1.6); });
+$('zout').addEventListener('click',function(){ zoomBy(1/1.6); });
+
+var qEl=$('q'), resEl=$('results');
+qEl.addEventListener('input',function(){
+  state.q=qEl.value; var q=norm(state.q);
+  if(!q){ resEl.hidden=true; sched(); return; }
+  var m=visibleEvents().filter(function(ev){ return norm(L(ev.name)).indexOf(q)>=0; }).slice(0,8);
+  resEl.innerHTML=m.length?m.map(function(ev){ return '<button type="button" data-k="'+ev.k+'"><span>'+esc(L(ev.name))+'</span><small>'+esc(L(ev.pack.title))+' · '+rangeStr(ev.s,ev.e,primaryCal(),ev.pt,ev.ap)+'</small></button>'; }).join(''):'<button type="button" disabled>موردی پیدا نشد</button>';
+  resEl.hidden=false; sched();
+});
+resEl.addEventListener('click',function(e){ var b=e.target.closest('[data-k]'); if(!b) return; resEl.hidden=true; select(ALL[+b.getAttribute('data-k')],true); });
+document.addEventListener('click',function(e){ if(!e.target.closest('.search')) resEl.hidden=true; });
+
+/* ---------- add-data drawer ---------- */
+var TEMPLATE=`{
+  "id": "my-pack",
+  "title": "بستهٔ من",
+  "hue": 30,
+  "desc": "یک جمله دربارهٔ این بسته",
+  "tracks": [
+    {
+      "id": "t1",
+      "name": "نام ردیف",
+      "events": [
+        {"name": "رویداد بازه‌ای", "start": -500, "end": -450, "desc": "معرفی کوتاه"},
+        {"name": "رویداد نقطه‌ای", "start": 1000, "end": null, "desc": "معرفی کوتاه"},
+        {"name": "تاریخ تقریبی", "start": 300, "end": 350, "approx": true, "note": "منابع اختلاف دارند", "desc": "معرفی کوتاه"}
+      ]
+    }
+  ]
+}`;
+var PROMPT=`تو یک پژوهشگر تاریخ هستی. می‌خواهم یک «بستهٔ داده» برای ابزار «تاریخ‌دونی» بسازی.
+
+موضوع بسته: «اینجا موضوع را بنویس. مثال: پادشاهان ارمنستان از ۳۰۰ پیش از میلاد تا ۱۰۰۰ میلادی»
+
+فقط یک بلوک JSON معتبر برگردان و بیرون از آن هیچ متنی ننویس. در JSON کامنت و ویرگول اضافی پایان فهرست نگذار.
+
+ساختار دقیق:
+{
+  "id": "armenia",
+  "title": "نام کوتاه بسته",
+  "hue": 200,
+  "desc": "یک جمله دربارهٔ محتوای بسته",
+  "tracks": [
+    {
+      "id": "kings",
+      "name": "نام ردیف",
+      "events": [
+        {"name": "نام شخص، حکومت یا رویداد", "start": -300, "end": -250, "approx": false, "note": "نکتهٔ کوتاه دربارهٔ تاریخ، اختیاری", "desc": "معرفی دو تا چهار جمله‌ای"},
+        {"name": "رویداد نقطه‌ای", "start": 1000, "end": null, "desc": "معرفی کوتاه"}
+      ]
+    }
+  ]
+}
+
+قواعد:
+۱. سال‌ها میلادی‌اند. عدد منفی یعنی پیش از میلاد. سال صفر وجود ندارد: ۱ پیش از میلاد را -1 و ۱ میلادی را 1 بنویس.
+۲. start و end عدد صحیح‌اند. برای رویداد نقطه‌ای (مثل یک نبرد) end را null بگذار.
+۳. اگر تاریخ تقریبی است یا منابع دربارهٔ آن اختلاف دارند، approx را true بگذار و در note توضیح بده. اگر از تاریخی مطمئن نیستی، آن مورد را نیاور و چیزی از خودت نساز.
+۴. hue عددی بین 0 و 360 است و رنگ بسته را تعیین می‌کند. id ها لاتین، کوچک و با خط‌تیره باشند.
+۵. name کوتاه باشد (حداکثر حدود ۳۰ نویسه) و نام‌گذاری در همهٔ بسته یکدست باشد.
+۶. desc معرفی روان و دقیق به فارسی باشد. نقل قول ساختگی ننویس و دربارهٔ چیزی که مطمئن نیستی قاطع حرف نزن.
+۷. ردیف‌ها را بر اساس نوع موضوع جدا کن (مثلاً هر سلسله یک ردیف، یا حکومت‌ها و رویدادها دو ردیف). بین ۱ تا ۵ ردیف بساز و در هر ردیف حداکثر ۴۰ مورد بگذار.
+۸. اختیاری: برای نسخهٔ چندزبانه می‌توانی name و desc و note را به‌جای رشته، به‌شکل {"fa": "...", "en": "..."} بنویسی.`;
+$('tpl').textContent=TEMPLATE;
+$('aiPrompt').value=PROMPT;
+function openDrawer(){ $('drawer').hidden=false; buildPlist(); $('impMsg').textContent=''; }
+function closeDrawer(){ $('drawer').hidden=true; }
+$('openAdd').addEventListener('click',openDrawer);
+$('closeAdd').addEventListener('click',closeDrawer);
+$('drawer').addEventListener('click',function(e){ if(e.target===this) closeDrawer(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ if(!$('drawer').hidden) closeDrawer(); if(!aboutEl.hidden) closeAbout(); } });
+function copyText(text,msg,node){
+  var done=function(){ msg.textContent='کپی شد'; };
+  var fail=function(){
+    try{
+      if(node.select){ node.focus(); node.select(); }
+      else{ var r=document.createRange(); r.selectNodeContents(node); var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+    }catch(_){}
+    msg.textContent='متن انتخاب شد؛ خودتان کپی کنید';
+  };
+  try{ navigator.clipboard.writeText(text).then(done,fail); }catch(_){ fail(); }
+}
+$('copyTpl').addEventListener('click',function(){ copyText(TEMPLATE,$('copyMsg'),$('tpl')); });
+$('copyPrompt').addEventListener('click',function(){ copyText($('aiPrompt').value,$('copyPromptMsg'),$('aiPrompt')); });
+reopenEl.addEventListener('click',function(){ setPanel(true); });
+$('file').addEventListener('change',function(){
+  var f=this.files&&this.files[0]; if(!f) return;
+  var r=new FileReader(); r.onload=function(){ $('paste').value=String(r.result); }; r.readAsText(f);
+});
+function msg(t,ok){ var m=$('impMsg'); m.textContent=t; m.className=ok?'ok':'err'; }
+$('doImport').addEventListener('click',function(){
+  var txt=$('paste').value.trim(); if(!txt){ msg('ابتدا فایل را انتخاب کنید یا متن JSON را بچسبانید.',false); return; }
+  var data; try{ data=JSON.parse(txt); }catch(e){ msg('JSON معتبر نیست: '+e.message,false); return; }
+  var list=Array.isArray(data)?data:[data], added=[];
+  try{
+    list.forEach(function(raw){
+      var p=normalizePack(raw,true);
+      if(PACKS.some(function(x){return x.id===p.id;})||CATALOG.some(function(x){return x.id===p.id;})){ p.id=p.id+'-custom'; p.raw.id=p.id; }
+      CUSTOM=CUSTOM.filter(function(x){return x.id!==p.id;}); CUSTOM.push(p); added.push(p);
+    });
+  }catch(e){ msg(e.message,false); return; }
+  store('tl.custom.v1',CUSTOM.map(function(p){return p.raw;}));
+  rebuild(); buildPacks(); buildPlist(); sched(); renderDetail();
+  msg(fa(added.length)+' بسته اضافه شد.',true); $('paste').value=''; $('file').value='';
+});
+function buildPlist(){
+  var el=$('plist');
+  el.innerHTML=CUSTOM.length?CUSTOM.map(function(p){ var n=p.tracks.reduce(function(s,t){return s+t.events.length;},0); return '<div><span>'+esc(L(p.title))+' <small class="hint">'+fa(n)+' رویداد</small></span><button type="button" class="btn ghost" data-rm="'+esc(p.id)+'">حذف</button></div>'; }).join(''):'';
+}
+$('plist').addEventListener('click',function(e){
+  var b=e.target.closest('[data-rm]'); if(!b) return; var id=b.getAttribute('data-rm');
+  CUSTOM=CUSTOM.filter(function(p){return p.id!==id;}); delete state.on[id];
+  store('tl.custom.v1',CUSTOM.map(function(p){return p.raw;}));
+  rebuild(); buildPacks(); buildPlist(); sched(); renderDetail();
+});
+
+/* ---------- row order, go to year, about ---------- */
+function moveTrack(key,dir){
+  if(!layoutCache) return;
+  var ks=layoutCache.tracks.map(function(T){ return T.key; }), i=ks.indexOf(key), j=dir==='up'?i-1:i+1;
+  if(i<0||j<0||j>=ks.length) return;
+  flipFrom=snapshotTops();
+  var a=ORD.indexOf(ks[i]), b=ORD.indexOf(ks[j]), tmp=ORD[a]; ORD[a]=ORD[b]; ORD[b]=tmp;
+  ORDREV++; store('tl.order.v1',ORD); layoutCache=null; render();
+  var bs=contentEl.querySelectorAll('[data-mv]'), pick=null;
+  for(var n=0;n<bs.length;n++){ if(bs[n].getAttribute('data-mv')===dir+'|'+key&&!bs[n].disabled){ pick=bs[n]; break; } }
+  if(!pick){ for(var m=0;m<bs.length;m++){ if(bs[m].getAttribute('data-mv').split('|').slice(1).join('|')===key&&!bs[m].disabled){ pick=bs[m]; break; } } }
+  if(pick){ try{ pick.focus({preventScroll:true}); }catch(_){} }
+}
+$('resetOrder').addEventListener('click',function(){
+  flipFrom=snapshotTops(); ORD.length=0; syncOrder(); ORDREV++; store('tl.order.v1',ORD); layoutCache=null; render();
+});
+
+function toLatin(t){ return String(t).replace(/[۰-۹]/g,function(d){ return String(d.charCodeAt(0)-1776); }).replace(/[٠-٩]/g,function(d){ return String(d.charCodeAt(0)-1632); }); }
+function fillEra(){
+  var c=$('gtCal').value, es=$('gtEra'), cur=es.value;
+  es.innerHTML='<option value="after">'+CALS[c].after+'</option><option value="before">'+CALS[c].era+'</option>';
+  if(cur) es.value=cur;
+}
+function fillGoto(){
+  var cs=$('gtCal'), keep=cs.value;
+  cs.innerHTML=CAL_ORDER.map(function(c){ return '<option value="'+c+'">'+CALS[c].name+'</option>'; }).join('');
+  cs.value=keep||primaryCal(); fillEra();
+}
+$('gtCal').addEventListener('change',fillEra);
+$('gotoForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var msg=$('gtMsg'), cal=$('gtCal').value, raw=toLatin($('gtYear').value).trim(), neg=/^[-−–]/.test(raw), n=parseInt(raw.replace(/[^\d]/g,''),10);
+  var before=$('gtEra').value==='before'||neg;
+  if(!isFinite(n)||n<1){ msg.className='err'; msg.textContent='یک سال معتبر بنویسید (عدد ۱ یا بزرگ‌تر).'; return; }
+  var astro=CALS[cal].toAstro(before?1-n:n);
+  if(astro<-3450||astro>2250){ msg.className='err'; msg.textContent='این سال بیرون از بازهٔ نمودار است (حدود ۳۴۰۰ ق.م تا ۲۲۰۰ م).'; return; }
+  msg.className='ok'; msg.textContent='نشانگر روی '+yearLabel(astro,cal)+' رفت. معادل میلادی: '+yearLabel(astro,'greg');
+  state.sel=null; state.cur=astro;
+  animateTo(astro,Math.max(state.ppy,3));
+  setPanel(true);
+  setTimeout(function(){ renderDetail(); },480);
+});
+fillGoto();
+
+var aboutEl=$('about');
+function openAbout(){ aboutEl.hidden=false; try{ if(location.hash!=='#about') location.hash='about'; }catch(_){} }
+function closeAbout(){
+  aboutEl.hidden=true;
+  try{ if(location.hash==='#about') history.replaceState(null,'',location.pathname+location.search); }catch(_){ try{ location.hash=''; }catch(__){} }
+}
+$('openAbout').addEventListener('click',openAbout);
+$('openAbout2').addEventListener('click',openAbout);
+$('closeAbout').addEventListener('click',closeAbout);
+aboutEl.addEventListener('click',function(e){ if(e.target===aboutEl) closeAbout(); });
+window.addEventListener('hashchange',function(){ aboutEl.hidden=location.hash!=='#about'; });
+if(location.hash==='#about') aboutEl.hidden=false;
+
+var setEl=$('settings'), setInit=true, setSaved=store('tl.settings.v1');
+setEl.open=(setSaved===null||setSaved===undefined)?window.innerHeight>=1000:!!setSaved;
+setTimeout(function(){ setInit=false; },120);
+setEl.addEventListener('toggle',function(){ if(!setInit) store('tl.settings.v1',setEl.open); });
+
+/* ---------- boot ---------- */
+buildPresets(); buildCals(); renderDetail(); render();
+if('ResizeObserver' in window) new ResizeObserver(function(){ sched(); }).observe(tracksEl); else window.addEventListener('resize',sched);
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ wcache={}; layoutCache=null; sched(); });
+
+function fetchJson(u){ return fetch(u).then(function(r){ if(!r.ok) throw new Error(u); return r.json(); }); }
+function catById(id){ for(var i=0;i<CATALOG.length;i++) if(CATALOG[i].id===id) return CATALOG[i]; return null; }
+function installedIds(){ return INSTALLED||CATALOG.filter(function(c){ return c['default']; }).map(function(c){ return c.id; }); }
+function isInst(id){ return installedIds().indexOf(id)>=0; }
+function fetchPack(c){
+  if(RAW[c.id]) return Promise.resolve(RAW[c.id]);
+  if(window.__PACKS__&&window.__PACKS__[c.id]){ RAW[c.id]=window.__PACKS__[c.id]; return Promise.resolve(RAW[c.id]); }
+  return fetchJson('packs/'+c.file).then(function(r){ RAW[c.id]=r; return r; });
+}
+function applyInstalled(){
+  var ids=installedIds();
+  PACKS=[];
+  CATALOG.forEach(function(c){ if(ids.indexOf(c.id)>=0&&RAW[c.id]){ try{ PACKS.push(normalizePack(RAW[c.id],false)); }catch(_){} } });
+  rebuild();
+}
+function setInstalled(ids,note){
+  var cs=ids.map(catById).filter(Boolean);
+  return Promise.all(cs.map(fetchPack)).then(function(){
+    INSTALLED=cs.map(function(c){ return c.id; }); store('tl.installed.v1',INSTALLED);
+    flipFrom=snapshotTops(); applyInstalled(); dropSelIfHidden(); layoutCache=null;
+    buildPacks(); buildMgr(); render(); renderDetail();
+    if(note) $('mgrMsg').textContent=note;
+  }).catch(function(){ $('mgrMsg').textContent='فایل بسته گرفته نشد. اگر آفلاین هستید، فقط بسته‌های نصب‌شده در دسترس‌اند.'; });
+}
+
+/* ---------- pack manager ---------- */
+var mgrEl=$('mgr'), rmConfirm=null;
+function buildMgr(){
+  $('mgrList').innerHTML=CATALOG.length?CATALOG.map(function(c){
+    var on=isInst(c.id), h=(c.hue==null||!isFinite(+c.hue))?hashHue(c.id):+c.hue;
+    return '<div class="mrow'+(on?' in':'')+'" style="--h:'+h+'"><div><b>'+esc(L(c.title))+'</b> <small class="hint" style="display:inline">'+fa(c.events||0)+' رویداد · '+fa(c.tracks||0)+' ردیف'+(c['default']?' · پیش‌فرض':'')+'</small><span class="hint">'+esc(L(c.desc))+'</span></div><button type="button" class="btn'+(on?' ghost':'')+'" data-'+(on?'un':'in')+'="'+esc(c.id)+'">'+(on?'برداشتن':'نصب')+'</button></div>';
+  }).join(''):'<p class="hint">فهرست بسته‌ها بارگذاری نشد.</p>';
+  $('mgrCustom').innerHTML=CUSTOM.length?CUSTOM.map(function(p){
+    var n=p.tracks.reduce(function(a,t){ return a+t.events.length; },0), sure=rmConfirm===p.id;
+    return '<div class="mrow" style="--h:'+p.hue+'"><div><b>'+esc(L(p.title))+'</b> <small class="hint" style="display:inline">'+fa(n)+' رویداد</small></div><span>'+(sure?'<button type="button" class="btn ghost" data-ccancel="1">انصراف</button> ':'')+'<button type="button" class="btn'+(sure?' warn':' ghost')+'" data-crm="'+esc(p.id)+'">'+(sure?'بله، برای همیشه حذف':'حذف')+'</button></span></div>';
+  }).join(''):'<p class="hint">هنوز بستهٔ شخصی ندارید. با «افزودن بستهٔ شخصی» یکی بسازید.</p>';
+}
+function openMgr(){ rmConfirm=null; $('mgrMsg').textContent=''; buildMgr(); mgrEl.hidden=false; }
+function closeMgr(){ mgrEl.hidden=true; rmConfirm=null; }
+$('openMgr').addEventListener('click',openMgr);
+$('openMgr2').addEventListener('click',openMgr);
+$('closeMgr').addEventListener('click',closeMgr);
+document.addEventListener('click',function(e){ var m=e.target.closest&&e.target.closest('[data-mgr]'); if(m) openMgr(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!mgrEl.hidden) closeMgr(); });
+mgrEl.addEventListener('click',function(e){
+  if(e.target===mgrEl){ closeMgr(); return; }
+  var b=e.target.closest('button'); if(!b) return;
+  var v;
+  if((v=b.getAttribute('data-in'))){ setInstalled(installedIds().concat(v),'«'+L(catById(v).title)+'» روی قفسه نشست.'); }
+  else if((v=b.getAttribute('data-un'))){ setInstalled(installedIds().filter(function(x){ return x!==v; }),'«'+L(catById(v).title)+'» برداشته شد. هر وقت خواستید دوباره نصبش کنید.'); }
+  else if(b.id==='mgrDefaults'){ INSTALLED=null; store('tl.installed.v1',null); setInstalled(installedIds(),'قفسه‌های پیش‌فرض برگشتند.'); }
+  else if(b.id==='mgrAll'){ setInstalled(CATALOG.map(function(c){ return c.id; }),'همهٔ قفسه‌ها پر شد.'); }
+  else if(b.id==='mgrNone'){ setInstalled([],'انبار خالی شد. هر بسته را هر وقت خواستید برگردانید.'); }
+  else if(b.id==='mgrAdd'){ closeMgr(); openDrawer(); }
+  else if((v=b.getAttribute('data-crm'))){
+    if(rmConfirm!==v){ rmConfirm=v; buildMgr(); return; }
+    rmConfirm=null; CUSTOM=CUSTOM.filter(function(p){ return p.id!==v; }); delete state.on[v];
+    store('tl.custom.v1',CUSTOM.map(function(p){ return p.raw; }));
+    rebuild(); dropSelIfHidden(); layoutCache=null; buildPacks(); buildMgr(); render(); renderDetail(); $('mgrMsg').textContent='بستهٔ شخصی حذف شد.';
+  }
+  else if(b.getAttribute('data-ccancel')){ rmConfirm=null; buildMgr(); }
+});
+
+/* ---------- PWA ---------- */
+function toast(t){ var el=$('toast'); el.textContent=t; el.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(function(){ el.hidden=true; },6000); }
+var deferredInstall=null;
+window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); deferredInstall=e; $('installBtn').hidden=false; });
+$('installBtn').addEventListener('click',function(){ if(!deferredInstall) return; deferredInstall.prompt(); deferredInstall=null; $('installBtn').hidden=true; });
+window.addEventListener('appinstalled',function(){ $('installBtn').hidden=true; toast('تاریخ‌دونی نصب شد. از حالا تاریخ همیشه دم دست است.'); });
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&document.querySelector('link[rel="manifest"]')){
+  try{
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      reg.addEventListener('updatefound',function(){ var nw=reg.installing; if(nw) nw.addEventListener('statechange',function(){ if(nw.state==='installed'&&navigator.serviceWorker.controller) toast('نسخهٔ تازه آماده است. صفحه را یک بار ببندید و باز کنید.'); }); });
+    }).catch(function(){});
+  }catch(_){}
+}
+
+/* ---------- load ---------- */
+(window.__CATALOG__?Promise.resolve(window.__CATALOG__):fetchJson('packs/index.json').then(function(i){ return i.packs; })).then(function(cat){
+  CATALOG=cat; INSTALLED=store('tl.installed.v1');
+  if(!Array.isArray(INSTALLED)) INSTALLED=null; else INSTALLED=INSTALLED.filter(function(id){ return !!catById(id); });
+  return Promise.all(installedIds().map(catById).filter(Boolean).map(fetchPack));
+}).then(function(){
+  (store('tl.custom.v1')||[]).forEach(function(raw){ try{ CUSTOM.push(normalizePack(raw,true)); }catch(_){} });
+  applyInstalled(); loaded=true; buildPacks();
+  var f=fitRange(-150,350); state.c=f.c; state.ppy=f.ppy; state.cur=state.c;
+  pendingEnter=true; fillGoto(); layoutCache=null; render(); renderDetail();
+}).catch(function(err){
+  loadError='بارگذاری فایل‌های داده انجام نشد. اگر فایل را مستقیم از دیسک باز کرده‌اید، نسخهٔ تک‌فایل را باز کنید یا پوشه را روی یک میزبان وب بگذارید. ('+err.message+')'; render();
+});
+})();
+</script>
+
+</body>
+</html>
