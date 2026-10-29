@@ -198,6 +198,7 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
 .credit .who{font-family:var(--f-display);font-size:24px;line-height:1.3}
 .credit .role{color:var(--mut);font-size:12px}
 .credit a{color:var(--accent);font-weight:700;direction:ltr;unicode-bidi:isolate}
+.dates .dm em{color:var(--accent);font-weight:700}
 .mlist{display:grid;gap:8px}
 .mrow{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 12px;border-inline-start:4px solid hsl(var(--h) var(--bs) var(--bl));transition:background-color .2s}
 .mrow.in{background:var(--accent-soft)}
@@ -255,8 +256,9 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
   .foot{font-size:11px;padding-inline:6px}
   .top{padding-inline:6px}
   .controls>.row,.tools{margin-inline:0}
-  .drawer{padding:0;align-items:stretch}
-  .card{width:100%;min-height:100%;border-radius:0;border-width:0;padding:14px 14px calc(24px + env(safe-area-inset-bottom,0px))}
+  .drawer{padding:0;align-items:flex-start}
+  .drawer{height:100vh;height:100dvh;bottom:auto}
+  .card{width:100%;min-height:100%;border-radius:0;border-width:0;padding:14px 14px calc(96px + env(safe-area-inset-bottom,0px));align-content:start}
   .dh{position:sticky;top:0;background:var(--panel);z-index:2;padding-block:6px;margin-top:calc(-1 * 6px)}
   .mrow>div{flex:1 1 auto;min-width:0}
   .mrow>.btn{flex:none;padding:6px 14px}
@@ -270,7 +272,7 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
   <header class="top">
     <div>
       <h1>تاریخ‌دونی</h1>
-      <p class="sub">جایی برای نگه‌داشتن تاریخ، مثل آشغال‌دونی و مرغ‌دونی، فقط بدون بو. تاریخ رو می‌دونی؟ نمی‌دونی؟ بدون: ببینید هر پادشاه، دانشمند یا رویداد با چه کسانی هم‌عصر بوده است. نمودار را بکشید، با دکمه‌ها یا Ctrl به‌علاوهٔ چرخ ماوس بزرگ کنید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
+      <p class="sub">جایی برای نگه‌داشتن تاریخ، مثل قلم‌دان و شمع‌دان، فقط با روشنایی بیشتر. تاریخ رو می‌دونی؟ نمی‌دونی؟ بدون: ببینید هر پادشاه، دانشمند یا رویداد با چه کسانی هم‌عصر بوده است. نمودار را بکشید، با دکمه‌ها یا Ctrl به‌علاوهٔ چرخ ماوس بزرگ کنید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
     </div>
     <button class="btn ghost menubtn mob" id="menuBtn" type="button" aria-expanded="false" aria-controls="acts" aria-label="منو">☰</button>
     <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
@@ -349,13 +351,13 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 <div class="drawer" id="about" dir="rtl" lang="fa" hidden>
   <div class="card about" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
     <div class="dh"><h2 id="aboutTitle">دربارهٔ تاریخ‌دونی</h2><button class="btn ghost" id="closeAbout" type="button">بستن</button></div>
-    <p>تاریخ‌دونی جایی است برای نگه‌داشتن تاریخ، درست مثل آشغال‌دونی، مرغ‌دونی یا نمک‌دونی. فرقش این است که اینجا هیچ‌چیز بو نمی‌گیرد و فرعون‌ها هم تمیز می‌مانند. چند ردیف را کنار هم می‌گذارید و می‌بینید فلان پادشاه ایرانی با کدام امپراتور روم یا فرعون مصر هم‌دوره بوده، یا یک دانشمند در دورهٔ کدام حکومت می‌زیسته است.</p>
+    <p>تاریخ‌دونی جایی است برای نگه‌داشتن تاریخ، درست مثل قلم‌دان، شمع‌دان یا کتاب‌دان. فرقش این است که اینجا هر چیز سر جای خودش است و فرعون‌ها هم گرد و غبار نمی‌گیرند. چند ردیف را کنار هم می‌گذارید و می‌بینید فلان پادشاه ایرانی با کدام امپراتور روم یا فرعون مصر هم‌دوره بوده، یا یک دانشمند در دورهٔ کدام حکومت می‌زیسته است.</p>
     <h3>چرا «تاریخ‌دونی»؟</h3>
     <p>چون دو معنا دارد. اول ظرفی برای تاریخ: هر بسته یک قفسه است و هر ردیف یک کشو. دوم از «دانستن» می‌آید: تاریخ رو می‌دونی؟ نمی‌دونی؟ اشکالی ندارد، تاریخ رو بدون. حالا هم ظرفش را دارید، هم دانستنش را.</p>
     <h3>امکانات</h3>
     <ul>
       <li>ردیف‌های موازی برای حکومت‌ها، پادشاهان، دانشمندان، ادیان و رویدادها، با فهرست هم‌زمانی زیر نمودار.</li>
-      <li>تقویم میلادی، شمسی، قمری و شاهنشاهی کنار هم.</li>
+      <li>تقویم میلادی، شمسی و قمری کنار هم، و برای هر بسته یک تقویم پیش‌فرض (مثلاً شمسی برای پادشاهان ایران).</li>
       <li>رفتن به یک سال مشخص، جستجو، بزرگ‌نمایی و کشیدن نمودار با لغزش نرم.</li>
       <li>بستن، غیرفعال‌کردن و بالا و پایین بردن ردیف‌ها تا هر دو ردیف دلخواه کنار هم قرار بگیرند.</li>
       <li>انبار بسته‌ها: فقط قفسه‌هایی را نگه دارید که می‌خواهید و بقیه را بردارید. هر وقت خواستید برمی‌گردند، چون تاریخ جایی نمی‌رود.</li>
@@ -412,11 +414,10 @@ var LUN=1.030684; /* lunar years per solar year */
 var CALS={
   greg:{name:'میلادی',era:'ق.م',toAstro:function(a){return a;},fromAstro:function(y){return y;}},
   sh:{name:'شمسی',era:'ق.ه',toAstro:function(a){return a+621;},fromAstro:function(y){return y-621;}},
-  lunar:{name:'قمری',era:'ق.ه',approx:true,toAstro:function(a){return 622+(a-1)/LUN;},fromAstro:function(y){return (y-622)*LUN+1;}},
-  imp:{name:'شاهنشاهی',era:'ق.ش',toAstro:function(a){return a-559;},fromAstro:function(y){return y+559;}}
+  lunar:{name:'قمری',era:'ق.ه',approx:true,toAstro:function(a){return 622+(a-1)/LUN;},fromAstro:function(y){return (y-622)*LUN+1;}}
 };
-CALS.greg.after='م'; CALS.sh.after='ه.ش'; CALS.lunar.after='ه.ق'; CALS.imp.after='ش.';
-var CAL_ORDER=['greg','sh','lunar','imp'];
+CALS.greg.after='م'; CALS.sh.after='ه.ش'; CALS.lunar.after='ه.ق';
+var CAL_ORDER=['greg','sh','lunar'];
 function h2a(h){ return h<0?h+1:h; }
 function aToL(a){ return a>=1?a:a-1; }
 function lToA(l){ return l<0?l+1:l; }
@@ -452,7 +453,7 @@ var CG0=store('tl.collapsed.v1'); if(!CG0||typeof CG0!=='object'||Array.isArray(
 var OFF0=store('tl.off.v1'); if(!OFF0||typeof OFF0!=='object'||Array.isArray(OFF0)) OFF0={};
 var ORD=store('tl.order.v1'); if(!Array.isArray(ORD)) ORD=[];
 var ORDREV=0, flipFrom=null, pendingEnter=false;
-var state={c:100,ppy:2,W:1000,flip:prefs.flip!==false,cals:prefs.cals||{greg:true,sh:true,lunar:false,imp:false},on:{},collapsed:CG0,off:OFF0,sel:null,cur:100,q:'',panel:true};
+var state={c:100,ppy:2,W:1000,flip:prefs.flip!==false,cals:prefs.cals||{greg:true,sh:true,lunar:false},on:{},collapsed:CG0,off:OFF0,sel:null,cur:100,q:'',panel:true};
 var CATALOG=[], RAW={}, INSTALLED=null;
 var PACKS=[], CUSTOM=[], ALLPACKS=[], ALL=[], REV=0, loaded=false, loadError='';
 var PRESETS=[
@@ -470,9 +471,9 @@ function normalizePack(raw,custom){
   if(!raw||typeof raw!=='object') throw new Error('ساختار بسته معتبر نیست.');
   if(!Array.isArray(raw.tracks)||!raw.tracks.length) throw new Error('بسته باید فهرستی از ردیف‌ها در کلید tracks داشته باشد.');
   var id=String(raw.id||('pack-'+Date.now().toString(36)));
-  var pack={id:id,title:raw.title||id,hue:isFinite(+raw.hue)&&raw.hue!==undefined&&raw.hue!==null?+raw.hue:hashHue(id),desc:raw.desc||'',custom:!!custom,raw:raw,tracks:[]};
+  var pack={id:id,title:raw.title||id,hue:isFinite(+raw.hue)&&raw.hue!==undefined&&raw.hue!==null?+raw.hue:hashHue(id),desc:raw.desc||'',cal:validCal(raw.calendar),custom:!!custom,raw:raw,tracks:[]};
   raw.tracks.forEach(function(t,ti){
-    var tr={id:String(t.id||ti),name:t.name||('ردیف '+(ti+1)),events:[]};
+    var tr={id:String(t.id||ti),name:t.name||('ردیف '+(ti+1)),cal:validCal(t.calendar)||pack.cal,events:[]};
     (t.events||[]).forEach(function(e,ei){
       var name,s,en,note,ap,desc;
       if(Array.isArray(e)){ name=e[0]; s=e[1]; en=e[2]; note=e[3]; ap=e[4]; desc=e[5]; }
@@ -485,7 +486,7 @@ function normalizePack(raw,custom){
       var e2=hasEnd?Number(en):s;
       if(hasEnd&&(!isFinite(e2)||e2===0)) throw new Error('سال پایان «'+L(name)+'» معتبر نیست.');
       var sa=h2a(s), ea=h2a(e2); if(ea<sa){ var tmp=sa; sa=ea; ea=tmp; }
-      tr.events.push({name:name,s:sa,e:ea,pt:!hasEnd||sa===ea,note:note||'',desc:desc||'',ap:!!ap,track:tr,pack:pack});
+      tr.events.push({name:name,s:sa,e:ea,pt:!hasEnd||sa===ea,note:note||'',desc:desc||'',ap:!!ap,cal:tr.cal,track:tr,pack:pack});
     });
     pack.tracks.push(tr);
   });
@@ -510,7 +511,9 @@ function clampView(){
   state.ppy=Math.min(80,Math.max(minP,state.ppy));
   state.c=Math.min(2300,Math.max(-3500,state.c));
 }
-function primaryCal(){ for(var i=0;i<CAL_ORDER.length;i++) if(state.cals[CAL_ORDER[i]]) return CAL_ORDER[i]; return 'greg'; }
+function calOrder(){ var o=CAL_ORDER.filter(function(c){ return state.cals[c]; }), sc=state.sel&&state.sel.cal; if(sc&&o.indexOf(sc)>0) o=[sc].concat(o.filter(function(c){ return c!==sc; })); return o; }
+function primaryCal(){ return calOrder()[0]||'greg'; }
+function validCal(c){ return (typeof c==='string'&&CALS[c])?c:null; }
 function fitRange(a,b){ var A=h2a(a),B=h2a(b); return {c:(A+B)/2,ppy:state.W*0.94/Math.max(1,B-A)}; }
 
 /* ---------- text measure + layout ---------- */
@@ -544,8 +547,7 @@ function getLayout(){
 /* ---------- render ---------- */
 function renderRulers(){
   var W=state.W, ya=yOf(0), yb=yOf(W), y0=Math.min(ya,yb), y1=Math.max(ya,yb), h='';
-  CAL_ORDER.forEach(function(cal){
-    if(!state.cals[cal]) return;
+  calOrder().forEach(function(cal){
     h+='<div class="ruler">';
     ticks(cal,y0,y1,state.ppy).forEach(function(t){
       var x=xOf(t.y); if(x<-70||x>W+70) return;
@@ -635,13 +637,14 @@ function sched(){ if(raf) return; raf=requestAnimationFrame(function(){ raf=0; r
 var reopenEl=$('reopen');
 function setPanel(open){ state.panel=open; detailEl.hidden=!open; reopenEl.hidden=open; if(open) renderDetail(); }
 function dot(h){ return '--h:'+h; }
-function datesHtml(s,e,pt,ap){
-  var h='<div class="dates">';
-  CAL_ORDER.forEach(function(c){ if(state.cals[c]) h+='<span><em>'+CALS[c].name+'</em>'+(pt&&e===undefined?yearLabel(s,c):rangeStr(s,e===undefined?s:e,c,pt,ap))+'</span>'; });
+function datesHtml(s,e,pt,ap,cal){
+  var h='<div class="dates">', ord=CAL_ORDER.filter(function(c){ return state.cals[c]&&c!==cal; });
+  if(cal) ord.unshift(cal);
+  ord.forEach(function(c){ h+='<span'+(c===cal?' class="dm"':'')+'><em>'+CALS[c].name+'</em>'+(pt&&e===undefined?yearLabel(s,c):rangeStr(s,e===undefined?s:e,c,pt,ap))+'</span>'; });
   return h+'</div>';
 }
 function chip(ev){
-  return '<button type="button" class="evchip" data-k="'+ev.k+'" title="'+esc(L(ev.desc))+'" style="'+dot(ev.pack.hue)+'">'+esc(L(ev.name))+' <small>'+rangeStr(ev.s,ev.e,primaryCal(),ev.pt,ev.ap)+'</small></button>';
+  return '<button type="button" class="evchip" data-k="'+ev.k+'" title="'+esc(L(ev.desc))+'" style="'+dot(ev.pack.hue)+'">'+esc(L(ev.name))+' <small>'+rangeStr(ev.s,ev.e,ev.cal||primaryCal(),ev.pt,ev.ap)+'</small></button>';
 }
 function groupHtml(list){
   var groups=[], map={};
@@ -672,7 +675,7 @@ function renderDetail(){
     var ev=state.sel, ov=overlapsOf(ev);
     h+='<div class="dh"><div><h2>'+esc(L(ev.name))+(ev.ap?'<span class="badge">تاریخ تقریبی</span>':'')+'</h2><div class="meta">'+esc(L(ev.track.name))+' · '+esc(L(ev.pack.title))+'</div></div>'+
        '<div class="acts"><button class="btn ghost" type="button" data-act="center">نمایش در مرکز</button><button class="btn ghost" type="button" data-act="clear">لغو انتخاب</button>'+X+'</div></div>';
-    h+=datesHtml(ev.s,ev.e,ev.pt,ev.ap);
+    h+=datesHtml(ev.s,ev.e,ev.pt,ev.ap,ev.cal);
     if(ev.desc) h+='<p class="desc">'+esc(L(ev.desc))+'</p>';
     else h+='<p class="hint">برای این مورد هنوز معرفی ثبت نشده است. فیلد desc را در فایل بسته پر کنید.</p>';
     if(ev.note) h+='<p class="note">یادداشت: '+esc(L(ev.note))+'</p>';
@@ -900,7 +903,7 @@ qEl.addEventListener('input',function(){
   state.q=qEl.value; var q=norm(state.q);
   if(!q){ resEl.hidden=true; sched(); return; }
   var m=visibleEvents().filter(function(ev){ return norm(L(ev.name)).indexOf(q)>=0; }).slice(0,8);
-  resEl.innerHTML=m.length?m.map(function(ev){ return '<button type="button" data-k="'+ev.k+'"><span>'+esc(L(ev.name))+'</span><small>'+esc(L(ev.pack.title))+' · '+rangeStr(ev.s,ev.e,primaryCal(),ev.pt,ev.ap)+'</small></button>'; }).join(''):'<button type="button" disabled>موردی پیدا نشد</button>';
+  resEl.innerHTML=m.length?m.map(function(ev){ return '<button type="button" data-k="'+ev.k+'"><span>'+esc(L(ev.name))+'</span><small>'+esc(L(ev.pack.title))+' · '+rangeStr(ev.s,ev.e,ev.cal||primaryCal(),ev.pt,ev.ap)+'</small></button>'; }).join(''):'<button type="button" disabled>موردی پیدا نشد</button>';
   resEl.hidden=false; sched();
 });
 resEl.addEventListener('click',function(e){ var b=e.target.closest('[data-k]'); if(!b) return; resEl.hidden=true; select(ALL[+b.getAttribute('data-k')],true); });
@@ -912,6 +915,7 @@ var TEMPLATE=`{
   "title": "بستهٔ من",
   "hue": 30,
   "desc": "یک جمله دربارهٔ این بسته",
+  "calendar": "sh",
   "tracks": [
     {
       "id": "t1",
@@ -936,6 +940,7 @@ var PROMPT=`تو یک پژوهشگر تاریخ هستی. می‌خواهم یک
   "title": "نام کوتاه بسته",
   "hue": 200,
   "desc": "یک جمله دربارهٔ محتوای بسته",
+  "calendar": "greg",
   "tracks": [
     {
       "id": "kings",
@@ -956,7 +961,8 @@ var PROMPT=`تو یک پژوهشگر تاریخ هستی. می‌خواهم یک
 ۵. name کوتاه باشد (حداکثر حدود ۳۰ نویسه) و نام‌گذاری در همهٔ بسته یکدست باشد.
 ۶. desc معرفی روان و دقیق به فارسی باشد. نقل قول ساختگی ننویس و دربارهٔ چیزی که مطمئن نیستی قاطع حرف نزن.
 ۷. ردیف‌ها را بر اساس نوع موضوع جدا کن (مثلاً هر سلسله یک ردیف، یا حکومت‌ها و رویدادها دو ردیف). بین ۱ تا ۵ ردیف بساز و در هر ردیف حداکثر ۴۰ مورد بگذار.
-۸. اختیاری: برای نسخهٔ چندزبانه می‌توانی name و desc و note را به‌جای رشته، به‌شکل {"fa": "...", "en": "..."} بنویسی.`;
+۸. calendar تقویم پیش‌فرض نمایش تاریخ‌های بسته است: greg (میلادی)، sh (شمسی) یا lunar (قمری). برای بسته‌ای دربارهٔ ایران sh و برای بسته‌ای دربارهٔ اسلام یا امامان lunar مناسب است. هر ردیف هم می‌تواند calendar مخصوص خودش را داشته باشد.
+۹. اختیاری: برای نسخهٔ چندزبانه می‌توانی name و desc و note را به‌جای رشته، به‌شکل {"fa": "...", "en": "..."} بنویسی.`;
 $('tpl').textContent=TEMPLATE;
 $('aiPrompt').value=PROMPT;
 function openDrawer(){ $('drawer').hidden=false; buildPlist(); $('impMsg').textContent=''; }
@@ -1107,7 +1113,7 @@ var mgrEl=$('mgr'), rmConfirm=null;
 function buildMgr(){
   $('mgrList').innerHTML=CATALOG.length?CATALOG.map(function(c){
     var on=isInst(c.id), h=(c.hue==null||!isFinite(+c.hue))?hashHue(c.id):+c.hue;
-    return '<div class="mrow'+(on?' in':'')+'" style="--h:'+h+'"><div><b>'+esc(L(c.title))+'</b> <small class="hint" style="display:inline">'+fa(c.events||0)+' رویداد · '+fa(c.tracks||0)+' ردیف'+(c['default']?' · پیش‌فرض':'')+'</small><span class="hint">'+esc(L(c.desc))+'</span></div><button type="button" class="btn'+(on?' ghost':'')+'" data-'+(on?'un':'in')+'="'+esc(c.id)+'">'+(on?'برداشتن':'نصب')+'</button></div>';
+    return '<div class="mrow'+(on?' in':'')+'" style="--h:'+h+'"><div><b>'+esc(L(c.title))+'</b> <small class="hint" style="display:inline">'+fa(c.events||0)+' رویداد · '+fa(c.tracks||0)+' ردیف'+(c['default']?' · پیش‌فرض':'')+(validCal(c.calendar)?' · تقویم '+CALS[c.calendar].name:'')+'</small><span class="hint">'+esc(L(c.desc))+'</span></div><button type="button" class="btn'+(on?' ghost':'')+'" data-'+(on?'un':'in')+'="'+esc(c.id)+'">'+(on?'برداشتن':'نصب')+'</button></div>';
   }).join(''):'<p class="hint">فهرست بسته‌ها بارگذاری نشد.</p>';
   $('mgrCustom').innerHTML=CUSTOM.length?CUSTOM.map(function(p){
     var n=p.tracks.reduce(function(a,t){ return a+t.events.length; },0), sure=rmConfirm===p.id;

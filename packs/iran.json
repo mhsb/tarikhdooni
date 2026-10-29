@@ -1,6 +1,7 @@
 {
   "id": "iran",
   "order": 1,
+  "calendar": "sh",
   "default": true,
   "title": "ایران",
   "hue": 175,

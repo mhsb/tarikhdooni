@@ -1,5 +1,5 @@
 /* تاریخ‌دونی: کار بدون اینترنت. شمارهٔ نسخه هنگام ساخت عوض می‌شود. */
-const VERSION = '7f46039f';
+const VERSION = 'e4a21f04';
 const CACHE = 'tarikhdooni-' + VERSION;
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'packs/index.json'];
 
