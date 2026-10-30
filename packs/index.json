@@ -73,6 +73,30 @@
       "events": 38
     },
     {
+      "id": "iran-rulers",
+      "file": "iran-rulers.json",
+      "title": "حاکمان ایران",
+      "desc": "سلسله‌ها و حکومت‌های ایران از ماد تا امروز، در کنار فرمانروایان آن‌ها در دو ردیف زمانی.",
+      "hue": 160,
+      "calendar": "sh",
+      "default": false,
+      "order": 999,
+      "tracks": 2,
+      "events": 169
+    },
+    {
+      "id": "persian-poets",
+      "file": "persian-poets.json",
+      "title": "شاعران پارسی‌گوی",
+      "desc": "هفتاد و سه شاعر پارسی‌سرا از سدهٔ سوم هجری تا روزگار معاصر، به ترتیب زمان تولد.",
+      "hue": 35,
+      "calendar": "sh",
+      "default": false,
+      "order": 999,
+      "tracks": 1,
+      "events": 73
+    },
+    {
       "id": "shia-jurists",
       "file": "fuqaha.json",
       "title": "فقهای برجسته شیعه",
