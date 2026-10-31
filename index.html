@@ -287,11 +287,11 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 
 <div class="wrap" dir="rtl" lang="fa">
   <header class="top">
+    <button class="btn ghost menubtn mob" id="menuBtn" type="button" aria-expanded="false" aria-controls="acts" aria-label="منو">☰</button>
     <div>
       <h1>تاریخ‌دونی</h1>
       <p class="sub">جایی برای نگه‌داشتن تاریخ، مثل قلم‌دان و شمع‌دان، فقط با روشنایی بیشتر. تاریخ رو می‌دونی؟ نمی‌دونی؟ بدون: ببینید هر پادشاه، دانشمند یا رویداد با چه کسانی هم‌عصر بوده است. نمودار را بکشید، با دکمه‌ها یا Ctrl به‌علاوهٔ چرخ ماوس بزرگ کنید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
     </div>
-    <button class="btn ghost menubtn mob" id="menuBtn" type="button" aria-expanded="false" aria-controls="acts" aria-label="منو">☰</button>
     <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openProf" type="button">پروفایل من</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
   </header>
 
@@ -1299,9 +1299,10 @@ mgrEl.addEventListener('click',function(e){
 /* ---------- profiles ---------- */
 var profEl=$('prof'), profView=[];
 function profileList(){
+  var okp=PROFILES.filter(function(p){ return p&&Array.isArray(p.packs); });
   var def=CATALOG.filter(function(c){ return c['default']; }).map(function(c){ return c.id; });
   var g=def.length?[{id:'general',title:'عمومی',icon:'🧭',desc:'ایران، روم و مصر؛ شروعی برای کاوش',packs:def}]:[];
-  return g.concat(PROFILES);
+  return g.concat(okp);
 }
 function buildProf(){
   profView=profileList();
@@ -1310,7 +1311,7 @@ function buildProf(){
     return '<button type="button" class="pcard" aria-pressed="'+on+'" data-pf="'+esc(p.id)+'"><span class="pi">'+esc(p.icon||'')+'</span><b>'+esc(L(p.title))+'</b><small>'+esc(L(p.desc))+'</small><small>'+fa(p.packs.length)+' بسته</small></button>';
   }).join('');
 }
-function openProf(){ if(!mgrEl.hidden) closeMgr(); $('profMsg').textContent=''; buildProf(); profEl.hidden=false; }
+function openProf(){ try{ if(!mgrEl.hidden) closeMgr(); }catch(_){} $('profMsg').textContent=''; profEl.hidden=false; try{ buildProf(); }catch(err){ $('profList').innerHTML='<p class="hint">فهرست پروفایل‌ها بارگذاری نشد. صفحه را تازه کنید (Ctrl+Shift+R) و اگر درست نشد، فایل packs/index.json را دوباره بسازید.</p>'; } }
 function closeProf(){ profEl.hidden=true; if(!Array.isArray(store('tl.profile.v1'))) store('tl.profile.v1',PSEL); }
 function applyProfile(){
   if(!PSEL.length){ $('profMsg').textContent='دست‌کم یک مورد را انتخاب کنید.'; return; }
