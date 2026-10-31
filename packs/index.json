@@ -261,40 +261,87 @@
       ]
     },
     {
-      "id": "iran-rulers",
-      "file": "iran-rulers.json",
-      "title": "حاکمان ایران",
-      "desc": "سلسله‌ها و حکومت‌های ایران از ماد تا امروز، در کنار فرمانروایان آن‌ها در دو ردیف زمانی.",
-      "hue": 160,
-      "calendar": "sh",
-      "default": false,
-      "order": 999,
-      "tracks": 2,
-      "events": 169
+      "id": "islam",
+      "title": "تاریخ اسلام و تشیع",
+      "icon": "🕌",
+      "desc": "اهل‌بیت (ع)، حاکمان جامعهٔ اسلامی، فقها و ادیان",
+      "packs": [
+        "iran-rulers",
+        "iran-events",
+        "ahlebayt",
+        "shia-jurists",
+        "religion"
+      ]
     },
     {
-      "id": "persian-poets",
-      "file": "persian-poets.json",
-      "title": "شاعران پارسی‌گوی",
-      "desc": "هفتاد و سه شاعر پارسی‌سرا از سدهٔ سوم هجری تا روزگار معاصر، به ترتیب زمان تولد.",
-      "hue": 35,
-      "calendar": "sh",
-      "default": false,
-      "order": 999,
-      "tracks": 1,
-      "events": 73
+      "id": "fiqh",
+      "title": "فقه و حوزه",
+      "icon": "📖",
+      "desc": "فقهای شیعه در کنار ائمه و حاکمان زمانه",
+      "packs": [
+        "iran-rulers",
+        "ahlebayt",
+        "shia-jurists"
+      ]
     },
     {
-      "id": "shia-jurists",
-      "file": "fuqaha.json",
-      "title": "فقهای برجسته شیعه",
-      "desc": "شناسنامه تاریخی و علمی ۱۰۰ تن از مشهورترین فقها و مجتهدان جهان تشیع از صدر اسلام تا پیروزی انقلاب اسلامی در قالب یک توالی منسجم زمانی.",
-      "hue": 215,
-      "calendar": null,
-      "default": false,
-      "order": 999,
-      "tracks": 1,
-      "events": 114
+      "id": "ancient",
+      "title": "تاریخ باستان",
+      "icon": "🏛️",
+      "desc": "ایران، روم، مصر و جهان باستان",
+      "packs": [
+        "iran-rulers",
+        "rome",
+        "egypt",
+        "religion",
+        "world"
+      ]
+    },
+    {
+      "id": "literature",
+      "title": "تاریخ ادبیات",
+      "icon": "✒️",
+      "desc": "شاعران و نویسندگان در کنار حاکمان و هنرمندان هم‌عصر",
+      "packs": [
+        "iran-rulers",
+        "literature",
+        "world"
+      ]
+    },
+    {
+      "id": "philosophy",
+      "title": "تاریخ فلسفه",
+      "icon": "🦉",
+      "desc": "فیلسوفان غرب و حکیمان جهان اسلام",
+      "packs": [
+        "iran-rulers",
+        "rome",
+        "religion",
+        "philosophy",
+        "world"
+      ]
+    },
+    {
+      "id": "science",
+      "title": "تاریخ علوم تجربی",
+      "icon": "🔭",
+      "desc": "دانشمندان علوم طبیعی، پزشکی و ریاضی",
+      "packs": [
+        "iran-rulers",
+        "science",
+        "world"
+      ]
+    },
+    {
+      "id": "art",
+      "title": "تاریخ هنر",
+      "icon": "🎨",
+      "desc": "هنرمندان و بناهای ماندگار ایران و جهان",
+      "packs": [
+        "iran-rulers",
+        "art",
+        "world"
+      ]
     }
   ]
 }
