@@ -7,6 +7,9 @@
 <meta name="description" content="تاریخ‌دونی؛ خط زمان هم‌زمان رویدادهای تاریخی. تاریخ رو می‌دونی؟ تاریخ رو بدون.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:title" content="تاریخ‌دونی">
+<meta property="og:description" content="خط زمان هم‌زمان رویدادهای تاریخی. تاریخ رو می‌دونی؟ تاریخ رو بدون.">
+<meta property="og:image" content="https://mhsb.github.io/tarikhdooni/icons/og.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -198,12 +201,26 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
 .credit .who{font-family:var(--f-display);font-size:24px;line-height:1.3}
 .credit .role{color:var(--mut);font-size:12px}
 .credit a{color:var(--accent);font-weight:700;direction:ltr;unicode-bidi:isolate}
+.exact{margin:6px 0 8px;display:grid;gap:4px;border:1px solid var(--line);background:var(--accent-soft);border-radius:10px;padding:8px 12px}
+.exact .xl{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline}
+.exact .xl b{min-width:44px}
+.exact .xl em{font-style:normal;color:var(--mut);font-size:12px;margin-inline-end:5px}
+.src,.alt{margin:4px 0;font-size:13px;color:var(--mut);max-width:80ch}
+.alt{color:var(--fg)}
+.badge.rv.ok{color:#1E8449;border-color:currentColor}
+:root[data-theme="dark"] .badge.rv.ok{color:#6FD3A0}
 .dates .dm em{color:var(--accent);font-weight:700}
 .mlist{display:grid;gap:8px}
 .mrow{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 12px;border-inline-start:4px solid hsl(var(--h) var(--bs) var(--bl));transition:background-color .2s}
 .mrow.in{background:var(--accent-soft)}
 .mrow b{font-weight:700}
 .mrow .hint{display:block}
+.plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:12px 0}
+.pcard{display:flex;flex-direction:column;gap:4px;text-align:start;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--card,transparent);color:inherit;font:inherit;cursor:pointer;transition:background-color .2s,border-color .2s,transform .15s}
+.pcard:hover{transform:translateY(-1px)}
+.pcard b{font-size:15px}.pcard .pi{font-size:22px;line-height:1}.pcard small{color:var(--mut);font-size:12px}
+.pcard[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.pcard[aria-pressed="true"] b::after{content:" ✓";color:var(--accent)}
 .btn.warn{background:#C0392B;color:#fff}
 .toast{position:fixed;left:16px;right:16px;margin:auto;width:fit-content;max-width:90vw;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;box-shadow:0 10px 30px -10px var(--shadowc)}
 @media (max-width:560px){.th span{display:none}}
@@ -275,7 +292,7 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
       <p class="sub">جایی برای نگه‌داشتن تاریخ، مثل قلم‌دان و شمع‌دان، فقط با روشنایی بیشتر. تاریخ رو می‌دونی؟ نمی‌دونی؟ بدون: ببینید هر پادشاه، دانشمند یا رویداد با چه کسانی هم‌عصر بوده است. نمودار را بکشید، با دکمه‌ها یا Ctrl به‌علاوهٔ چرخ ماوس بزرگ کنید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
     </div>
     <button class="btn ghost menubtn mob" id="menuBtn" type="button" aria-expanded="false" aria-controls="acts" aria-label="منو">☰</button>
-    <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
+    <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openProf" type="button">پروفایل من</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
   </header>
 
   <section class="controls" aria-label="تنظیمات نمایش">
@@ -284,7 +301,7 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
     <details class="settings" id="settings">
       <summary>بسته‌ها، ردیف‌ها و تقویم‌ها</summary>
       <div class="row"><span class="lab">بسته‌ها</span><div class="row" id="packs"></div></div>
-      <div class="row"><button class="chip" id="openMgr2" type="button">+ نصب یا برداشتن بسته‌ها از انبار</button></div>
+      <div class="row"><button class="chip" id="openProf2" type="button">★ پروفایل من (انتخاب علاقه‌مندی)</button><button class="chip" id="openMgr2" type="button">+ نصب یا برداشتن بسته‌ها از انبار</button></div>
       <div class="row"><span class="lab">تقویم‌ها</span><div class="row" id="cals"></div><button class="chip" id="flip" type="button" aria-pressed="true">قدیم در راست</button></div>
     </details>
     <form class="row goto" id="gotoForm" autocomplete="off">
@@ -388,6 +405,16 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
   </div>
 </div>
 
+<div class="drawer" id="prof" dir="rtl" lang="fa" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="profTitle">
+    <div class="dh"><h2 id="profTitle">پروفایل من</h2><button class="btn ghost" id="closeProf" type="button">بعداً</button></div>
+    <p>به چه بخشی از تاریخ بیشتر علاقه دارید؟ یک یا چند مورد را بزنید تا قفسه‌های مناسبش باز شود و بقیه برداشته شود. هر وقت خواستید از «مدیریت بسته‌ها» تغییرش بدهید.</p>
+    <div class="plist" id="profList"></div>
+    <div class="row"><button class="btn" id="profApply" type="button">اعمال پروفایل</button></div>
+    <p class="hint" id="profMsg" role="status"></p>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
@@ -447,6 +474,59 @@ function ticks(cal,y0,y1,ppy){
 }
 function tickLabel(Lv,cal){ return Lv<0?fa(-Lv)+' '+CALS[cal].era:fa(Lv); }
 
+/* ---------- exact Hijri dates (tabular civil calendar) ----------
+   Hijri -> Julian Day Number -> Julian (before 15 Oct 1582) or Gregorian date. Computational, may differ 1-2 days from moon sighting. */
+var HM=['محرم','صفر','ربیع‌الاول','ربیع‌الثانی','جمادی‌الاول','جمادی‌الثانی','رجب','شعبان','رمضان','شوال','ذی‌القعده','ذی‌الحجه'];
+var GM=['ژانویه','فوریه','مارس','آوریل','مه','ژوئن','ژوئیه','اوت','سپتامبر','اکتبر','نوامبر','دسامبر'];
+function hijriToJDN(y,m,d){ return d+Math.ceil(29.5*(m-1))+(y-1)*354+Math.floor((3+11*y)/30)+1948439; }
+function jdnToJulian(j){ var c=j+32082, d=Math.floor((4*c+3)/1461), e=c-Math.floor(1461*d/4), m=Math.floor((5*e+2)/153); return {d:e-Math.floor((153*m+2)/5)+1, m:m+3-12*Math.floor(m/10), y:d-4800+Math.floor(m/10)}; }
+function jdnToGreg(j){ var a=j+32044, b=Math.floor((4*a+3)/146097), c=a-Math.floor(146097*b/4), d=Math.floor((4*c+3)/1461), e=c-Math.floor(1461*d/4), m=Math.floor((5*e+2)/153); return {d:e-Math.floor((153*m+2)/5)+1, m:m+3-12*Math.floor(m/10), y:100*b+d-4800+Math.floor(m/10)}; }
+function civilOf(h){ var j=hijriToJDN(h.y,h.m,h.d), g=j>=2299161; return {j:j,greg:g,c:g?jdnToGreg(j):jdnToJulian(j)}; }
+/* "61/1/10", "61/1", "61", 61 or [61,1,10]; isEnd picks the last day when day/month are missing */
+function parseH(v,isEnd,name){
+  if(v===undefined||v===null||v==='') return null;
+  var p=Array.isArray(v)?v.slice():String(v).split(/[\/\-.,\s]+/).filter(Boolean);
+  p=p.map(function(x){ return Number(String(x).replace(/[۰-۹]/g,function(d){ return d.charCodeAt(0)-1776; })); });
+  var y=p[0], m=p[1], d=p[2], prec=p.length>=3?'d':(p.length===2?'m':'y');
+  var bad=!(y>=1&&y===Math.floor(y))||(m!==undefined&&!(m>=1&&m<=12&&m===Math.floor(m)))||(d!==undefined&&!(d>=1&&d<=30&&d===Math.floor(d)));
+  if(bad||p.length>3) throw new Error('تاریخ قمری «'+L(name)+'» معتبر نیست. قالب درست: "سال/ماه/روز" مثل "61/1/10".');
+  if(m===undefined) m=isEnd?12:1;
+  if(d===undefined) d=isEnd?(m%2?30:29):1;
+  var c=civilOf({y:y,m:m,d:d}).c;
+  return {y:y,m:m,d:d,prec:prec,dec:c.y+((c.m-1)*30.4375+c.d-1)/365.25};
+}
+function hLabel(h){ return (h.prec==='d'?fa(h.d)+' ':'')+(h.prec==='y'?'':HM[h.m-1]+' ')+fa(h.y)+' ه.ق'; }
+function gLabel(h){ var o=civilOf(h), c=o.c; return (h.prec==='d'?fa(c.d)+' ':'')+(h.prec==='y'?'':GM[c.m-1]+' ')+fa(c.y)+' م'+(o.greg?'':' (ژولیانی)'); }
+function sLabel(h){
+  if(h.prec!=='d') return '';
+  try{
+    var g=jdnToGreg(civilOf(h).j), dt=new Date(Date.UTC(2000,g.m-1,g.d)); dt.setUTCFullYear(g.y);
+    var parts=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{timeZone:'UTC',day:'numeric',month:'long',year:'numeric'}).formatToParts(dt), o={};
+    parts.forEach(function(p){ o[p.type]=p.value; });
+    if(!o.day||!o.month||!o.year) return '';
+    return o.day+' '+o.month+' '+o.year+' ه.ش';
+  }catch(_){ return ''; }
+}
+function exactLine(label,h){
+  var sh=sLabel(h);
+  return '<div class="xl"><b>'+label+'</b><span><em>قمری</em>'+hLabel(h)+'</span><span><em>میلادی</em>'+gLabel(h)+'</span>'+(sh?'<span><em>شمسی</em>'+sh+'</span>':'')+'</div>';
+}
+function exactHtml(ev){
+  var h=ev.h; if(!h) return '';
+  var a=h.s&&h.s.prec!=='y'?h.s:null, b=h.e&&h.e.prec!=='y'?h.e:null;
+  if(!a&&!b) return '';
+  var out='';
+  if(a) out+=exactLine(b||ev.pt===false?'آغاز':'تاریخ',a);
+  if(b) out+=exactLine(a?'پایان':'پایان',b);
+  return '<div class="exact">'+out+'<div class="hint">تبدیل قمری به میلادی محاسباتی (تقویم قمری جدولی) است و ممکن است تا یک یا دو روز با رؤیت هلال تفاوت داشته باشد. تاریخ‌های پیش از ۱۵ اکتبر ۱۵۸۲ بر اساس تقویم ژولیانی‌اند.</div></div>';
+}
+function listText(x){ return Array.isArray(x)?x.map(function(i){ return L(i); }).join('؛ '):L(x); }
+function reviewBadge(p){
+  var r=p.review;
+  if(r&&r.status==='reviewed') return '<span class="badge rv ok">بازبینی‌شده'+(r.by?': '+esc(L(r.by)):'')+(r.date?' ('+esc(r.date)+')':'')+'</span>';
+  return '<span class="badge rv" title="'+esc(L(r&&r.note||'محتوای این بسته هنوز توسط کارشناس بازبینی نشده است.'))+'">بازبینی نشده</span>';
+}
+
 /* ---------- state ---------- */
 var prefs=store('tl.prefs.v1')||{};
 var CG0=store('tl.collapsed.v1'); if(!CG0||typeof CG0!=='object'||Array.isArray(CG0)) CG0={};
@@ -454,7 +534,7 @@ var OFF0=store('tl.off.v1'); if(!OFF0||typeof OFF0!=='object'||Array.isArray(OFF
 var ORD=store('tl.order.v1'); if(!Array.isArray(ORD)) ORD=[];
 var ORDREV=0, flipFrom=null, pendingEnter=false;
 var state={c:100,ppy:2,W:1000,flip:prefs.flip!==false,cals:prefs.cals||{greg:true,sh:true,lunar:false},on:{},collapsed:CG0,off:OFF0,sel:null,cur:100,q:'',panel:true};
-var CATALOG=[], RAW={}, INSTALLED=null;
+var CATALOG=[], RAW={}, INSTALLED=null, SHARE=null, PROFILES=[], PSEL=[];
 var PACKS=[], CUSTOM=[], ALLPACKS=[], ALL=[], REV=0, loaded=false, loadError='';
 var PRESETS=[
   ['مصر باستان',-3000,-300],
@@ -471,22 +551,24 @@ function normalizePack(raw,custom){
   if(!raw||typeof raw!=='object') throw new Error('ساختار بسته معتبر نیست.');
   if(!Array.isArray(raw.tracks)||!raw.tracks.length) throw new Error('بسته باید فهرستی از ردیف‌ها در کلید tracks داشته باشد.');
   var id=String(raw.id||('pack-'+Date.now().toString(36)));
-  var pack={id:id,title:raw.title||id,hue:isFinite(+raw.hue)&&raw.hue!==undefined&&raw.hue!==null?+raw.hue:hashHue(id),desc:raw.desc||'',cal:validCal(raw.calendar),custom:!!custom,raw:raw,tracks:[]};
+  var pack={id:id,title:raw.title||id,hue:isFinite(+raw.hue)&&raw.hue!==undefined&&raw.hue!==null?+raw.hue:hashHue(id),desc:raw.desc||'',cal:validCal(raw.calendar),sources:raw.sources||null,review:(raw.review&&typeof raw.review==='object')?raw.review:null,custom:!!custom,raw:raw,tracks:[]};
   raw.tracks.forEach(function(t,ti){
     var tr={id:String(t.id||ti),name:t.name||('ردیف '+(ti+1)),cal:validCal(t.calendar)||pack.cal,events:[]};
     (t.events||[]).forEach(function(e,ei){
-      var name,s,en,note,ap,desc;
+      var name,s,en,note,ap,desc,hsv,hev,src,alt;
       if(Array.isArray(e)){ name=e[0]; s=e[1]; en=e[2]; note=e[3]; ap=e[4]; desc=e[5]; }
-      else if(e&&typeof e==='object'){ name=e.name; s=e.start; en=e.end; note=e.note; ap=e.approx; desc=e.desc; }
+      else if(e&&typeof e==='object'){ name=e.name; s=e.start; en=e.end; note=e.note; ap=e.approx; desc=e.desc; hsv=e.hs; hev=e.he; src=e.source; alt=e.alt; }
       else throw new Error('رویداد '+fa(ei+1)+' در «'+L(tr.name)+'» معتبر نیست.');
       if(!name) throw new Error('رویداد '+fa(ei+1)+' در «'+L(tr.name)+'» نام ندارد.');
+      var hs=parseH(hsv,false,name), he=parseH(hev,true,name);
+      if(hs) s=hs.dec; if(he) en=he.dec;
       s=Number(s);
       if(!isFinite(s)||s===0) throw new Error('سال شروع «'+L(name)+'» معتبر نیست. سال صفر وجود ندارد و ۱ ق.م را باید -1 نوشت.');
       var hasEnd=en!==null&&en!==undefined&&en!=='';
       var e2=hasEnd?Number(en):s;
       if(hasEnd&&(!isFinite(e2)||e2===0)) throw new Error('سال پایان «'+L(name)+'» معتبر نیست.');
       var sa=h2a(s), ea=h2a(e2); if(ea<sa){ var tmp=sa; sa=ea; ea=tmp; }
-      tr.events.push({name:name,s:sa,e:ea,pt:!hasEnd||sa===ea,note:note||'',desc:desc||'',ap:!!ap,cal:tr.cal,track:tr,pack:pack});
+      tr.events.push({name:name,s:sa,e:ea,pt:!hasEnd||sa===ea,note:note||'',desc:desc||'',ap:!!ap,cal:tr.cal,h:(hs||he)?{s:hs,e:he}:null,source:src||'',alt:alt||'',track:tr,pack:pack});
     });
     pack.tracks.push(tr);
   });
@@ -688,16 +770,19 @@ function renderDetail(){
   var X='<button class="btn ghost x" type="button" data-act="close" aria-label="بستن پنل توضیحات" title="بستن">×</button>';
   if(state.sel){
     var ev=state.sel, ov=overlapsOf(ev);
-    h+='<div class="dh"><div><h2>'+esc(L(ev.name))+(ev.ap?'<span class="badge">تاریخ تقریبی</span>':'')+'</h2><div class="meta">'+esc(L(ev.track.name))+' · '+esc(L(ev.pack.title))+'</div></div>'+
-       '<div class="acts"><button class="btn ghost" type="button" data-act="center">نمایش در مرکز</button><button class="btn ghost" type="button" data-act="clear">لغو انتخاب</button>'+X+'</div></div>';
-    h+=datesHtml(ev.s,ev.e,ev.pt,ev.ap,ev.cal);
+    h+='<div class="dh"><div><h2>'+esc(L(ev.name))+(ev.ap?'<span class="badge">تاریخ تقریبی</span>':'')+'</h2><div class="meta">'+esc(L(ev.track.name))+' · '+esc(L(ev.pack.title))+reviewBadge(ev.pack)+'</div></div>'+
+       '<div class="acts"><button class="btn ghost" type="button" data-act="share">اشتراک پیوند</button><button class="btn ghost" type="button" data-act="center">نمایش در مرکز</button><button class="btn ghost" type="button" data-act="clear">لغو انتخاب</button>'+X+'</div></div>';
+    h+=datesHtml(ev.s,ev.e,ev.pt,ev.ap,ev.cal)+exactHtml(ev);
     if(ev.desc) h+='<p class="desc">'+esc(L(ev.desc))+'</p>';
     else h+='<p class="hint">برای این مورد هنوز معرفی ثبت نشده است. فیلد desc را در فایل بسته پر کنید.</p>';
     if(ev.note) h+='<p class="note">یادداشت: '+esc(L(ev.note))+'</p>';
+    if(ev.alt) h+='<p class="alt"><b>اختلاف اقوال:</b> '+esc(listText(ev.alt))+'</p>';
+    if(ev.source) h+='<p class="src"><b>منبع:</b> '+esc(listText(ev.source))+'</p>';
+    else if(ev.pack.sources) h+='<p class="src"><b>'+(ev.pack.review&&ev.pack.review.status==='reviewed'?'منابع بسته':'منابع پیشنهادی برای تطبیق')+':</b> '+esc(listText(ev.pack.sources))+'</p>';
     h+=ov.length?'<div class="hint" style="margin-top:6px">هم‌زمان با ('+fa(ov.length)+')</div>'+groupHtml(ov):'<div class="hint">در بسته‌های روشن چیزی هم‌زمان با این رویداد ثبت نشده است.</div>';
   }else{
     var act=activeAt(state.cur);
-    h+='<div class="dh"><div><h2>سال '+yearLabel(state.cur,primaryCal())+'</h2><div class="meta">نشانگر روی این سال است. نمودار را لمس کنید یا ماوس را روی آن ببرید.</div></div><div class="acts">'+X+'</div></div>';
+    h+='<div class="dh"><div><h2>سال '+yearLabel(state.cur,primaryCal())+'</h2><div class="meta">نشانگر روی این سال است. نمودار را لمس کنید یا ماوس را روی آن ببرید.</div></div><div class="acts"><button class="btn ghost" type="button" data-act="share">اشتراک پیوند</button>'+X+'</div></div>';
     var d='<div class="dates">'; CAL_ORDER.forEach(function(c){ if(state.cals[c]) d+='<span><em>'+CALS[c].name+'</em>'+yearLabel(state.cur,c)+'</span>'; }); h+=d+'</div>';
     h+=act.length?groupHtml(act):'<div class="hint">در این سال رویدادی در بسته‌های روشن ثبت نشده است.</div>';
   }
@@ -836,9 +921,30 @@ tracksEl.addEventListener('keydown',function(e){
 });
 detailEl.addEventListener('click',function(e){
   var act=e.target.closest('[data-act]');
-  if(act){ var a=act.getAttribute('data-act'); if(a==='close'){ setPanel(false); } else if(a==='clear'){ state.sel=null; renderDetail(); sched(); } else if(a==='center'&&state.sel){ select(state.sel,true); } return; }
+  if(act){ var a=act.getAttribute('data-act'); if(a==='close'){ setPanel(false); } else if(a==='clear'){ state.sel=null; renderDetail(); sched(); } else if(a==='center'&&state.sel){ select(state.sel,true); } else if(a==='share'){ shareView(); } return; }
   var el=e.target.closest('[data-k]'); if(el) select(ALL[+el.getAttribute('data-k')],true);
 });
+
+/* ---------- share link (hash only, works on any static host) ---------- */
+function shareUrl(){
+  var q=['v','c='+state.c.toFixed(2),'z='+state.ppy.toFixed(3)], ids=visiblePacks().filter(function(p){ return !p.custom; }).map(function(p){ return p.id; });
+  if(state.sel&&!state.sel.pack.custom) q.push('e='+[state.sel.pack.id,state.sel.track.id,state.sel.track.events.indexOf(state.sel)].map(encodeURIComponent).join('~'));
+  if(ids.length) q.push('p='+ids.map(encodeURIComponent).join(','));
+  return location.href.split('#')[0]+'#'+q.join('&');
+}
+function shareView(){
+  var u=shareUrl(), custom=state.sel&&state.sel.pack.custom;
+  try{ history.replaceState(null,'',u); }catch(_){}
+  var note=custom?' (رویداد بستهٔ شخصی در پیوند نمی‌آید)':'';
+  if(navigator.share){ navigator.share({title:'تاریخ‌دونی',text:state.sel?L(state.sel.name):'تاریخ‌دونی',url:u}).catch(function(){}); return; }
+  var done=function(){ toast('پیوند کپی شد'+note); }, fail=function(){ try{ window.prompt('پیوند را کپی کنید:',u); }catch(_){ toast(u); } };
+  try{ navigator.clipboard.writeText(u).then(done,fail); }catch(_){ fail(); }
+}
+function parseShare(){
+  var h=location.hash||''; if(h.indexOf('#v&')!==0) return null;
+  var o={}; h.slice(3).split('&').forEach(function(kv){ var i=kv.indexOf('='); if(i>0){ try{ o[kv.slice(0,i)]=decodeURIComponent(kv.slice(i+1)); }catch(_){} } });
+  return o;
+}
 
 /* ---------- per-row close / open ---------- */
 function toggleTrack(key){
@@ -954,7 +1060,8 @@ var TEMPLATE=`{
       "events": [
         {"name": "رویداد بازه‌ای", "start": -500, "end": -450, "desc": "معرفی کوتاه"},
         {"name": "رویداد نقطه‌ای", "start": 1000, "end": null, "desc": "معرفی کوتاه"},
-        {"name": "تاریخ تقریبی", "start": 300, "end": 350, "approx": true, "note": "منابع اختلاف دارند", "desc": "معرفی کوتاه"}
+        {"name": "تاریخ تقریبی", "start": 300, "end": 350, "approx": true, "note": "منابع اختلاف دارند", "desc": "معرفی کوتاه"},
+        {"name": "رویداد با تاریخ دقیق قمری", "hs": "61/1/10", "desc": "معرفی کوتاه", "source": "نام کتاب و مؤلف", "alt": "اختلاف نقل در تاریخ، اگر هست"}
       ]
     }
   ]
@@ -991,9 +1098,12 @@ var PROMPT=`تو یک پژوهشگر تاریخ هستی. می‌خواهم یک
 ۴. hue عددی بین 0 و 360 است و رنگ بسته را تعیین می‌کند. id ها لاتین، کوچک و با خط‌تیره باشند.
 ۵. name کوتاه باشد (حداکثر حدود ۳۰ نویسه) و نام‌گذاری در همهٔ بسته یکدست باشد.
 ۶. desc معرفی روان و دقیق به فارسی باشد. نقل قول ساختگی ننویس و دربارهٔ چیزی که مطمئن نیستی قاطع حرف نزن.
-۷. ردیف‌ها را بر اساس نوع موضوع جدا کن (مثلاً هر سلسله یک ردیف، یا حکومت‌ها و رویدادها دو ردیف). بین ۱ تا ۵ ردیف بساز و در هر ردیف حداکثر ۴۰ مورد بگذار.
+۷. ردیف‌بندی: داده‌های هم‌نوع و مرتبط که بازهٔ زمانی‌شان هم‌پوشانی ندارد (مثلاً حاکمانی که پشت سر هم می‌آیند، یا سلسله‌هایی که یکی پس از دیگری‌اند) را در یک ردیف بگذار و برایشان چند ردیف جدا نساز؛ ردیف‌ها را فقط وقتی جدا کن که نوع داده فرق دارد (مثلاً حکومت‌ها، فرمانروایان و رویدادها) یا ناچار باشی چیزهای هم‌زمان را کنار هم مقایسه کنی (مثلاً دو منطقهٔ جغرافیایی). تعداد ردیف‌ها و تعداد موارد هر ردیف محدودیتی ندارد؛ هر چه برای پوشش کامل موضوع لازم است بنویس، به شرط آنکه از تاریخ‌ها مطمئن باشی.
 ۸. calendar تقویم پیش‌فرض نمایش تاریخ‌های بسته است: greg (میلادی)، sh (شمسی) یا lunar (قمری). برای بسته‌ای دربارهٔ ایران sh و برای بسته‌ای دربارهٔ اسلام یا امامان lunar مناسب است. هر ردیف هم می‌تواند calendar مخصوص خودش را داشته باشد.
-۹. اختیاری: برای نسخهٔ چندزبانه می‌توانی name و desc و note را به‌جای رشته، به‌شکل {"fa": "...", "en": "..."} بنویسی.`;
+۹. اگر روز و ماه قمری رویداد را با اطمینان می‌دانی، به‌جای start و end از hs (آغاز) و he (پایان) به شکل "سال/ماه/روز" استفاده کن، مثل "hs": "61/1/10" برای دهم محرم ۶۱ ق. اگر فقط سال یا سال و ماه را می‌دانی، "61" یا "61/1" بنویس. سال میلادی خودکار حساب می‌شود. برای رویداد نقطه‌ای فقط hs کافی است.
+۱۰. در source نام دقیق منبع (کتاب و مؤلف) را بنویس. اگر منبع را مطمئن نیستی، خالی بگذار و چیزی نساز. در alt اگر منابع دربارهٔ تاریخ اختلاف دارند، روایت‌های دیگر را کوتاه بنویس.
+۱۱. اختیاری در سطح بسته: "sources": ["منبع ۱", "منبع ۲"] و "review": {"status": "draft"}. بسته تا وقتی کارشناس بازبینی نکرده draft بماند.
+۱۲. اختیاری: برای نسخهٔ چندزبانه می‌توانی name و desc و note را به‌جای رشته، به‌شکل {"fa": "...", "en": "..."} بنویسی.`;
 $('tpl').textContent=TEMPLATE;
 $('aiPrompt').value=PROMPT;
 function openDrawer(){ $('drawer').hidden=false; buildPlist(); $('impMsg').textContent=''; }
@@ -1151,7 +1261,7 @@ var mgrEl=$('mgr'), rmConfirm=null;
 function buildMgr(){
   $('mgrList').innerHTML=CATALOG.length?CATALOG.map(function(c){
     var on=isInst(c.id), h=(c.hue==null||!isFinite(+c.hue))?hashHue(c.id):+c.hue;
-    return '<div class="mrow'+(on?' in':'')+'" style="--h:'+h+'"><div><b>'+esc(L(c.title))+'</b> <small class="hint" style="display:inline">'+fa(c.events||0)+' رویداد · '+fa(c.tracks||0)+' ردیف'+(c['default']?' · پیش‌فرض':'')+(validCal(c.calendar)?' · تقویم '+CALS[c.calendar].name:'')+'</small><span class="hint">'+esc(L(c.desc))+'</span></div><button type="button" class="btn'+(on?' ghost':'')+'" data-'+(on?'un':'in')+'="'+esc(c.id)+'">'+(on?'برداشتن':'نصب')+'</button></div>';
+    return '<div class="mrow'+(on?' in':'')+'" style="--h:'+h+'"><div><b>'+esc(L(c.title))+'</b> <small class="hint" style="display:inline">'+fa(c.events||0)+' رویداد · '+fa(c.tracks||0)+' ردیف'+(c['default']?' · پیش‌فرض':'')+(validCal(c.calendar)?' · تقویم '+CALS[c.calendar].name:'')+'</small> '+reviewBadge({review:c.review})+'<span class="hint">'+esc(L(c.desc))+'</span></div><button type="button" class="btn'+(on?' ghost':'')+'" data-'+(on?'un':'in')+'="'+esc(c.id)+'">'+(on?'برداشتن':'نصب')+'</button></div>';
   }).join(''):'<p class="hint">فهرست بسته‌ها بارگذاری نشد.</p>';
   $('mgrCustom').innerHTML=CUSTOM.length?CUSTOM.map(function(p){
     var n=p.tracks.reduce(function(a,t){ return a+t.events.length; },0), sure=rmConfirm===p.id;
@@ -1169,9 +1279,10 @@ mgrEl.addEventListener('click',function(e){
   if(e.target===mgrEl){ closeMgr(); return; }
   var b=e.target.closest('button'); if(!b) return;
   var v;
-  if((v=b.getAttribute('data-in'))){ setInstalled(installedIds().concat(v),'«'+L(catById(v).title)+'» روی قفسه نشست.'); }
+  if((v=b.getAttribute('data-in'))){ var cc=catById(v); if(cc&&validCal(cc.calendar)&&!state.cals[cc.calendar]){ state.cals[cc.calendar]=true; store('tl.prefs.v1',{flip:state.flip,cals:state.cals}); buildCals(); }
+    setInstalled(installedIds().concat(v),'«'+L(catById(v).title)+'» روی قفسه نشست.'); }
   else if((v=b.getAttribute('data-un'))){ setInstalled(installedIds().filter(function(x){ return x!==v; }),'«'+L(catById(v).title)+'» برداشته شد. هر وقت خواستید دوباره نصبش کنید.'); }
-  else if(b.id==='mgrDefaults'){ INSTALLED=null; store('tl.installed.v1',null); setInstalled(installedIds(),'قفسه‌های پیش‌فرض برگشتند.'); }
+  else if(b.id==='mgrDefaults'){ INSTALLED=null; store('tl.installed.v1',null); PSEL=[]; store('tl.profile.v1',null); setInstalled(installedIds(),'قفسه‌های پیش‌فرض برگشتند.'); }
   else if(b.id==='mgrAll'){ setInstalled(CATALOG.map(function(c){ return c.id; }),'همهٔ قفسه‌ها پر شد.'); }
   else if(b.id==='mgrNone'){ setInstalled([],'انبار خالی شد. هر بسته را هر وقت خواستید برگردانید.'); }
   else if(b.id==='mgrAdd'){ closeMgr(); openDrawer(); }
@@ -1184,6 +1295,47 @@ mgrEl.addEventListener('click',function(e){
   else if(b.getAttribute('data-ccancel')){ rmConfirm=null; buildMgr(); }
 });
 
+
+/* ---------- profiles ---------- */
+var profEl=$('prof'), profView=[];
+function profileList(){
+  var def=CATALOG.filter(function(c){ return c['default']; }).map(function(c){ return c.id; });
+  var g=def.length?[{id:'general',title:'عمومی',icon:'🧭',desc:'ایران، روم و مصر؛ شروعی برای کاوش',packs:def}]:[];
+  return g.concat(PROFILES);
+}
+function buildProf(){
+  profView=profileList();
+  $('profList').innerHTML=profView.map(function(p){
+    var on=PSEL.indexOf(p.id)>=0;
+    return '<button type="button" class="pcard" aria-pressed="'+on+'" data-pf="'+esc(p.id)+'"><span class="pi">'+esc(p.icon||'')+'</span><b>'+esc(L(p.title))+'</b><small>'+esc(L(p.desc))+'</small><small>'+fa(p.packs.length)+' بسته</small></button>';
+  }).join('');
+}
+function openProf(){ if(!mgrEl.hidden) closeMgr(); $('profMsg').textContent=''; buildProf(); profEl.hidden=false; }
+function closeProf(){ profEl.hidden=true; if(!Array.isArray(store('tl.profile.v1'))) store('tl.profile.v1',PSEL); }
+function applyProfile(){
+  if(!PSEL.length){ $('profMsg').textContent='دست‌کم یک مورد را انتخاب کنید.'; return; }
+  var ids=[]; profView.forEach(function(p){ if(PSEL.indexOf(p.id)>=0) p.packs.forEach(function(id){ if(ids.indexOf(id)<0&&catById(id)) ids.push(id); }); });
+  ids=CATALOG.map(function(c){ return c.id; }).filter(function(id){ return ids.indexOf(id)>=0; });
+  ids.forEach(function(id){ var c=catById(id); if(validCal(c.calendar)) state.cals[c.calendar]=true; });
+  store('tl.prefs.v1',{flip:state.flip,cals:state.cals}); buildCals();
+  store('tl.profile.v1',PSEL);
+  setInstalled(ids,'').then(function(){
+    var xe=ext(), a0=xe.lo, b0=xe.hi; if(b0-a0<40){ a0-=20; b0+=20; }
+    animateTo((a0+b0)/2,state.W*0.94/(b0-a0));
+    profEl.hidden=true; toast('پروفایل اعمال شد: '+ids.length+' بسته روی قفسه است.');
+  });
+}
+$('openProf').addEventListener('click',openProf);
+$('openProf2').addEventListener('click',openProf);
+$('closeProf').addEventListener('click',closeProf);
+$('profApply').addEventListener('click',applyProfile);
+profEl.addEventListener('click',function(e){
+  if(e.target===profEl){ closeProf(); return; }
+  var b=e.target.closest('[data-pf]'); if(!b) return;
+  var id=b.getAttribute('data-pf'), i=PSEL.indexOf(id); if(i>=0) PSEL.splice(i,1); else PSEL.push(id);
+  b.setAttribute('aria-pressed',String(i<0));
+});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!profEl.hidden) closeProf(); });
 
 /* ---------- mobile menus ---------- */
 (function(){
@@ -1212,16 +1364,32 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&document.q
 }
 
 /* ---------- load ---------- */
-(window.__CATALOG__?Promise.resolve(window.__CATALOG__):fetchJson('packs/index.json').then(function(i){ return i.packs; })).then(function(cat){
+(window.__CATALOG__?Promise.resolve({packs:window.__CATALOG__,profiles:window.__PROFILES__||[]}):fetchJson('packs/index.json')).then(function(idx){
+  var cat=idx.packs; PROFILES=idx.profiles||[];
   CATALOG=cat; INSTALLED=store('tl.installed.v1');
-  if(!Array.isArray(INSTALLED)) INSTALLED=null; else INSTALLED=INSTALLED.filter(function(id){ return !!catById(id); });
+  if(!Array.isArray(INSTALLED)) INSTALLED=null; else{
+    var mig=[]; CATALOG.forEach(function(c){ (c.replaces||[]).forEach(function(o){ if(INSTALLED.indexOf(o)>=0&&!catById(o)&&mig.indexOf(c.id)<0) mig.push(c.id); }); });
+    INSTALLED=INSTALLED.concat(mig).filter(function(id,i,a){ return !!catById(id)&&a.indexOf(id)===i; }); store('tl.installed.v1',INSTALLED);
+  }
+  var ps=store('tl.profile.v1'); PSEL=Array.isArray(ps)?ps:[];
+  SHARE=parseShare();
+  if(SHARE&&SHARE.p){ var need=SHARE.p.split(',').filter(function(id){ return catById(id)&&!isInst(id); }); if(need.length) INSTALLED=installedIds().concat(need); }
   return Promise.all(installedIds().map(catById).filter(Boolean).map(fetchPack));
 }).then(function(){
   (store('tl.custom.v1')||[]).forEach(function(raw){ try{ CUSTOM.push(normalizePack(raw,true)); }catch(_){} });
   applyInstalled(); loaded=true; buildPacks();
   var xe=ext(), a0=Math.max(h2a(-150),xe.lo), b0=Math.min(350,xe.hi); if(b0-a0<40){ a0=xe.lo; b0=xe.hi; }
-  var f={c:(a0+b0)/2,ppy:state.W*0.94/(b0-a0)}; state.c=f.c; state.ppy=f.ppy; state.cur=state.c;
+  var f={c:(a0+b0)/2,ppy:state.W*0.94/(b0-a0)}, shEv=null;
+  if(SHARE){
+    if(SHARE.e){ var q=SHARE.e.split('~').map(function(x){ try{ return decodeURIComponent(x); }catch(_){ return x; } });
+      ALLPACKS.forEach(function(p){ if(p.id!==q[0]) return; p.tracks.forEach(function(t){ if(t.id===q[1]&&t.events[+q[2]]){ shEv=t.events[+q[2]]; state.on[p.id]=true; delete state.off[p.id+'|'+t.id]; delete state.collapsed[p.id+'|'+t.id]; } }); }); }
+    if(shEv){ state.sel=shEv; f={c:(shEv.s+shEv.e)/2,ppy:f.ppy}; var sp=Math.max(40,(shEv.e-shEv.s)*1.6); f.ppy=state.W*0.5/sp; }
+    if(isFinite(+SHARE.c)&&isFinite(+SHARE.z)&&SHARE.c!==''&&SHARE.z!==''){ f={c:+SHARE.c,ppy:+SHARE.z}; }
+  }
+  state.c=f.c; state.ppy=f.ppy; state.cur=state.c;
   pendingEnter=true; fillGoto(); layoutCache=null; render(); renderDetail();
+  if(shEv) setTimeout(function(){ revealTrack(shEv); },120);
+  if(!SHARE&&!Array.isArray(store('tl.profile.v1'))&&!Array.isArray(store('tl.installed.v1'))&&PROFILES.length) setTimeout(function(){ openProf(); },350);
 }).catch(function(err){
   loadError='بارگذاری فایل‌های داده انجام نشد. اگر فایل را مستقیم از دیسک باز کرده‌اید، نسخهٔ تک‌فایل را باز کنید یا پوشه را روی یک میزبان وب بگذارید. ('+err.message+')'; render();
 });

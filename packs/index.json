@@ -1,16 +1,56 @@
 {
   "packs": [
     {
-      "id": "iran",
-      "file": "iran.json",
-      "title": "ایران",
-      "desc": "سلسله‌ها، پادشاهان و رویدادهای ایران از ماد تا امروز",
-      "hue": 175,
+      "id": "iran-rulers",
+      "file": "iran-rulers.json",
+      "title": "حاکمان ایران",
+      "desc": "سلسله‌ها و حکومت‌های ایران از ماد تا امروز، در کنار فرمانروایان آن‌ها در دو ردیف زمانی.",
+      "hue": 160,
       "calendar": "sh",
+      "review": {
+        "status": "draft",
+        "by": null
+      },
       "default": true,
       "order": 1,
-      "tracks": 4,
-      "events": 80
+      "tracks": 2,
+      "events": 169,
+      "replaces": [
+        "iran"
+      ],
+      "profiles": [
+        "iran",
+        "islam",
+        "fiqh",
+        "ancient",
+        "literature",
+        "philosophy",
+        "science",
+        "art"
+      ]
+    },
+    {
+      "id": "iran-events",
+      "file": "iran-events.json",
+      "title": "رویدادهای ایران",
+      "desc": "رویدادهای مهم تاریخ ایران از فتح بابل تا جنگ ایران و عراق؛ مکمل بستهٔ «حاکمان ایران».",
+      "hue": 175,
+      "calendar": "sh",
+      "review": {
+        "status": "draft",
+        "by": null
+      },
+      "default": false,
+      "order": 2,
+      "tracks": 1,
+      "events": 15,
+      "replaces": [
+        "iran"
+      ],
+      "profiles": [
+        "iran",
+        "islam"
+      ]
     },
     {
       "id": "rome",
@@ -19,10 +59,15 @@
       "desc": "دوره‌ها، امپراتوران و رویدادهای روم و بیزانس",
       "hue": 355,
       "calendar": null,
+      "review": null,
       "default": true,
-      "order": 2,
+      "order": 3,
       "tracks": 3,
-      "events": 46
+      "events": 46,
+      "profiles": [
+        "ancient",
+        "philosophy"
+      ]
     },
     {
       "id": "egypt",
@@ -31,22 +76,54 @@
       "desc": "دوره‌ها و فرمانروایان مصر از عصر فراعنه تا امروز",
       "hue": 38,
       "calendar": null,
+      "review": null,
       "default": true,
-      "order": 3,
+      "order": 4,
       "tracks": 3,
-      "events": 40
+      "events": 40,
+      "profiles": [
+        "ancient"
+      ]
     },
     {
-      "id": "thinkers",
-      "file": "thinkers.json",
-      "title": "دانشمندان و ادیبان",
-      "desc": "زندگی دانشمندان، فیلسوفان و شاعران در جهان باستان، دوران اسلامی و دوران نو",
-      "hue": 150,
-      "calendar": null,
+      "id": "ahlebayt",
+      "file": "ahlebayt.json",
+      "title": "اهل‌بیت (ع) و هم‌عصران",
+      "desc": "چهارده معصوم با تاریخ قمری، دورهٔ امامت و حاکمان هم‌زمان",
+      "hue": 320,
+      "calendar": "lunar",
+      "review": {
+        "status": "draft",
+        "by": null
+      },
       "default": false,
-      "order": 4,
+      "order": 5,
       "tracks": 4,
-      "events": 63
+      "events": 81,
+      "profiles": [
+        "islam",
+        "fiqh"
+      ]
+    },
+    {
+      "id": "shia-jurists",
+      "file": "shia-jurists.json",
+      "title": "فقهای برجسته شیعه",
+      "desc": "شناسنامهٔ تاریخی و علمی 114 تن از فقها و مجتهدان نامدار شیعه، از صدر اسلام تا پیروزی انقلاب اسلامی، در یک توالی زمانی.",
+      "hue": 215,
+      "calendar": "lunar",
+      "review": {
+        "status": "draft",
+        "by": null
+      },
+      "default": false,
+      "order": 6,
+      "tracks": 1,
+      "events": 114,
+      "profiles": [
+        "fiqh",
+        "islam"
+      ]
     },
     {
       "id": "religion",
@@ -55,10 +132,101 @@
       "desc": "بنیان‌گذاران، شخصیت‌ها و رویدادهای دینی",
       "hue": 275,
       "calendar": null,
+      "review": null,
       "default": false,
-      "order": 5,
+      "order": 7,
       "tracks": 2,
-      "events": 30
+      "events": 30,
+      "profiles": [
+        "islam",
+        "philosophy",
+        "ancient"
+      ]
+    },
+    {
+      "id": "philosophy",
+      "file": "philosophy.json",
+      "title": "تاریخ فلسفه",
+      "desc": "فیلسوفان و حکیمان غرب و جهان اسلام در دو ردیف، تا هم‌عصری‌ها دیده شوند.",
+      "hue": 265,
+      "calendar": null,
+      "review": {
+        "status": "draft",
+        "by": null
+      },
+      "default": false,
+      "order": 8,
+      "tracks": 2,
+      "events": 23,
+      "replaces": [
+        "thinkers"
+      ],
+      "profiles": [
+        "philosophy"
+      ]
+    },
+    {
+      "id": "science",
+      "file": "science.json",
+      "title": "تاریخ علوم تجربی",
+      "desc": "دانشمندان علوم طبیعی و پزشکی و ریاضی در غرب و جهان اسلام.",
+      "hue": 200,
+      "calendar": null,
+      "review": {
+        "status": "draft",
+        "by": null
+      },
+      "default": false,
+      "order": 9,
+      "tracks": 2,
+      "events": 29,
+      "replaces": [
+        "thinkers"
+      ],
+      "profiles": [
+        "science"
+      ]
+    },
+    {
+      "id": "literature",
+      "file": "literature.json",
+      "title": "تاریخ ادبیات",
+      "desc": "شاعران و نویسندگان فارسی و ادبیات عرب و جهان.",
+      "hue": 20,
+      "calendar": null,
+      "review": {
+        "status": "draft",
+        "by": null
+      },
+      "default": false,
+      "order": 10,
+      "tracks": 2,
+      "events": 25,
+      "replaces": [
+        "thinkers"
+      ],
+      "profiles": [
+        "literature"
+      ]
+    },
+    {
+      "id": "art",
+      "file": "art.json",
+      "title": "تاریخ هنر",
+      "desc": "هنرمندان ایران و جهان اسلام، هنرمندان اروپایی و بناهای ماندگار.",
+      "hue": 340,
+      "calendar": null,
+      "review": {
+        "status": "draft",
+        "by": null
+      },
+      "default": false,
+      "order": 11,
+      "tracks": 3,
+      "events": 18,
+      "profiles": [
+        "art"
+      ]
     },
     {
       "id": "world",
@@ -67,22 +235,113 @@
       "desc": "چین، هند، یونان و رویدادهای بزرگ جهان",
       "hue": 240,
       "calendar": null,
+      "review": null,
       "default": false,
-      "order": 6,
+      "order": 12,
       "tracks": 4,
-      "events": 38
+      "events": 38,
+      "profiles": [
+        "ancient",
+        "literature",
+        "philosophy",
+        "science",
+        "art"
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "id": "iran",
+      "title": "تاریخ ایران",
+      "icon": "🦁",
+      "desc": "حاکمان و رویدادهای ایران در کنار جهان هم‌عصر",
+      "packs": [
+        "iran-rulers",
+        "iran-events"
+      ]
     },
     {
-      "id": "shia-jurists",
-      "file": "fuqaha.json",
-      "title": "فقهای برجسته شیعه",
-      "desc": "شناسنامه تاریخی و علمی ۱۰۰ تن از مشهورترین فقها و مجتهدان جهان تشیع از صدر اسلام تا پیروزی انقلاب اسلامی در قالب یک توالی منسجم زمانی.",
-      "hue": 215,
-      "calendar": null,
-      "default": false,
-      "order": 999,
-      "tracks": 1,
-      "events": 114
+      "id": "islam",
+      "title": "تاریخ اسلام و تشیع",
+      "icon": "🕌",
+      "desc": "اهل‌بیت (ع)، حاکمان جامعهٔ اسلامی، فقها و ادیان",
+      "packs": [
+        "iran-rulers",
+        "iran-events",
+        "ahlebayt",
+        "shia-jurists",
+        "religion"
+      ]
+    },
+    {
+      "id": "fiqh",
+      "title": "فقه و حوزه",
+      "icon": "📖",
+      "desc": "فقهای شیعه در کنار ائمه و حاکمان زمانه",
+      "packs": [
+        "iran-rulers",
+        "ahlebayt",
+        "shia-jurists"
+      ]
+    },
+    {
+      "id": "ancient",
+      "title": "تاریخ باستان",
+      "icon": "🏛️",
+      "desc": "ایران، روم، مصر و جهان باستان",
+      "packs": [
+        "iran-rulers",
+        "rome",
+        "egypt",
+        "religion",
+        "world"
+      ]
+    },
+    {
+      "id": "literature",
+      "title": "تاریخ ادبیات",
+      "icon": "✒️",
+      "desc": "شاعران و نویسندگان در کنار حاکمان و هنرمندان هم‌عصر",
+      "packs": [
+        "iran-rulers",
+        "literature",
+        "world"
+      ]
+    },
+    {
+      "id": "philosophy",
+      "title": "تاریخ فلسفه",
+      "icon": "🦉",
+      "desc": "فیلسوفان غرب و حکیمان جهان اسلام",
+      "packs": [
+        "iran-rulers",
+        "rome",
+        "religion",
+        "philosophy",
+        "world"
+      ]
+    },
+    {
+      "id": "science",
+      "title": "تاریخ علوم تجربی",
+      "icon": "🔭",
+      "desc": "دانشمندان علوم طبیعی، پزشکی و ریاضی",
+      "packs": [
+        "iran-rulers",
+        "science",
+        "world"
+      ]
+    },
+    {
+      "id": "art",
+      "title": "تاریخ هنر",
+      "icon": "🎨",
+      "desc": "هنرمندان و بناهای ماندگار ایران و جهان",
+      "packs": [
+        "iran-rulers",
+        "art",
+        "world"
+      ]
     }
   ]
 }
