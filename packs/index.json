@@ -1,6 +1,19 @@
 {
   "packs": [
     {
+      "id": "iran",
+      "file": "iran.json",
+      "title": "ایران",
+      "desc": "سلسله‌ها، پادشاهان و رویدادهای ایران از ماد تا امروز",
+      "hue": 175,
+      "calendar": "sh",
+      "review": null,
+      "default": true,
+      "order": 1,
+      "tracks": 4,
+      "events": 80
+    },
+    {
       "id": "iran-rulers",
       "file": "iran-rulers.json",
       "title": "حاکمان ایران",
@@ -68,6 +81,19 @@
         "ancient",
         "philosophy"
       ]
+    },
+    {
+      "id": "thinkers",
+      "file": "thinkers.json",
+      "title": "دانشمندان و ادیبان",
+      "desc": "زندگی دانشمندان، فیلسوفان و شاعران در جهان باستان، دوران اسلامی و دوران نو",
+      "hue": 150,
+      "calendar": null,
+      "review": null,
+      "default": false,
+      "order": 4,
+      "tracks": 4,
+      "events": 63
     },
     {
       "id": "egypt",
@@ -146,8 +172,8 @@
     {
       "id": "philosophy",
       "file": "philosophy.json",
-      "title": "فلاسفه",
-      "desc": "فیلسوفان و حکیمان ایرانی و اسلامی در کنار فلاسفهٔ غرب، در دو ردیف برای مقایسهٔ هم‌عصرها.",
+      "title": "تاریخ فلسفه",
+      "desc": "فیلسوفان و حکیمان غرب و جهان اسلام در دو ردیف، تا هم‌عصری‌ها دیده شوند.",
       "hue": 265,
       "calendar": null,
       "review": {
@@ -247,6 +273,19 @@
         "science",
         "art"
       ]
+    },
+    {
+      "id": "persian-poets",
+      "file": "persian-poets.json",
+      "title": "شاعران پارسی‌گوی",
+      "desc": "هفتاد و سه شاعر پارسی‌سرا از سدهٔ سوم هجری تا روزگار معاصر، به ترتیب زمان تولد.",
+      "hue": 35,
+      "calendar": "sh",
+      "review": null,
+      "default": false,
+      "order": 999,
+      "tracks": 1,
+      "events": 73
     }
   ],
   "profiles": [
