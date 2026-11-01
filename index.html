@@ -8,8 +8,10 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <meta property="og:type" content="website"><meta property="og:title" content="تاریخ‌دونی">
-<meta property="og:description" content="خط زمان هم‌زمان رویدادهای تاریخی. تاریخ رو می‌دونی؟ تاریخ رو بدون.">
-<meta property="og:image" content="https://mhsb.github.io/tarikhdooni/icons/og.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:description" content="ببینید هر پادشاه، دانشمند، فقیه یا رویداد تاریخی هم‌زمان با چه کسانی بوده است. تاریخ رو می‌دونی؟ تاریخ رو بدون.">
+<meta property="og:image" content="https://mhsb.github.io/tarikhdooni/icons/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="تاریخ‌دونی؛ خط زمان هم‌زمان رویدادهای تاریخی">
+<meta property="og:url" content="https://mhsb.github.io/tarikhdooni/"><meta property="og:site_name" content="تاریخ‌دونی"><meta property="og:locale" content="fa_IR">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="تاریخ‌دونی"><meta name="twitter:description" content="خط زمان هم‌زمان رویدادهای تاریخی. ببینید هر شخصیت یا رویداد با چه کسانی هم‌عصر بوده."><meta name="twitter:image" content="https://mhsb.github.io/tarikhdooni/icons/og.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -247,6 +249,13 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
 .legend{display:inline-flex;align-items:center;gap:6px}
 .swh{display:inline-block;width:28px;height:9px;border-radius:5px;background:repeating-linear-gradient(135deg,var(--accent) 0 4px,transparent 4px 8px);border:1px solid var(--accent)}
 .adv{margin:10px 0}
+.legbar{display:flex;align-items:center;gap:8px;margin:2px 4px 6px;color:var(--mut);font-size:12px}
+.card{min-width:0;max-width:100%}
+.adv *{max-width:100%;box-sizing:border-box}
+.adv pre,.adv textarea,.adv input[type=file]{width:100%;max-width:100%}
+.adv pre{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:auto}
+.adv code{overflow-wrap:anywhere}
+.drawer .card{overflow-x:hidden}
 .tour{position:fixed;z-index:36;inset-inline:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));margin:auto;max-width:460px;background:var(--panel);color:var(--fg);border:1px solid var(--accent);border-radius:14px;padding:14px 16px;box-shadow:0 18px 44px -12px var(--shadowc);display:grid;gap:8px}
 .tour h3{margin:0;font-size:15px}.tour p{margin:0}
 .tour .tsteps{color:var(--mut);font-size:12px}
@@ -333,7 +342,7 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
       <h1>تاریخ‌دونی</h1>
       <p class="sub">ببینید هر پادشاه، دانشمند یا رویداد تاریخی هم‌زمان با چه کسانی بوده است. نمودار را بکشید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
     </div>
-    <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openHelp" type="button">راهنما</button><button class="btn ghost" id="openProf" type="button">علاقه‌مندی‌های من</button><button class="btn ghost" id="openMgr" type="button">مدیریت موضوع‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
+    <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openHelp" type="button">راهنما</button><button class="btn ghost" id="shareApp" type="button">معرفی به دوستان</button><button class="btn ghost" id="openProf" type="button">علاقه‌مندی‌های من</button><button class="btn ghost" id="openMgr" type="button">مدیریت موضوع‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
   </header>
 
   <section class="controls" aria-label="تنظیمات نمایش">
@@ -360,10 +369,12 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
       <button class="chip" id="collapseAll" type="button">بستن همهٔ ردیف‌ها</button>
       <button class="chip" id="expandAll" type="button">باز کردن همهٔ ردیف‌ها</button>
       <button class="chip" id="resetOrder" type="button">ترتیب اولیهٔ ردیف‌ها</button>
-      <span class="hint legend"><i class="swh" aria-hidden="true"></i> نوار هاشورخورده یعنی تاریخ تقریبی است.</span>
+      
     </div>
     </div>
   </section>
+
+  <p class="legbar"><i class="swh" aria-hidden="true"></i> نوار هاشورخورده یعنی تاریخ تقریبی است.</p>
 
   <main class="stage" id="stage">
     <div class="rulers" id="rulers"></div>
@@ -446,6 +457,9 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
     <h3>موضوع‌های شخصی شما</h3>
     <div class="mlist" id="mgrCustom"></div>
     <div class="row"><button class="btn" id="mgrNew" type="button">ساخت موضوع تازه با ویرایشگر</button><button class="btn ghost" id="mgrAdd" type="button">افزودن موضوع شخصی از JSON…</button><button class="btn ghost" id="mgrDefaults" type="button">بازگردانی پیش‌فرض‌ها</button><button class="btn ghost" id="mgrAll" type="button">افزودن همهٔ موضوع‌ها</button><button class="btn ghost" id="mgrNone" type="button">برداشتن همه</button></div>
+    <h3>نسخهٔ پشتیبان از داده‌های من</h3>
+    <p class="hint">علاقه‌مندی‌ها، موضوع‌های شخصی و تنظیم‌های شما فقط در همین مرورگر ذخیره می‌شود و با پاک‌کردن اطلاعات سایت از بین می‌رود. از آن‌ها نسخهٔ پشتیبان بگیرید یا در مرورگر دیگر بازگردانید.</p>
+    <div class="row"><button class="btn ghost" id="bkDl" type="button">دانلود نسخهٔ پشتیبان</button><label class="btn ghost" for="bkFile">بازگردانی از فایل…</label><input id="bkFile" type="file" accept=".json,application/json" hidden><span class="hint" id="bkMsg" role="status"></span></div>
     <p class="hint" id="mgrMsg" role="status"></p>
   </div>
 </div>
@@ -483,6 +497,7 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
       <button class="btn" id="pedShow" type="button">ذخیره و دیدن روی نمودار</button>
       <button class="btn ghost" id="pedDl" type="button">دانلود JSON</button>
       <button class="btn ghost" id="pedCopy" type="button">کپی JSON</button>
+      <button class="btn ghost" id="pedGh" type="button" data-nostr="1">انتشار در مخزن (ادمین)</button>
       <span id="pedMsg" role="status"></span>
     </div>
     <textarea id="pedTa" hidden readonly spellcheck="false" aria-label="JSON موضوع"></textarea>
@@ -499,13 +514,38 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
     <div id="admStrings" hidden></div>
     <div id="admOut" hidden>
       <p>فایل <code>site.json</code> را دانلود کنید و کنار <code>index.html</code> در ریشهٔ مخزن بگذارید (اگر از قبل هست، جایگزین کنید). پس از انتشار، همه همین قالب و متن‌ها را می‌بینند.</p>
-      <div class="row"><button class="btn" id="admDl" type="button">دانلود site.json</button><button class="btn ghost" id="admCopy" type="button">کپی</button><label class="btn ghost" for="admFile">وارد کردن site.json…</label><input id="admFile" type="file" accept=".json,application/json" hidden><button class="btn ghost" id="admReset" type="button">پاک‌کردن همهٔ تغییرهای من</button></div>
+      <div class="row"><button class="btn" id="admDl" type="button">دانلود site.json</button><button class="btn ghost" id="admCopy" type="button">کپی</button><label class="btn ghost" for="admFile">وارد کردن site.json…</label><input id="admFile" type="file" accept=".json,application/json" hidden><button class="btn" id="admGh" type="button">انتشار در مخزن GitHub</button><button class="btn ghost" id="admReset" type="button">پاک‌کردن همهٔ تغییرهای من</button></div>
       <textarea id="admTa" readonly spellcheck="false" style="width:100%;min-height:200px;direction:ltr;box-sizing:border-box;margin-top:8px"></textarea>
       <p class="hint" id="admMsg" role="status"></p>
     </div>
   </div>
 </div>
 <button class="btn adminmin" id="admBack" type="button" hidden>بازگشت به ویرایشگر ادمین</button>
+
+<div class="drawer" id="gh" dir="rtl" lang="fa" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="ghTitle" data-nostr="1">
+    <div class="dh"><h2 id="ghTitle">انتشار در مخزن GitHub</h2><button class="btn ghost" id="ghClose" type="button">بستن</button></div>
+    <p id="ghWhat"></p>
+    <div class="admin-grid">
+      <div><label class="lab" for="ghOwner">مالک (کاربر یا سازمان)</label><input id="ghOwner" type="text" dir="ltr"></div>
+      <div><label class="lab" for="ghRepo">نام مخزن</label><input id="ghRepo" type="text" dir="ltr"></div>
+      <div><label class="lab" for="ghBranch">شاخه</label><input id="ghBranch" type="text" dir="ltr"></div>
+    </div>
+    <label class="lab" for="ghToken">توکن دسترسی (Personal Access Token)</label><input id="ghToken" type="password" dir="ltr" autocomplete="off">
+    <label class="chk"><input id="ghRemember" type="checkbox"> توکن را در همین مرورگر نگه دار (فقط روی دستگاه خودتان)</label>
+    <div id="ghPackOpts" hidden>
+      <div class="admin-grid">
+        <div><label class="lab" for="ghId">نام فایل (لاتین)</label><input id="ghId" type="text" dir="ltr"></div>
+        <div><label class="lab" for="ghOrder">ترتیب در فهرست (عدد)</label><input id="ghOrder" type="text" inputmode="numeric" dir="ltr"></div>
+        <div><label class="lab" for="ghProfiles">علاقه‌مندی‌های عضو (شناسه‌ها با ویرگول)</label><input id="ghProfiles" type="text" dir="ltr" placeholder="literature,art"></div>
+      </div>
+      <label class="chk"><input id="ghDefault" type="checkbox"> از موضوع‌های پیش‌فرض باشد</label>
+    </div>
+    <div class="row"><button class="btn" id="ghGo" type="button">ثبت در مخزن</button></div>
+    <p class="hint" id="ghMsg" role="status"></p>
+    <p class="hint">توکن را در GitHub از Settings ← Developer settings ← Fine-grained tokens بسازید، فقط برای همین مخزن، با دسترسی «Contents: Read and write». توکن مستقیم از مرورگر شما به GitHub می‌رود و جای دیگری فرستاده نمی‌شود. روی دستگاه مشترک گزینهٔ نگه‌داشتن را نزنید.</p>
+  </div>
+</div>
 
 <div class="tour" id="tour" role="dialog" aria-label="راهنمای شروع" dir="rtl" lang="fa" hidden></div>
 
@@ -782,10 +822,9 @@ var state={c:100,ppy:2,W:1000,flip:prefs.flip!==false,cals:prefs.cals||{greg:tru
 var CATALOG=[], RAW={}, INSTALLED=null, SHARE=null, PROFILES=[], PSEL=[];
 var PACKS=[], CUSTOM=[], ALLPACKS=[], ALL=[], REV=0, loaded=false, loadError='';
 var PRESETS=[
-  ['مصر باستان',-3000,-300],
-  ['هخامنشیان و یونان',-600,-300],
-  ['روم و اشکانیان',-150,350],
-  ['ساسانیان و بیزانس',200,700],
+  ['پیش از میلاد مسیح',-3500,-1],
+  ['میلاد مسیح تا ظهور اسلام',1,570],
+  ['ظهور اسلام',570,750],
   ['عصر زرین اسلامی',700,1300],
   ['ایران نو',1500,2026],
   ['همهٔ بازهٔ داده‌ها',0,0,'all']
@@ -1079,12 +1118,12 @@ function select(ev,center){
   state.sel=ev;
   if(center){
     var span=ev.e-ev.s, c=(ev.s+ev.e)/2, ppy=state.ppy;
-    if(span*ppy>state.W*0.9) ppy=state.W*0.8/span; else if(ppy<2.5&&span<800) ppy=Math.min(2.5,state.W*0.5/Math.max(span,1));
-    if(span*ppy<state.W*0.9&&ppy<2.5) ppy=2.5;
+    if(!ev.pt&&span>0) ppy=state.W*0.8/span;            /* رویداد مدت‌دار: حدود ۸۰٪ عرض نمودار را بگیرد */
+    else if(ppy<2.5) ppy=2.5;
     animateTo(c,ppy);
   }
   state.cur=(ev.s+ev.e)/2; sched(); setPanel(true);
-  if(center) revealTrack(ev);
+  if(center){ revealTrack(ev); setTimeout(function(){ if(state.sel===ev) revealTrack(ev); },480); }
 }
 function revealTrack(ev){
   var k=ev.pack.id+'|'+ev.track.id;
@@ -1181,7 +1220,8 @@ function shareView(){
   var u=shareUrl(), custom=state.sel&&state.sel.pack.custom;
   try{ history.replaceState(null,'',u); }catch(_){}
   var note=custom?' (رویداد موضوع شخصی در پیوند نمی‌آید)':'';
-  if(navigator.share){ navigator.share({title:'تاریخ‌دونی',text:state.sel?L(state.sel.name):'تاریخ‌دونی',url:u}).catch(function(){}); return; }
+  var txt='تاریخ‌دونی'; if(state.sel){ var se=state.sel, pcal=primaryCal(); txt=L(se.name)+' ('+yearLabel(se.s,pcal)+(se.pt?'':' تا '+yearLabel(se.e,pcal))+') در تاریخ‌دونی؛ ببینید هم‌زمان با چه کسانی بوده.'; }
+  if(navigator.share){ navigator.share({title:'تاریخ‌دونی',text:txt,url:u}).catch(function(){}); return; }
   var done=function(){ toast('پیوند کپی شد'+note); }, fail=function(){ try{ window.prompt('پیوند را کپی کنید:',u); }catch(_){ toast(u); } };
   try{ navigator.clipboard.writeText(u).then(done,fail); }catch(_){ fail(); }
 }
@@ -1802,10 +1842,120 @@ function showExample(){
   if(!ev){ var pool=poolEvents(); ev=pool[Math.floor(pool.length/3)]||pool[0]; }
   if(!ev){ toast('برای دیدن نمونه، ابتدا یک موضوع روشن کنید.'); return; }
   var k=ev.pack.id+'|'+ev.track.id; delete state.collapsed[k]; delete state.off[k];
-  state.sel=ev; layoutCache=null; var sp=Math.max(40,(ev.e-ev.s)*1.6); animateTo((ev.s+ev.e)/2,state.W*0.5/sp); setPanel(true); renderDetail(); setTimeout(function(){ revealTrack(ev); },160);
+  layoutCache=null; select(ev,true); renderDetail();
 }
 $('openHelp').addEventListener('click',startTour);
 document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('[data-help]')) startTour(); });
+
+/* ---------- backup / restore, share app, GitHub publish, back-button ---------- */
+function dl(name,text,type){ var b=new Blob([text],{type:type||'application/json'}), u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); },2000); }
+$('bkDl').addEventListener('click',function(){
+  var o={app:'tarikhdooni',version:1,date:new Date().toISOString(),data:{}};
+  try{ for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k&&k.indexOf('tl.')===0&&k!=='tl.gh.v1') o.data[k]=localStorage.getItem(k); } }catch(_){}
+  var n=Object.keys(o.data).length; if(!n){ $('bkMsg').textContent='چیزی برای پشتیبان‌گیری پیدا نشد.'; return; }
+  try{ dl('tarikhdooni-backup-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(o)); $('bkMsg').textContent='نسخهٔ پشتیبان دانلود شد. آن را جای امنی نگه دارید.'; }catch(_){ $('bkMsg').textContent='دانلود ممکن نشد.'; }
+});
+$('bkFile').addEventListener('change',function(){
+  var f=this.files&&this.files[0]; if(!f) return; var inp=this;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var o=JSON.parse(String(r.result)); if(!o||o.app!=='tarikhdooni'||!o.data||typeof o.data!=='object') throw new Error('این فایل پشتیبان تاریخ‌دونی نیست.');
+      var keys=Object.keys(o.data).filter(function(k){ return k.indexOf('tl.')===0&&k!=='tl.gh.v1'; });
+      if(!keys.length) throw new Error('فایل داده‌ای ندارد.');
+      if(!window.confirm('تنظیم‌ها، علاقه‌مندی‌ها و موضوع‌های شخصی فعلی این مرورگر با محتوای فایل جایگزین می‌شود. ادامه می‌دهید؟')){ inp.value=''; return; }
+      var old=[]; for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k&&k.indexOf('tl.')===0&&k!=='tl.gh.v1') old.push(k); }
+      old.forEach(function(k){ localStorage.removeItem(k); });
+      keys.forEach(function(k){ if(typeof o.data[k]==='string') localStorage.setItem(k,o.data[k]); });
+      $('bkMsg').textContent='بازگردانی شد؛ صفحه دوباره بارگذاری می‌شود…'; setTimeout(function(){ location.reload(); },700);
+    }catch(err){ $('bkMsg').textContent='بازگردانی نشد: '+err.message; inp.value=''; }
+  };
+  r.onerror=function(){ $('bkMsg').textContent='خواندن فایل ممکن نشد.'; };
+  r.readAsText(f);
+});
+$('shareApp').addEventListener('click',function(){
+  var u=location.href.split('#')[0], t='تاریخ‌دونی؛ خط زمان هم‌زمان رویدادهای تاریخی. ببینید هر شخصیت یا رویداد با چه کسانی هم‌عصر بوده است.';
+  if(navigator.share){ navigator.share({title:'تاریخ‌دونی',text:t,url:u}).catch(function(){}); return; }
+  var done=function(){ toast('نشانی تاریخ‌دونی کپی شد.'); }, fail=function(){ try{ window.prompt('نشانی را کپی کنید:',u); }catch(_){ toast(u); } };
+  try{ navigator.clipboard.writeText(u).then(done,fail); }catch(_){ fail(); }
+});
+/* GitHub publish (admin) */
+var GHMODE=null, ghEl=$('gh');
+function b64(t){ return btoa(unescape(encodeURIComponent(t))); }
+function unb64(t){ return decodeURIComponent(escape(atob(String(t).replace(/\s/g,'')))); }
+function ghCfg(){ var c=sget('tl.gh.v1')||{}; return {owner:c.owner||'mhsb',repo:c.repo||'tarikhdooni',branch:c.branch||'main',token:c.token||''}; }
+function ghForm(){ return {owner:$('ghOwner').value.trim(),repo:$('ghRepo').value.trim(),branch:$('ghBranch').value.trim()||'main',token:$('ghToken').value.trim()}; }
+function ghFetch(cfg,path,opt){
+  var url='https://api.github.com/repos/'+encodeURIComponent(cfg.owner)+'/'+encodeURIComponent(cfg.repo)+'/contents/'+path.split('/').map(encodeURIComponent).join('/');
+  var H={'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json'};
+  return fetch(url+(opt&&opt.body?'':'?ref='+encodeURIComponent(cfg.branch)),Object.assign({headers:opt&&opt.body?Object.assign({'Content-Type':'application/json'},H):H},opt||{}));
+}
+function ghErr(r){ return r.json().catch(function(){ return {}; }).then(function(j){ var m=(j&&j.message)||('کد خطا '+r.status); if(r.status===401||r.status===403) m+=' — توکن یا دسترسی آن را بررسی کنید.'; throw new Error(m); }); }
+function ghGet(cfg,path){ return ghFetch(cfg,path).then(function(r){ if(r.status===404) return null; if(!r.ok) return ghErr(r); return r.json(); }); }
+function ghPut(cfg,path,text,msg){
+  return ghGet(cfg,path).then(function(cur){ var body={message:msg,content:b64(text),branch:cfg.branch}; if(cur&&cur.sha) body.sha=cur.sha; return ghFetch(cfg,path,{method:'PUT',body:JSON.stringify(body)}).then(function(r){ if(!r.ok) return ghErr(r); return r.json(); }); });
+}
+function ghOpen(mode){
+  GHMODE=mode; var c=ghCfg(); $('ghOwner').value=c.owner; $('ghRepo').value=c.repo; $('ghBranch').value=c.branch; $('ghToken').value=c.token; $('ghRemember').checked=!!c.token;
+  $('ghPackOpts').hidden=mode!=='pack'; $('ghMsg').className='hint'; $('ghMsg').textContent='';
+  if(mode==='pack'){ var ex=(ED&&ED.extra)||{}; $('ghId').value=(ED&&ED.orig)||slugId(ED?ED.p.title:''); $('ghOrder').value=ex.order!=null?ex.order:''; $('ghProfiles').value=(ex.profiles||[]).join(','); $('ghDefault').checked=!!ex['default']; $('ghWhat').textContent='فایل این موضوع در پوشهٔ packs مخزن ثبت می‌شود و فهرست packs/index.json هم به‌روز می‌شود.'; }
+  else $('ghWhat').textContent='فایل site.json (قالب و متن‌های رابط) در ریشهٔ مخزن ثبت می‌شود.';
+  ghEl.hidden=false;
+}
+function ghClose(){ ghEl.hidden=true; }
+function upsertIndex(cfg,raw){
+  return ghGet(cfg,'packs/index.json').then(function(cur){
+    var idx={packs:[],profiles:[]}; if(cur&&cur.content) idx=JSON.parse(unb64(cur.content)); idx.packs=idx.packs||[]; idx.profiles=idx.profiles||[];
+    var n=raw.tracks.reduce(function(a,t){ return a+t.events.length; },0);
+    var ent={id:raw.id,file:raw.id+'.json',title:raw.title,desc:raw.desc||'',hue:raw.hue==null?null:raw.hue,calendar:raw.calendar||null,review:raw.review?{status:raw.review.status||'draft',by:raw.review.by||null}:null,'default':!!raw['default'],order:raw.order!=null?raw.order:999,tracks:raw.tracks.length,events:n};
+    if(raw.replaces) ent.replaces=raw.replaces; if(raw.profiles&&raw.profiles.length) ent.profiles=raw.profiles;
+    idx.packs=idx.packs.filter(function(p){ return p.id!==raw.id; }); idx.packs.push(ent);
+    idx.packs.sort(function(a,b){ return (a.order-b.order)||String(L(a.title)).localeCompare(String(L(b.title)),'fa'); });
+    var want=raw.profiles||[]; idx.profiles.forEach(function(pr){ pr.packs=(pr.packs||[]).filter(function(x){ return x!==raw.id; }); if(want.indexOf(pr.id)>=0) pr.packs.push(raw.id); });
+    idx.profiles=idx.profiles.filter(function(pr){ return pr.packs.length; });
+    return ghPut(cfg,'packs/index.json',JSON.stringify(idx,null,2)+'\n','به‌روزرسانی فهرست موضوع‌ها: '+raw.id);
+  });
+}
+$('ghClose').addEventListener('click',ghClose);
+$('ghGo').addEventListener('click',function(){
+  var cfg=ghForm(), m=$('ghMsg'); m.className='hint';
+  if(!cfg.owner||!cfg.repo||!cfg.token){ m.className='err'; m.textContent='نام مالک، نام مخزن و توکن را بنویسید.'; return; }
+  try{ sset('tl.gh.v1',{owner:cfg.owner,repo:cfg.repo,branch:cfg.branch,token:$('ghRemember').checked?cfg.token:''}); }catch(_){}
+  var job, done;
+  try{
+    if(GHMODE==='site'){ var txt=JSON.stringify(siteOut(),null,2)+'\n'; job=ghPut(cfg,'site.json',txt,'به‌روزرسانی قالب و متن‌های رابط'); done='site.json ثبت شد.'; }
+    else{
+      var raw=pedBuild(); var id=slugId($('ghId').value||raw.id); raw.id=id;
+      var od=$('ghOrder').value.trim(); if(od!==''&&isFinite(+od)) raw.order=+od;
+      var pr=$('ghProfiles').value.split(/[,،\s]+/).map(function(x){ return x.trim(); }).filter(Boolean); if(pr.length) raw.profiles=pr; else delete raw.profiles;
+      if($('ghDefault').checked) raw['default']=true; else delete raw['default'];
+      normalizePack(raw,true);
+      job=ghPut(cfg,'packs/'+id+'.json',JSON.stringify(raw,null,1)+'\n','موضوع: '+raw.title).then(function(){ return upsertIndex(cfg,raw); }); done='موضوع «'+raw.title+'» و فهرست ثبت شد.';
+    }
+  }catch(err){ m.className='err'; m.textContent=err.message; return; }
+  m.textContent='در حال ثبت در GitHub…'; $('ghGo').disabled=true;
+  job.then(function(){ m.className='ok'; m.textContent=done+' انتشار روی GitHub Pages معمولاً یکی دو دقیقه طول می‌کشد.'; }).catch(function(err){ m.className='err'; m.textContent='ثبت نشد: '+err.message; }).then(function(){ $('ghGo').disabled=false; });
+});
+$('pedGh').addEventListener('click',function(){ try{ pedBuild(); }catch(err){ $('pedMsg').className='err'; $('pedMsg').textContent=err.message; return; } ghOpen('pack'); });
+$('admGh').addEventListener('click',function(){ ghOpen('site'); });
+/* دکمهٔ بازگشت: پنجره‌های باز را می‌بندد، نه برنامه را */
+(function(){
+  var OV=[['gh',ghEl,ghClose],['ped',pedEl,function(){ pedClose(false); }],['prof',profEl,closeProf],['mgr',mgrEl,closeMgr],['add',$('drawer'),closeDrawer],['tour',tourEl,tourEnd]];
+  var pushed=false, ign=0;
+  function openOnes(){ return OV.filter(function(o){ return !o[1].hidden; }); }
+  function sync(){
+    var open=openOnes().length>0;
+    if(open&&!pushed){ try{ history.pushState({ov:1},'',location.href); pushed=true; }catch(_){} }
+    else if(!open&&pushed){ pushed=false; ign++; try{ history.back(); }catch(_){ ign--; } }
+  }
+  var mo=new MutationObserver(sync); OV.forEach(function(o){ mo.observe(o[1],{attributes:true,attributeFilter:['hidden']}); });
+  window.addEventListener('popstate',function(){
+    if(ign>0){ ign--; return; }
+    if(!pushed) return;
+    pushed=false; var top=openOnes()[0]; if(top) top[2]();
+    sync();
+  });
+})();
 
 /* ---------- mobile menus ---------- */
 (function(){
@@ -1856,7 +2006,7 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&document.q
   if(SHARE){
     if(SHARE.e){ var q=SHARE.e.split('~').map(function(x){ try{ return decodeURIComponent(x); }catch(_){ return x; } });
       ALLPACKS.forEach(function(p){ if(p.id!==q[0]) return; p.tracks.forEach(function(t){ if(t.id===q[1]&&t.events[+q[2]]){ shEv=t.events[+q[2]]; state.on[p.id]=true; delete state.off[p.id+'|'+t.id]; delete state.collapsed[p.id+'|'+t.id]; } }); }); }
-    if(shEv){ state.sel=shEv; f={c:(shEv.s+shEv.e)/2,ppy:f.ppy}; var sp=Math.max(40,(shEv.e-shEv.s)*1.6); f.ppy=state.W*0.5/sp; }
+    if(shEv){ state.sel=shEv; f={c:(shEv.s+shEv.e)/2,ppy:f.ppy}; var sp=shEv.e-shEv.s; f.ppy=(!shEv.pt&&sp>0)?state.W*0.8/sp:state.W*0.5/40; }
     if(isFinite(+SHARE.c)&&isFinite(+SHARE.z)&&SHARE.c!==''&&SHARE.z!==''){ f={c:+SHARE.c,ppy:+SHARE.z}; }
   }
   state.c=f.c; state.ppy=f.ppy; state.cur=state.c;
