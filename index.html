@@ -244,6 +244,24 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
 .chk{display:flex;gap:6px;align-items:center}
 .pedbar{position:sticky;bottom:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--panel);padding:8px 0;border-top:1px solid var(--line);margin-top:10px}
 #pedTa{width:100%;min-height:140px;direction:ltr;box-sizing:border-box}
+.legend{display:inline-flex;align-items:center;gap:6px}
+.swh{display:inline-block;width:28px;height:9px;border-radius:5px;background:repeating-linear-gradient(135deg,var(--accent) 0 4px,transparent 4px 8px);border:1px solid var(--accent)}
+.adv{margin:10px 0}
+.tour{position:fixed;z-index:36;inset-inline:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));margin:auto;max-width:460px;background:var(--panel);color:var(--fg);border:1px solid var(--accent);border-radius:14px;padding:14px 16px;box-shadow:0 18px 44px -12px var(--shadowc);display:grid;gap:8px}
+.tour h3{margin:0;font-size:15px}.tour p{margin:0}
+.tour .tsteps{color:var(--mut);font-size:12px}
+.spot{outline:3px solid var(--accent)!important;outline-offset:3px;border-radius:10px;position:relative;z-index:6;animation:spot 1.4s ease-in-out infinite}
+@keyframes spot{50%{outline-color:transparent}}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.crow{display:flex;align-items:center;gap:8px;margin:3px 0}
+.crow input[type=color]{width:38px;height:28px;padding:0;border:1px solid var(--line);border-radius:6px;background:none}
+.crow span{flex:1}
+.srow{border:1px solid var(--line);border-radius:10px;padding:8px;margin:6px 0;display:grid;gap:4px}
+.srow.mod{border-color:var(--accent);background:var(--accent-soft)}
+.srow small{color:var(--mut);font-size:12px;overflow-wrap:anywhere}
+.srow textarea{width:100%;box-sizing:border-box;min-height:42px}
+.atabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.adminmin{position:fixed;z-index:70;inset-inline-start:12px;bottom:12px}
 .btn.warn{background:#C0392B;color:#fff}
 .toast{position:fixed;left:16px;right:16px;margin:auto;width:fit-content;max-width:90vw;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;box-shadow:0 10px 30px -10px var(--shadowc)}
 @media (max-width:560px){.th span{display:none}}
@@ -271,7 +289,7 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
   body{padding-left:max(6px,env(safe-area-inset-left,0px));padding-right:max(6px,env(safe-area-inset-right,0px))}
   .top{position:relative;flex-wrap:nowrap;align-items:center;padding-block:calc(8px + env(safe-area-inset-top,0px)) 4px}
   h1{font-size:26px}
-  .sub{display:none}
+  .sub{font-size:12px;margin-top:0}
   .menubtn{padding:2px 14px;font-size:18px;line-height:1.6;display:inline-block}
   .acts{display:none}
   .acts.open{display:grid;position:absolute;inset-inline-start:0;top:100%;z-index:35;min-width:190px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;gap:6px;box-shadow:0 14px 34px -12px var(--shadowc)}
@@ -313,18 +331,18 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
     <button class="btn ghost menubtn mob" id="menuBtn" type="button" aria-expanded="false" aria-controls="acts" aria-label="منو">☰</button>
     <div>
       <h1>تاریخ‌دونی</h1>
-      <p class="sub">جایی برای نگه‌داشتن تاریخ، مثل قلم‌دان و شمع‌دان، فقط با روشنایی بیشتر. تاریخ رو می‌دونی؟ نمی‌دونی؟ بدون: ببینید هر پادشاه، دانشمند یا رویداد با چه کسانی هم‌عصر بوده است. نمودار را بکشید، با دکمه‌ها یا Ctrl به‌علاوهٔ چرخ ماوس بزرگ کنید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
+      <p class="sub">ببینید هر پادشاه، دانشمند یا رویداد تاریخی هم‌زمان با چه کسانی بوده است. نمودار را بکشید و روی هر رویداد بزنید تا هم‌زمان‌هایش را ببینید.</p>
     </div>
-    <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openProf" type="button">پروفایل من</button><button class="btn ghost" id="openMgr" type="button">مدیریت بسته‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
+    <div class="acts" id="acts"><button class="btn ghost" id="openAbout" type="button">درباره</button><button class="btn ghost" id="installBtn" type="button" hidden>نصب برنامه</button><button class="btn ghost" id="openHelp" type="button">راهنما</button><button class="btn ghost" id="openProf" type="button">علاقه‌مندی‌های من</button><button class="btn ghost" id="openMgr" type="button">مدیریت موضوع‌ها</button><button class="btn" id="openAdd" type="button">افزودن داده</button></div>
   </header>
 
   <section class="controls" aria-label="تنظیمات نمایش">
     <div class="row r1"><button class="chip mob" id="toolsBtn" type="button" aria-expanded="false" aria-controls="tools">ابزارها ▾</button><button class="chip zoom mob" id="zin2" type="button" aria-label="بزرگ‌نمایی">+</button><button class="chip zoom mob" id="zout2" type="button" aria-label="کوچک‌نمایی">−</button><span class="lab">بازه‌ها</span><div class="row" id="presets"></div></div>
     <div class="tools" id="tools">
     <details class="settings" id="settings">
-      <summary>بسته‌ها، ردیف‌ها و تقویم‌ها</summary>
-      <div class="row"><span class="lab">بسته‌ها</span><div class="row" id="packs"></div></div>
-      <div class="row"><button class="chip" id="openProf2" type="button">★ پروفایل من (انتخاب علاقه‌مندی)</button><button class="chip" id="openMgr2" type="button">+ نصب یا برداشتن بسته‌ها از انبار</button></div>
+      <summary>موضوع‌ها، ردیف‌ها و تقویم‌ها</summary>
+      <div class="row"><span class="lab">موضوع‌ها</span><div class="row" id="packs"></div></div>
+      <div class="row"><button class="chip" id="openProf2" type="button">★ علاقه‌مندی‌های من</button><button class="chip" id="openMgr2" type="button">+ افزودن یا برداشتن موضوع‌ها</button></div>
       <div class="row"><span class="lab">تقویم‌ها</span><div class="row" id="cals"></div><button class="chip" id="flip" type="button" aria-pressed="true">قدیم در راست</button></div>
     </details>
     <form class="row goto" id="gotoForm" autocomplete="off">
@@ -342,7 +360,7 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
       <button class="chip" id="collapseAll" type="button">بستن همهٔ ردیف‌ها</button>
       <button class="chip" id="expandAll" type="button">باز کردن همهٔ ردیف‌ها</button>
       <button class="chip" id="resetOrder" type="button">ترتیب اولیهٔ ردیف‌ها</button>
-      <span class="hint">نوار خط‌دار یعنی تاریخ تقریبی است.</span>
+      <span class="hint legend"><i class="swh" aria-hidden="true"></i> نوار هاشورخورده یعنی تاریخ تقریبی است.</span>
     </div>
     </div>
   </section>
@@ -363,9 +381,11 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 
 <div class="drawer" id="drawer" dir="rtl" lang="fa" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="addTitle">
-    <div class="dh"><h2 id="addTitle">افزودن بستهٔ داده (قفسهٔ تازه برای تاریخ‌دونی)</h2><button class="btn ghost" id="closeAdd" type="button">بستن</button></div>
-    <p>هر بسته یک فایل JSON است با چند ردیف و رویدادهای هر ردیف. سال‌ها میلادی هستند و سال منفی یعنی پیش از میلاد. سال صفر وجود ندارد و ۱ ق.م را <bdi dir="ltr">-1</bdi> بنویسید.</p>
-    <div class="row"><button class="btn" id="addNew" type="button">ساخت بسته با ویرایشگر تصویری</button><span class="hint">بدون نوشتن JSON؛ یا از روش‌های زیر استفاده کنید.</span></div>
+    <div class="dh"><h2 id="addTitle">افزودن موضوع تازه به تاریخ‌دونی</h2><button class="btn ghost" id="closeAdd" type="button">بستن</button></div>
+    <p>موضوع خودتان را با ویرایشگر تصویری بسازید؛ نیازی به دانستن JSON نیست.</p>
+    <div class="row"><button class="btn" id="addNew" type="button">ساخت موضوع با ویرایشگر تصویری</button><span class="hint">بدون نوشتن JSON؛ یا از روش‌های زیر استفاده کنید.</span></div>
+    <details class="settings adv"><summary>پیشرفته: افزودن با فایل JSON یا کمک هوش مصنوعی</summary>
+    <p>هر موضوع یک فایل JSON است با چند ردیف و رویدادهای هر ردیف. سال‌ها میلادی هستند و سال منفی یعنی پیش از میلاد. سال صفر وجود ندارد و ۱ ق.م را <bdi dir="ltr">-1</bdi> بنویسید.</p>
     <ul class="fields">
       <li><code>name</code> نام شخص، حکومت یا رویداد (لازم)</li>
       <li><code>start</code> سال شروع (لازم) و <code>end</code> سال پایان. برای رویداد نقطه‌ای <code>null</code> بگذارید.</li>
@@ -377,15 +397,16 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
     <div class="row"><button class="btn ghost" id="copyTpl" type="button">کپی الگو</button><span id="copyMsg" class="hint" role="status"></span></div>
     <h3>پرامپت آماده برای هوش مصنوعی</h3>
     <p>این متن را در ChatGPT، Gemini، Claude یا هر هوش مصنوعی دیگر بچسبانید، موضوع را جایگزین کنید و خروجی JSON را در کادر پایین بچسبانید.</p>
-    <textarea id="aiPrompt" class="fa" readonly spellcheck="false" aria-label="پرامپت ساخت بستهٔ داده"></textarea>
+    <textarea id="aiPrompt" class="fa" readonly spellcheck="false" aria-label="پرامپت ساخت موضوع داده"></textarea>
     <div class="row"><button class="btn ghost" id="copyPrompt" type="button">کپی پرامپت</button><span id="copyPromptMsg" class="hint" role="status"></span></div>
     <label for="file" class="lab">فایل JSON</label>
     <input id="file" type="file" accept=".json,application/json">
     <label for="paste" class="lab">یا متن JSON را اینجا بچسبانید</label>
     <textarea id="paste" spellcheck="false" placeholder='{ "id": "my-pack", "title": "…", "tracks": [ … ] }'></textarea>
     <div class="row"><button class="btn" id="doImport" type="button">افزودن به نمودار</button><span id="impMsg" role="status"></span></div>
+    </details>
     <div class="plist" id="plist"></div>
-    <p class="hint">بسته‌های افزوده‌شده فقط در همین مرورگر ذخیره می‌شوند. برای اینکه برای همهٔ بازدیدکنندگان نمایش داده شوند، فایل بسته را در پوشهٔ packs مخزن بگذارید و دستور <code>node tools/build-index.mjs</code> را اجرا کنید.</p>
+    <p class="hint">موضوع‌های افزوده‌شده فقط در همین مرورگر ذخیره می‌شوند. برای اینکه برای همهٔ بازدیدکنندگان نمایش داده شوند، فایل موضوع را در پوشهٔ packs مخزن بگذارید و دستور <code>node tools/build-index.mjs</code> را اجرا کنید.</p>
   </div>
 </div>
 
@@ -394,21 +415,21 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
     <div class="dh"><h2 id="aboutTitle">دربارهٔ تاریخ‌دونی</h2><button class="btn ghost" id="closeAbout" type="button">بستن</button></div>
     <p>تاریخ‌دونی جایی است برای نگه‌داشتن تاریخ، درست مثل قلم‌دان، شمع‌دان یا کتاب‌دان. فرقش این است که اینجا هر چیز سر جای خودش است و فرعون‌ها هم گرد و غبار نمی‌گیرند. چند ردیف را کنار هم می‌گذارید و می‌بینید فلان پادشاه ایرانی با کدام امپراتور روم یا فرعون مصر هم‌دوره بوده، یا یک دانشمند در دورهٔ کدام حکومت می‌زیسته است.</p>
     <h3>چرا «تاریخ‌دونی»؟</h3>
-    <p>چون دو معنا دارد. اول ظرفی برای تاریخ: هر بسته یک قفسه است و هر ردیف یک کشو. دوم از «دانستن» می‌آید: تاریخ رو می‌دونی؟ نمی‌دونی؟ اشکالی ندارد، تاریخ رو بدون. حالا هم ظرفش را دارید، هم دانستنش را.</p>
+    <p>چون دو معنا دارد. اول ظرفی برای تاریخ: هر موضوع یک قفسه است و هر ردیف یک کشو. دوم از «دانستن» می‌آید: تاریخ رو می‌دونی؟ نمی‌دونی؟ اشکالی ندارد، تاریخ رو بدون. حالا هم ظرفش را دارید، هم دانستنش را.</p>
     <h3>امکانات</h3>
     <ul>
       <li>ردیف‌های موازی برای حکومت‌ها، پادشاهان، دانشمندان، ادیان و رویدادها، با فهرست هم‌زمانی زیر نمودار.</li>
-      <li>تقویم میلادی، شمسی و قمری کنار هم، و برای هر بسته یک تقویم پیش‌فرض (مثلاً شمسی برای پادشاهان ایران).</li>
+      <li>تقویم میلادی، شمسی و قمری کنار هم، و برای هر موضوع یک تقویم پیش‌فرض (مثلاً شمسی برای پادشاهان ایران).</li>
       <li>رفتن به یک سال مشخص، جستجو، بزرگ‌نمایی و کشیدن نمودار با لغزش نرم.</li>
       <li>بستن، غیرفعال‌کردن و بالا و پایین بردن ردیف‌ها تا هر دو ردیف دلخواه کنار هم قرار بگیرند.</li>
-      <li>انبار بسته‌ها: فقط قفسه‌هایی را نگه دارید که می‌خواهید و بقیه را بردارید. هر وقت خواستید برمی‌گردند، چون تاریخ جایی نمی‌رود.</li>
-      <li>بسته‌های ماژولار. هر بسته یک فایل JSON است و می‌توانید بستهٔ خودتان را، حتی با کمک هوش مصنوعی، اضافه کنید.</li>
-      <li>نصب به‌صورت برنامه و کار بدون اینترنت. تاریخی که در قفسه باشد با قطع اینترنت هم همان‌جاست.</li>
+      <li>مدیریت موضوع‌ها: فقط موضوع‌هایی را نگه دارید که می‌خواهید و بقیه را بردارید. هر وقت خواستید برمی‌گردند، چون تاریخ جایی نمی‌رود.</li>
+      <li>موضوع‌های ماژولار. هر موضوع یک فایل داده است و می‌توانید موضوع خودتان را، با ویرایشگر داخل برنامه یا حتی با کمک هوش مصنوعی، اضافه کنید.</li>
+      <li>نصب به‌صورت برنامه و کار بدون اینترنت. تاریخی که در برنامه باشد با قطع اینترنت هم همان‌جاست.</li>
     </ul>
     <h3>نصب روی دستگاه</h3>
     <p>در کروم و اج روی «نصب برنامه» بالای صفحه بزنید. در سافاری iOS از دکمهٔ اشتراک‌گذاری گزینهٔ «افزودن به صفحهٔ آغازین» را انتخاب کنید. نصب فقط روی نشانی https کار می‌کند، مثل GitHub Pages.</p>
     <h3>دربارهٔ دقت داده‌ها</h3>
-    <p>تاریخ‌های دوران باستان در منابع گوناگون تفاوت دارند و هر انباری گوشه‌ای گرد و غبار دارد. موارد نامطمئن با نوار خط‌دار و برچسب «تاریخ تقریبی» مشخص شده‌اند. تبدیل تقویم‌ها در سطح سال است و ممکن است تا یک سال اختلاف داشته باشد. پیش از استناد، تاریخ‌ها را با منابع معتبر بسنجید.</p>
+    <p>تاریخ‌های دوران باستان در منابع گوناگون تفاوت دارند و هر تاریخ‌دانی‌ای گوشه‌ای گرد و غبار دارد. موارد نامطمئن با نوار هاشورخورده و برچسب «تاریخ تقریبی» مشخص شده‌اند. تبدیل تقویم‌ها در سطح سال است و ممکن است تا یک سال اختلاف داشته باشد. پیش از استناد، تاریخ‌ها را با منابع معتبر بسنجید.</p>
     <h3>سازنده</h3>
     <div class="credit">
       <div><div class="who">حسین شیبه</div><div class="role">طراحی و ساخت</div></div>
@@ -419,43 +440,43 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 
 <div class="drawer" id="mgr" dir="rtl" lang="fa" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="mgrTitle">
-    <div class="dh"><h2 id="mgrTitle">مدیریت بسته‌ها</h2><button class="btn ghost" id="closeMgr" type="button">بستن</button></div>
-    <p>تاریخ‌دونی یک انبار است و هر بسته یک قفسه. هر کدام را که جایش را ندارید بردارید؛ تاریخ جایی نمی‌رود و هر وقت خواستید همین‌جا منتظر است.</p>
+    <div class="dh"><h2 id="mgrTitle">مدیریت موضوع‌ها</h2><button class="btn ghost" id="closeMgr" type="button">بستن</button></div>
+    <p>هر موضوع یک مجموعه از رویدادهای تاریخی است. آنچه نمی‌خواهید بردارید؛ تاریخ جایی نمی‌رود و هر وقت خواستید همین‌جا منتظر است.</p>
     <div class="mlist" id="mgrList"></div>
-    <h3>بسته‌های شخصی شما</h3>
+    <h3>موضوع‌های شخصی شما</h3>
     <div class="mlist" id="mgrCustom"></div>
-    <div class="row"><button class="btn" id="mgrNew" type="button">ساخت بستهٔ تازه با ویرایشگر</button><button class="btn ghost" id="mgrAdd" type="button">افزودن بستهٔ شخصی از JSON…</button><button class="btn ghost" id="mgrDefaults" type="button">بازگردانی پیش‌فرض‌ها</button><button class="btn ghost" id="mgrAll" type="button">نصب همهٔ بسته‌ها</button><button class="btn ghost" id="mgrNone" type="button">برداشتن همه</button></div>
+    <div class="row"><button class="btn" id="mgrNew" type="button">ساخت موضوع تازه با ویرایشگر</button><button class="btn ghost" id="mgrAdd" type="button">افزودن موضوع شخصی از JSON…</button><button class="btn ghost" id="mgrDefaults" type="button">بازگردانی پیش‌فرض‌ها</button><button class="btn ghost" id="mgrAll" type="button">افزودن همهٔ موضوع‌ها</button><button class="btn ghost" id="mgrNone" type="button">برداشتن همه</button></div>
     <p class="hint" id="mgrMsg" role="status"></p>
   </div>
 </div>
 
 <div class="drawer" id="prof" dir="rtl" lang="fa" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="profTitle">
-    <div class="dh"><h2 id="profTitle">پروفایل من</h2><button class="btn ghost" id="closeProf" type="button">بعداً</button></div>
+    <div class="dh"><h2 id="profTitle">علاقه‌مندی‌های من</h2><button class="btn ghost" id="closeProf" type="button">بعداً</button></div>
     <div id="profMain">
-      <p>به چه بخشی از تاریخ بیشتر علاقه دارید؟ یک یا چند مورد را بزنید تا قفسه‌های مناسبش باز شود و بقیه برداشته شود. با ✎ هر پروفایل را ویرایش کنید یا پروفایل تازهٔ خودتان را بسازید. هر وقت خواستید از «مدیریت بسته‌ها» هم تغییرش بدهید.</p>
+      <p>به چه بخشی از تاریخ بیشتر علاقه دارید؟ یک یا چند مورد را بزنید تا موضوع‌های مناسبش نمایش داده شود و بقیه برداشته شود. با ✎ هر علاقه‌مندی را ویرایش کنید یا علاقه‌مندی تازهٔ خودتان را بسازید. هر وقت خواستید از «مدیریت موضوع‌ها» هم تغییرش بدهید.</p>
       <div class="plist" id="profList"></div>
-      <div class="row"><button class="btn" id="profApply" type="button">اعمال پروفایل</button></div>
+      <div class="row"><button class="btn" id="profApply" type="button">نمایش موضوع‌های من</button></div>
       <p class="hint" id="profMsg" role="status"></p>
     </div>
     <div id="profEdit" hidden>
-      <h3 id="peHead">ویرایش پروفایل</h3>
-      <label class="lab" for="peName">نام پروفایل</label><input id="peName" type="text">
+      <h3 id="peHead">ویرایش علاقه‌مندی</h3>
+      <label class="lab" for="peName">نام علاقه‌مندی</label><input id="peName" type="text">
       <label class="lab" for="peIcon">نماد (یک ایموجی)</label><input id="peIcon" type="text" maxlength="4">
       <label class="lab" for="peDesc">توضیح کوتاه</label><input id="peDesc" type="text">
-      <h3>بسته‌های این پروفایل</h3>
+      <h3>موضوع‌های این علاقه‌مندی</h3>
       <div class="row"><button class="btn ghost" id="peAll" type="button">انتخاب همه</button><button class="btn ghost" id="peNone" type="button">هیچ‌کدام</button></div>
       <div class="mlist" id="pePacks"></div>
-      <div class="row"><button class="btn" id="peSave" type="button">ذخیره پروفایل</button><button class="btn ghost" id="peCancel" type="button">انصراف</button><button class="btn ghost" id="peDel" type="button">حذف</button></div>
+      <div class="row"><button class="btn" id="peSave" type="button">ذخیره علاقه‌مندی</button><button class="btn ghost" id="peCancel" type="button">انصراف</button><button class="btn ghost" id="peDel" type="button">حذف</button></div>
       <p class="err" id="peMsg" role="status"></p>
-      <p class="hint">پروفایل‌های شما فقط در همین مرورگر ذخیره می‌شوند.</p>
+      <p class="hint">علاقه‌مندی‌های شما فقط در همین مرورگر ذخیره می‌شوند.</p>
     </div>
   </div>
 </div>
 
 <div class="drawer" id="ped" dir="rtl" lang="fa" hidden>
   <div class="card pedcard" role="dialog" aria-modal="true" aria-labelledby="pedTitle">
-    <div class="dh"><h2 id="pedTitle">ویرایشگر بسته</h2><button class="btn ghost" id="pedClose" type="button">بستن</button></div>
+    <div class="dh"><h2 id="pedTitle">ویرایشگر موضوع</h2><button class="btn ghost" id="pedClose" type="button">بستن</button></div>
     <div id="pedBody"></div>
     <div class="pedbar">
       <button class="btn" id="pedSave" type="button">ذخیره</button>
@@ -464,16 +485,186 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
       <button class="btn ghost" id="pedCopy" type="button">کپی JSON</button>
       <span id="pedMsg" role="status"></span>
     </div>
-    <textarea id="pedTa" hidden readonly spellcheck="false" aria-label="JSON بسته"></textarea>
-    <p class="hint">بسته فقط در همین مرورگر ذخیره می‌شود. برای انتشار برای همه، فایل JSON را دانلود و به ادمین بدهید یا در پوشهٔ packs مخزن بگذارید.</p>
+    <textarea id="pedTa" hidden readonly spellcheck="false" aria-label="JSON موضوع"></textarea>
+    <p class="hint">موضوع فقط در همین مرورگر ذخیره می‌شود. برای انتشار برای همه، فایل JSON را دانلود و به ادمین بدهید یا در پوشهٔ packs مخزن بگذارید.</p>
   </div>
 </div>
+
+<div class="drawer" id="admin" dir="rtl" lang="fa" hidden>
+  <div class="card pedcard" role="dialog" aria-modal="true" aria-labelledby="admTitle" data-nostr="1">
+    <div class="dh"><h2 id="admTitle">ویرایشگر ادمین: قالب و متن‌ها</h2><span class="row"><button class="btn ghost" id="admPeek" type="button">پنهان‌کردن برای پیش‌نمایش</button><button class="btn ghost" id="admClose" type="button">بستن</button></span></div>
+    <p class="hint">تغییرها همین‌جا در مرورگر شما پیش‌نمایش داده می‌شود و تا وقتی فایل site.json را در مخزن نگذارید برای دیگران دیده نمی‌شود.</p>
+    <div class="atabs"><button class="chip" data-tab="theme" aria-pressed="true" type="button">قالب (رنگ‌ها)</button><button class="chip" data-tab="strings" aria-pressed="false" type="button">متن‌های رابط</button><button class="chip" data-tab="out" aria-pressed="false" type="button">خروجی</button></div>
+    <div id="admTheme"></div>
+    <div id="admStrings" hidden></div>
+    <div id="admOut" hidden>
+      <p>فایل <code>site.json</code> را دانلود کنید و کنار <code>index.html</code> در ریشهٔ مخزن بگذارید (اگر از قبل هست، جایگزین کنید). پس از انتشار، همه همین قالب و متن‌ها را می‌بینند.</p>
+      <div class="row"><button class="btn" id="admDl" type="button">دانلود site.json</button><button class="btn ghost" id="admCopy" type="button">کپی</button><label class="btn ghost" for="admFile">وارد کردن site.json…</label><input id="admFile" type="file" accept=".json,application/json" hidden><button class="btn ghost" id="admReset" type="button">پاک‌کردن همهٔ تغییرهای من</button></div>
+      <textarea id="admTa" readonly spellcheck="false" style="width:100%;min-height:200px;direction:ltr;box-sizing:border-box;margin-top:8px"></textarea>
+      <p class="hint" id="admMsg" role="status"></p>
+    </div>
+  </div>
+</div>
+<button class="btn adminmin" id="admBack" type="button" hidden>بازگشت به ویرایشگر ادمین</button>
+
+<div class="tour" id="tour" role="dialog" aria-label="راهنمای شروع" dir="rtl" lang="fa" hidden></div>
 
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
 'use strict';
+
+/* ---------- site config: theme + UI strings (editable by admin via #admin) ---------- */
+var SITE={theme:{light:{},dark:{}},strings:{}}, SITE_BASE=SITE, ADM=null, STRS={}, STRL=[];
+var DYN={
+  'loading':'در حال آماده‌کردن تاریخ…',
+  'empty.none':'هیچ موضوعی روشن نیست. یک موضوع را از بالا انتخاب کنید.',
+  'empty.nothing':'تاریخ‌دونی فعلاً خالی است. تاریخ که قرار نبود خودش فرار کند!',
+  'toast.interest':'موضوع‌های مناسب شما انتخاب شد: {n} موضوع روی نمودار است.',
+  'toast.installed':'تاریخ‌دونی نصب شد. از حالا تاریخ همیشه دم دست است.',
+  'msg.added':'«{name}» به نمودار اضافه شد.',
+  'msg.removed':'«{name}» برداشته شد. هر وقت خواستید دوباره اضافه‌اش کنید.',
+  'msg.defaults':'موضوع‌های پیش‌فرض برگشتند.',
+  'msg.all':'همهٔ موضوع‌ها اضافه شد.',
+  'msg.none':'همهٔ موضوع‌ها برداشته شد. هر وقت خواستید برمی‌گردانید.'
+};
+function T(k,v){ var s=(SITE.strings&&SITE.strings[k]!=null&&SITE.strings[k]!=='')?SITE.strings[k]:DYN[k]; s=String(s); if(v) s=s.replace(/\{(\w+)\}/g,function(m,n){ return v[n]!=null?v[n]:m; }); return s; }
+function sget(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(_){ return null; } }
+function sset(k,v){ try{ if(v==null) localStorage.removeItem(k); else localStorage.setItem(k,JSON.stringify(v)); }catch(_){} }
+function h32(s){ var h=5381; for(var i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))|0; return (h>>>0).toString(36); }
+var FA_RE=/[؀-ۿ]/, INL={B:1,I:1,EM:1,STRONG:1,CODE:1,BDI:1,SMALL:1,BR:1,A:1,SPAN:1,MARK:1}, HTMLOK={P:1,LI:1,SUMMARY:1,H1:1,H2:1,H3:1,H4:1,LABEL:1};
+var STRSKIP={toolsBtn:1,flip:1,gtMsg:1,impMsg:1,copyMsg:1,copyPromptMsg:1,mgrMsg:1,profMsg:1,pedMsg:1,peMsg:1,toast:1,tour:1};
+var GROUPN={about:'درباره',mgr:'مدیریت موضوع‌ها',prof:'علاقه‌مندی‌های من',drawer:'افزودن موضوع تازه',ped:'ویرایشگر موضوع',header:'سربرگ و دکمه‌های بالا',controls:'کنترل‌ها و جستجو',foot:'پاورقی',main:'نمودار',aside:'پنل توضیحات',dyn:'پیام‌های برنامه',page:'سایر'};
+function onlyInline(el){ var c=el.querySelectorAll('*'); for(var i=0;i<c.length;i++) if(!INL[c[i].tagName]) return false; return true; }
+function regStr(kind,el,def,attr,gid){
+  var key=gid+':'+h32(kind+(attr||'')+def);
+  if(!STRS[key]){ STRS[key]={key:key,kind:kind,attr:attr||null,def:def,group:gid,nodes:[]}; STRL.push(STRS[key]); }
+  STRS[key].nodes.push(el);
+}
+function collectStrings(){
+  var done=[], els=document.body.querySelectorAll('*');
+  [].forEach.call(els,function(el){
+    var tg=el.tagName; if(tg==='SCRIPT'||tg==='STYLE'||tg==='TEXTAREA'||tg==='PRE'||tg==='OPTION'||tg==='SELECT'||tg==='INPUT') { if(tg==='INPUT') attrStr(el); return; }
+    if(el.closest('[data-nostr],pre,textarea')||STRSKIP[el.id]) return;
+    for(var i=0;i<done.length;i++) if(done[i].contains(el)) { attrStr(el); return; }
+    var gid=gidOf(el);
+    attrStr(el);
+    if(el.children.length===0){ var t=el.textContent.trim(); if(t.length>1&&FA_RE.test(t)) regStr('text',el,t,null,gid); }
+    else if(HTMLOK[tg]&&onlyInline(el)){ var has=false; for(var k=0;k<el.childNodes.length;k++){ var n=el.childNodes[k]; if(n.nodeType===3&&n.nodeValue.trim().length>3&&FA_RE.test(n.nodeValue)) has=true; } if(has){ regStr('html',el,el.innerHTML.trim(),null,gid); done.push(el); } }
+  });
+}
+function gidOf(el){ var g=el.closest('.drawer')||el.closest('header')||el.closest('.controls')||el.closest('.foot')||el.closest('main,aside'); if(!g) return 'page'; return g.id||(g.classList.contains('controls')?'controls':(g.classList.contains('foot')?'foot':g.tagName.toLowerCase())); }
+function attrStr(el){ ['placeholder','title','aria-label'].forEach(function(a){ var v=el.getAttribute&&el.getAttribute(a); if(v&&FA_RE.test(v)&&!el.closest('[data-nostr]')) regStr('attr',el,v,a,gidOf(el)); }); }
+function cleanHtml(h){
+  var t=document.createElement('template'); t.innerHTML=h;
+  (function walk(n){ [].slice.call(n.childNodes).forEach(function(c){
+    if(c.nodeType===1){
+      if(!INL[c.tagName]){ c.replaceWith(document.createTextNode(c.textContent)); return; }
+      [].slice.call(c.attributes).forEach(function(a){ var ok=(c.tagName==='A'&&a.name==='href'&&/^(https?:|#|mailto:)/i.test(a.value))||a.name==='dir'||a.name==='lang'; if(!ok) c.removeAttribute(a.name); });
+      if(c.tagName==='A'){ c.setAttribute('target','_blank'); c.setAttribute('rel','noopener noreferrer'); }
+      walk(c);
+    }
+  }); })(t.content);
+  var d=document.createElement('div'); d.appendChild(t.content); return d.innerHTML;
+}
+function applyOne(e){
+  var v=SITE.strings[e.key], use=(v!=null&&v!=='')?v:e.def;
+  e.nodes.forEach(function(n){ if(e.kind==='attr') n.setAttribute(e.attr,use); else if(e.kind==='html') n.innerHTML=(use===e.def)?e.def:cleanHtml(use); else n.textContent=use; });
+}
+function applyStrings(){ STRL.forEach(applyOne); }
+/* theme */
+var TOK=[['bg','پس‌زمینهٔ صفحه'],['panel','کارت‌ها و پنل‌ها'],['fg','رنگ متن'],['mut','متن کم‌رنگ'],['line','خطوط و حاشیه'],['accent','رنگ اصلی (دکمه‌ها و نوار)'],['accent-soft','زمینهٔ مورد انتخاب‌شده'],['cur','نشانگر سال']];
+var TDEF={light:{bg:'#EEF1F7',panel:'#FFFFFF',fg:'#111B3A',mut:'#5A6688',line:'#D8DEEC',accent:'#2D55D6','accent-soft':'#E4EBFF',cur:'#E0452B'},dark:{bg:'#0A0F20',panel:'#111A33',fg:'#E7ECFB',mut:'#8F9CC4',line:'#222F52',accent:'#7F9CFF','accent-soft':'#1A2750',cur:'#FF7B5C'}};
+function lum(hex){ var m=/^#?([0-9a-f]{6})$/i.exec(hex); if(!m) return .5; var n=parseInt(m[1],16), c=[n>>16&255,n>>8&255,n&255].map(function(x){ x/=255; return x<=.03928?x/12.92:Math.pow((x+.055)/1.055,2.4); }); return .2126*c[0]+.7152*c[1]+.0722*c[2]; }
+function varsOf(o){
+  if(!o) return ''; var s='', ok=/^#[0-9a-f]{6}$/i;
+  Object.keys(o).forEach(function(k){ if(ok.test(o[k])&&TOK.some(function(t){ return t[0]===k; })) s+='--'+k+':'+o[k]+';'; });
+  if(ok.test(o.accent||'')) s+='--hit:color-mix(in srgb,'+o.accent+' 18%,transparent);--glow:color-mix(in srgb,'+o.accent+' 12%,transparent);--btn-fg:'+(lum(o.accent)>.4?'#0A1230':'#FFFFFF')+';';
+  if(ok.test(o.cur||'')) s+='--cur-fg:'+(lum(o.cur)>.4?'#2A0A02':'#FFFFFF')+';';
+  return s;
+}
+function applyTheme(){
+  var th=SITE.theme||{}, L=varsOf(th.light), D=varsOf(th.dark), css='';
+  if(L) css+='@media (prefers-color-scheme: light),(prefers-color-scheme: no-preference){:root:not([data-theme="dark"]){'+L+'}}:root[data-theme="light"]{'+L+'}';
+  if(D) css+='@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){'+D+'}}:root[data-theme="dark"]{'+D+'}';
+  var fs=+th.fontSize; if(fs>=12&&fs<=22) css+='body{font-size:'+fs+'px}';
+  var st=document.getElementById('siteTheme'); if(!st){ st=document.createElement('style'); st.id='siteTheme'; document.head.appendChild(st); }
+  st.textContent=css;
+  var mt=document.querySelector('meta[name="theme-color"]'); if(mt) mt.setAttribute('content',(th.light&&th.light.accent)||TDEF.light.accent);
+}
+function normSite(j){ j=(j&&typeof j==='object')?j:{}; var t=(j.theme&&typeof j.theme==='object')?j.theme:{}; return {theme:{light:Object.assign({},t.light),dark:Object.assign({},t.dark),fontSize:t.fontSize||null},strings:Object.assign({},(j.strings&&typeof j.strings==='object')?j.strings:{})}; }
+function applySite(){ applyTheme(); applyStrings(); }
+function siteOut(){
+  var o={version:1,theme:{},strings:{}};
+  ['light','dark'].forEach(function(m){ var c={}; TOK.forEach(function(t){ var v=SITE.theme[m]&&SITE.theme[m][t[0]]; if(v&&v.toLowerCase()!==TDEF[m][t[0]].toLowerCase()) c[t[0]]=v; }); if(Object.keys(c).length) o.theme[m]=c; });
+  if(SITE.theme.fontSize&&+SITE.theme.fontSize!==14) o.theme.fontSize=+SITE.theme.fontSize;
+  Object.keys(SITE.strings).forEach(function(k){ var v=SITE.strings[k]; if(v==null||v==='') return; var e=STRS[k]; if((e&&v===e.def)||(!e&&DYN[k]===v)) return; o.strings[k]=v; });
+  return o;
+}
+collectStrings();
+(function(){
+  var siteP=window.__SITE__?Promise.resolve(window.__SITE__):fetch('site.json',{cache:'no-cache'}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+  siteP.then(function(j){ SITE_BASE=normSite(j); var d=sget('tl.site.draft.v1'); ADM=d?normSite(d):null; SITE=ADM||SITE_BASE; applySite(); try{ if(ADMIN_OPEN) buildAdmin(); }catch(_){} });
+})();
+/* admin editor */
+var ADMIN_OPEN=false, admTab='theme', admQ='';
+function A(id){ return document.getElementById(id); }
+function e2(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function admEdit(){ if(!ADM){ ADM=normSite(JSON.parse(JSON.stringify(SITE_BASE))); SITE=ADM; } return ADM; }
+function admSave(){ sset('tl.site.draft.v1',ADM); A('admOut')&&!A('admOut').hidden&&buildOut(); }
+function buildAdmin(){
+  A('admTheme').hidden=admTab!=='theme'; A('admStrings').hidden=admTab!=='strings'; A('admOut').hidden=admTab!=='out';
+  [].forEach.call(document.querySelectorAll('#admin [data-tab]'),function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-tab')===admTab)); });
+  if(admTab==='theme'){
+    var h='<div class="row"><span class="lab">پیش‌نمایش حالت:</span><button class="chip" data-pv="light" type="button">روشن</button><button class="chip" data-pv="dark" type="button">تیره</button><button class="chip" data-pv="" type="button">خودکار (دستگاه)</button></div><div class="admin-grid">';
+    ['light','dark'].forEach(function(m){
+      h+='<div><h3>'+(m==='light'?'حالت روشن':'حالت تیره')+'</h3>';
+      TOK.forEach(function(t){ var v=(SITE.theme[m]&&SITE.theme[m][t[0]])||TDEF[m][t[0]]; h+='<label class="crow"><input type="color" data-cm="'+m+'" data-ck="'+t[0]+'" value="'+e2(v)+'"><span>'+t[1]+'</span></label>'; });
+      h+='</div>';
+    });
+    h+='</div><div class="row"><label class="lab" for="admFs">اندازهٔ متن پایه (پیکسل)</label><input id="admFs" type="number" min="12" max="22" step="1" value="'+(SITE.theme.fontSize||14)+'" style="width:80px"></div><p class="hint">اندازهٔ ۱۴ پیش‌فرض است. برای مخاطب مسن‌تر ۱۶ تا ۱۷ مناسب‌تر است.</p>';
+    A('admTheme').innerHTML=h;
+  } else if(admTab==='strings'){
+    var q=admQ.trim(), groups={}, order=[];
+    STRL.forEach(function(e){ (groups[e.group]=groups[e.group]||(order.push(e.group),[])).push(e); });
+    var dyn=Object.keys(DYN).map(function(k){ return {key:k,def:DYN[k],kind:'dyn',group:'dyn'}; }); groups.dyn=dyn; order.push('dyn');
+    var h2='<input id="admQ" type="search" placeholder="جستجو در متن‌ها…" value="'+e2(admQ)+'" style="width:100%;box-sizing:border-box"><p class="hint">در متن‌های دارای {n} و {name} همین نشانه‌ها را نگه دارید. در متن‌های پاراگرافی فقط برچسب‌های ساده (b، code، a…) پذیرفته می‌شود.</p>';
+    order.forEach(function(g){
+      var rows=groups[g].filter(function(e){ return !q||e.def.indexOf(q)>=0||String(SITE.strings[e.key]||'').indexOf(q)>=0; });
+      if(!rows.length) return;
+      h2+='<details class="settings"'+(q?' open':'')+'><summary>'+e2(GROUPN[g]||g)+' ('+rows.length+')</summary>';
+      rows.forEach(function(e){ var cur=SITE.strings[e.key], mod=cur!=null&&cur!==''&&cur!==e.def; var tag=e.kind==='attr'?' (راهنمای دکمه/کادر)':(e.kind==='html'?' (متن بلند)':'');
+        h2+='<div class="srow'+(mod?' mod':'')+'"><small>'+e2(e.def.replace(/<[^>]+>/g,'').slice(0,160))+tag+'</small><textarea data-sk="'+e2(e.key)+'" rows="'+(e.def.length>120?4:1)+'">'+e2(cur!=null&&cur!==''?cur:e.def)+'</textarea>'+(mod?'<button class="btn ghost" data-sr="'+e2(e.key)+'" type="button">بازگرداندن متن اصلی</button>':'')+'</div>'; });
+      h2+='</details>';
+    });
+    A('admStrings').innerHTML=h2;
+  } else buildOut();
+}
+function buildOut(){ A('admTa').value=JSON.stringify(siteOut(),null,2); }
+function openAdmin(){ ADMIN_OPEN=true; A('admin').hidden=false; A('admBack').hidden=true; buildAdmin(); }
+function closeAdmin(){ ADMIN_OPEN=false; A('admin').hidden=true; A('admBack').hidden=true; document.documentElement.removeAttribute('data-theme'); try{ if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); }catch(_){} }
+A('admClose').addEventListener('click',closeAdmin);
+A('admPeek').addEventListener('click',function(){ A('admin').hidden=true; A('admBack').hidden=false; });
+A('admBack').addEventListener('click',function(){ A('admin').hidden=false; A('admBack').hidden=true; });
+A('admin').addEventListener('click',function(e){
+  var t=e.target.closest('[data-tab]'); if(t){ admTab=t.getAttribute('data-tab'); buildAdmin(); return; }
+  var pv=e.target.closest('[data-pv]'); if(pv){ var v=pv.getAttribute('data-pv'); if(v) document.documentElement.setAttribute('data-theme',v); else document.documentElement.removeAttribute('data-theme'); return; }
+  var sr=e.target.closest('[data-sr]'); if(sr){ admEdit(); delete SITE.strings[sr.getAttribute('data-sr')]; admSave(); var en=STRS[sr.getAttribute('data-sr')]; if(en) applyOne(en); buildAdmin(); return; }
+});
+A('admin').addEventListener('input',function(e){
+  var t=e.target;
+  if(t.hasAttribute('data-cm')){ admEdit(); var m=t.getAttribute('data-cm'); SITE.theme[m]=SITE.theme[m]||{}; SITE.theme[m][t.getAttribute('data-ck')]=t.value; applyTheme(); admSave(); return; }
+  if(t.id==='admFs'){ admEdit(); SITE.theme.fontSize=+t.value||null; applyTheme(); admSave(); return; }
+  if(t.id==='admQ'){ admQ=t.value; var pos=t.selectionStart; buildAdmin(); var q2=A('admQ'); if(q2){ q2.focus(); try{ q2.setSelectionRange(pos,pos); }catch(_){} } return; }
+  if(t.hasAttribute('data-sk')){ admEdit(); var k=t.getAttribute('data-sk'), en=STRS[k]; if(t.value===(en?en.def:DYN[k])) delete SITE.strings[k]; else SITE.strings[k]=t.value; if(en) applyOne(en); admSave(); var row=t.closest('.srow'); if(row) row.classList.toggle('mod',!!SITE.strings[k]); }
+});
+A('admDl').addEventListener('click',function(){ try{ var txt=JSON.stringify(siteOut(),null,2), b=new Blob([txt],{type:'application/json'}), u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download='site.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); },2000); A('admMsg').textContent='site.json دانلود شد.'; }catch(_){ A('admMsg').textContent='دانلود ممکن نشد؛ از «کپی» استفاده کنید.'; } });
+A('admCopy').addEventListener('click',function(){ buildOut(); var ta=A('admTa'); ta.focus(); ta.select(); try{ navigator.clipboard.writeText(ta.value).then(function(){ A('admMsg').textContent='کپی شد.'; },function(){ A('admMsg').textContent='متن انتخاب شد؛ خودتان کپی کنید.'; }); }catch(_){ A('admMsg').textContent='متن انتخاب شد؛ خودتان کپی کنید.'; } });
+A('admFile').addEventListener('change',function(){ var f=this.files&&this.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(){ try{ var j=JSON.parse(String(r.result)); ADM=normSite(j); SITE=ADM; sset('tl.site.draft.v1',ADM); STRL.forEach(function(e){ applyOne(e); }); applyTheme(); buildAdmin(); A('admMsg').textContent='فایل وارد شد.'; }catch(err){ A('admMsg').textContent='فایل معتبر نیست: '+err.message; } }; r.readAsText(f); });
+A('admReset').addEventListener('click',function(){ if(!window.confirm('همهٔ تغییرهای پیش‌نویس شما در این مرورگر پاک شود؟ (فایل site.json مخزن دست نمی‌خورد.)')) return; ADM=null; sset('tl.site.draft.v1',null); SITE=SITE_BASE; STRL.forEach(applyOne); applyTheme(); buildAdmin(); });
+function chkAdmin(){ if(location.hash==='#admin'){ if(!ADMIN_OPEN) openAdmin(); } }
+window.addEventListener('hashchange',chkAdmin); chkAdmin();
 
 /* ---------- language scaffold (Persian only for now) ---------- */
 var lang='fa';
@@ -578,7 +769,7 @@ function listText(x){ return Array.isArray(x)?x.map(function(i){ return L(i); })
 function reviewBadge(p){
   var r=p.review;
   if(r&&r.status==='reviewed') return '<span class="badge rv ok">بازبینی‌شده'+(r.by?': '+esc(L(r.by)):'')+(r.date?' ('+esc(r.date)+')':'')+'</span>';
-  return '<span class="badge rv" title="'+esc(L(r&&r.note||'محتوای این بسته هنوز توسط کارشناس بازبینی نشده است.'))+'">بازبینی نشده</span>';
+  return '<span class="badge rv" title="'+esc(L(r&&r.note||'محتوای این موضوع هنوز توسط کارشناس بازبینی نشده است.'))+'">بازبینی نشده</span>';
 }
 
 /* ---------- state ---------- */
@@ -602,8 +793,8 @@ var PRESETS=[
 
 /* ---------- data ---------- */
 function normalizePack(raw,custom){
-  if(!raw||typeof raw!=='object') throw new Error('ساختار بسته معتبر نیست.');
-  if(!Array.isArray(raw.tracks)||!raw.tracks.length) throw new Error('بسته باید فهرستی از ردیف‌ها در کلید tracks داشته باشد.');
+  if(!raw||typeof raw!=='object') throw new Error('ساختار موضوع معتبر نیست.');
+  if(!Array.isArray(raw.tracks)||!raw.tracks.length) throw new Error('موضوع باید فهرستی از ردیف‌ها در کلید tracks داشته باشد.');
   var id=String(raw.id||('pack-'+Date.now().toString(36)));
   var pack={id:id,title:raw.title||id,hue:isFinite(+raw.hue)&&raw.hue!==undefined&&raw.hue!==null?+raw.hue:hashHue(id),desc:raw.desc||'',cal:validCal(raw.calendar),sources:raw.sources||null,review:(raw.review&&typeof raw.review==='object')?raw.review:null,custom:!!custom,raw:raw,tracks:[]};
   raw.tracks.forEach(function(t,ti){
@@ -714,11 +905,11 @@ function render(){
   renderRulers();
   if(!loaded){
     tracksEl.style.height='160px';
-    contentEl.innerHTML='<div class="empty">'+(loadError?esc(loadError):'در حال چیدن تاریخ در قفسه‌ها…')+'</div>';
+    contentEl.innerHTML='<div class="empty">'+(loadError?esc(loadError):esc(T('loading')))+'</div>';
     placeCursor(); return;
   }
   var lay=getLayout(), W=state.W, ya=yOf(0), yb=yOf(W), y0=Math.min(ya,yb), y1=Math.max(ya,yb), q=norm(state.q), html='', pc=primaryCal();
-  if(!lay.tracks.length){ tracksEl.style.height='160px'; contentEl.innerHTML='<div class="empty">'+(ALLPACKS.length?'هیچ بسته‌ای روشن نیست. یک بسته را از بالا انتخاب کنید.':'تاریخ‌دونی فعلاً خالی است و همهٔ قفسه‌ها خالی‌اند. تاریخ که قرار نبود خودش فرار کند!')+'<br><button class="btn" type="button" data-mgr="1" style="margin-top:12px">مدیریت بسته‌ها</button></div>'; placeCursor(); return; }
+  if(!lay.tracks.length){ tracksEl.style.height='160px'; contentEl.innerHTML='<div class="empty">'+esc(ALLPACKS.length?T('empty.none'):T('empty.nothing'))+'<br><button class="btn" type="button" data-mgr="1" style="margin-top:12px">مدیریت موضوع‌ها</button> <button class="btn ghost" type="button" data-help="1" style="margin-top:12px">راهنما</button></div>'; placeCursor(); return; }
   tracksEl.style.height=lay.height+'px';
   ticks(pc,y0,y1,state.ppy).forEach(function(t){ var x=xOf(t.y); if(x>=0&&x<=W) html+='<div class="gl" style="left:'+x.toFixed(1)+'px"></div>'; });
   var enter=pendingEnter&&!flipFrom; pendingEnter=false;
@@ -828,17 +1019,17 @@ function renderDetail(){
        '<div class="acts"><button class="btn ghost" type="button" data-act="share">اشتراک پیوند</button><button class="btn ghost" type="button" data-act="center">نمایش در مرکز</button><button class="btn ghost" type="button" data-act="clear">لغو انتخاب</button>'+X+'</div></div>';
     h+=datesHtml(ev.s,ev.e,ev.pt,ev.ap,ev.cal)+exactHtml(ev);
     if(ev.desc) h+='<p class="desc">'+esc(L(ev.desc))+'</p>';
-    else h+='<p class="hint">برای این مورد هنوز معرفی ثبت نشده است. فیلد desc را در فایل بسته پر کنید.</p>';
+    else h+='<p class="hint">برای این مورد هنوز معرفی ثبت نشده است. فیلد desc را در فایل موضوع پر کنید.</p>';
     if(ev.note) h+='<p class="note">یادداشت: '+esc(L(ev.note))+'</p>';
     if(ev.alt) h+='<p class="alt"><b>اختلاف اقوال:</b> '+esc(listText(ev.alt))+'</p>';
     if(ev.source) h+='<p class="src"><b>منبع:</b> '+esc(listText(ev.source))+'</p>';
-    else if(ev.pack.sources) h+='<p class="src"><b>'+(ev.pack.review&&ev.pack.review.status==='reviewed'?'منابع بسته':'منابع پیشنهادی برای تطبیق')+':</b> '+esc(listText(ev.pack.sources))+'</p>';
-    h+=ov.length?'<div class="hint" style="margin-top:6px">هم‌زمان با ('+fa(ov.length)+')</div>'+groupHtml(ov):'<div class="hint">در بسته‌های روشن چیزی هم‌زمان با این رویداد ثبت نشده است.</div>';
+    else if(ev.pack.sources) h+='<p class="src"><b>'+(ev.pack.review&&ev.pack.review.status==='reviewed'?'منابع موضوع':'منابع پیشنهادی برای تطبیق')+':</b> '+esc(listText(ev.pack.sources))+'</p>';
+    h+=ov.length?'<div class="hint" style="margin-top:6px">هم‌زمان با ('+fa(ov.length)+')</div>'+groupHtml(ov):'<div class="hint">در موضوع‌های روشن چیزی هم‌زمان با این رویداد ثبت نشده است.</div>';
   }else{
     var act=activeAt(state.cur);
     h+='<div class="dh"><div><h2>سال '+yearLabel(state.cur,primaryCal())+'</h2><div class="meta">نشانگر روی این سال است. نمودار را لمس کنید یا ماوس را روی آن ببرید.</div></div><div class="acts"><button class="btn ghost" type="button" data-act="share">اشتراک پیوند</button>'+X+'</div></div>';
     var d='<div class="dates">'; CAL_ORDER.forEach(function(c){ if(state.cals[c]) d+='<span><em>'+CALS[c].name+'</em>'+yearLabel(state.cur,c)+'</span>'; }); h+=d+'</div>';
-    h+=act.length?groupHtml(act):'<div class="hint">در این سال رویدادی در بسته‌های روشن ثبت نشده است.</div>';
+    h+=act.length?groupHtml(act):'<div class="hint">در این سال رویدادی در موضوع‌های روشن ثبت نشده است.</div>';
   }
   detailEl.innerHTML=h;
 }
@@ -989,7 +1180,7 @@ function shareUrl(){
 function shareView(){
   var u=shareUrl(), custom=state.sel&&state.sel.pack.custom;
   try{ history.replaceState(null,'',u); }catch(_){}
-  var note=custom?' (رویداد بستهٔ شخصی در پیوند نمی‌آید)':'';
+  var note=custom?' (رویداد موضوع شخصی در پیوند نمی‌آید)':'';
   if(navigator.share){ navigator.share({title:'تاریخ‌دونی',text:state.sel?L(state.sel.name):'تاریخ‌دونی',url:u}).catch(function(){}); return; }
   var done=function(){ toast('پیوند کپی شد'+note); }, fail=function(){ try{ window.prompt('پیوند را کپی کنید:',u); }catch(_){ toast(u); } };
   try{ navigator.clipboard.writeText(u).then(done,fail); }catch(_){ fail(); }
@@ -1201,7 +1392,7 @@ $('doImport').addEventListener('click',function(){
   }catch(e){ msg(e.message,false); return; }
   store('tl.custom.v1',CUSTOM.map(function(p){return p.raw;}));
   rebuild(); buildPacks(); buildPlist(); sched(); renderDetail();
-  msg(fa(added.length)+' بسته اضافه شد و روی نمودار آمد.',true); $('paste').value=''; $('file').value='';
+  msg(fa(added.length)+' موضوع اضافه شد و روی نمودار آمد.',true); $('paste').value=''; $('file').value='';
   var lo=Infinity, hi=-Infinity; added.forEach(function(p){ p.tracks.forEach(function(t){ t.events.forEach(function(ev){ if(ev.s<lo) lo=ev.s; if(ev.e>hi) hi=ev.e; }); }); });
   if(isFinite(lo)){ var sp=Math.max(40,(hi-lo)*1.08); animateTo((lo+hi)/2,state.W*0.94/sp); }
   setTimeout(closeDrawer,900);
@@ -1253,7 +1444,7 @@ $('gotoForm').addEventListener('submit',function(e){
   if(!isFinite(n)||n<1){ msg.className='err'; msg.textContent='یک سال معتبر بنویسید (عدد ۱ یا بزرگ‌تر).'; return; }
   var astro=CALS[cal].toAstro(before?1-n:n);
   var xe=ext();
-  if(astro<xe.lo||astro>xe.hi){ msg.className='err'; msg.textContent='این سال بیرون از بازهٔ داده‌های بسته‌های روشن است (از '+yearLabel(xe.lo,'greg')+' تا '+yearLabel(xe.hi,'greg')+'). بسته‌ای که آن دوره را دارد نصب یا روشن کنید.'; return; }
+  if(astro<xe.lo||astro>xe.hi){ msg.className='err'; msg.textContent='این سال بیرون از بازهٔ داده‌های موضوع‌های روشن است (از '+yearLabel(xe.lo,'greg')+' تا '+yearLabel(xe.hi,'greg')+'). موضوعی که آن دوره را دارد نصب یا روشن کنید.'; return; }
   msg.className='ok'; msg.textContent='نشانگر روی '+yearLabel(astro,cal)+' رفت. معادل میلادی: '+yearLabel(astro,'greg');
   state.sel=null; state.cur=astro;
   animateTo(astro,Math.max(state.ppy,3));
@@ -1307,7 +1498,7 @@ function setInstalled(ids,note){
     flipFrom=snapshotTops(); applyInstalled(); dropSelIfHidden(); layoutCache=null;
     buildPacks(); buildMgr(); render(); renderDetail();
     if(note) $('mgrMsg').textContent=note;
-  }).catch(function(){ $('mgrMsg').textContent='فایل بسته گرفته نشد. اگر آفلاین هستید، فقط بسته‌های نصب‌شده در دسترس‌اند.'; });
+  }).catch(function(){ $('mgrMsg').textContent='فایل موضوع گرفته نشد. اگر آفلاین هستید، فقط موضوع‌های نصب‌شده در دسترس‌اند.'; });
 }
 
 /* ---------- pack manager ---------- */
@@ -1315,12 +1506,12 @@ var mgrEl=$('mgr'), rmConfirm=null;
 function buildMgr(){
   $('mgrList').innerHTML=CATALOG.length?CATALOG.map(function(c){
     var on=isInst(c.id), h=(c.hue==null||!isFinite(+c.hue))?hashHue(c.id):+c.hue;
-    return '<div class="mrow'+(on?' in':'')+'" style="--h:'+h+'"><div><b>'+esc(L(c.title))+'</b> <small class="hint" style="display:inline">'+fa(c.events||0)+' رویداد · '+fa(c.tracks||0)+' ردیف'+(c['default']?' · پیش‌فرض':'')+(validCal(c.calendar)?' · تقویم '+CALS[c.calendar].name:'')+'</small> '+reviewBadge({review:c.review})+'<span class="hint">'+esc(L(c.desc))+'</span></div><button type="button" class="btn'+(on?' ghost':'')+'" data-'+(on?'un':'in')+'="'+esc(c.id)+'">'+(on?'برداشتن':'نصب')+'</button> <button type="button" class="btn ghost" data-pcopy="'+esc(c.id)+'" title="یک نسخهٔ شخصی از این بسته بسازید و ویرایش کنید">کپی و ویرایش</button></div>';
-  }).join(''):'<p class="hint">فهرست بسته‌ها بارگذاری نشد.</p>';
+    return '<div class="mrow'+(on?' in':'')+'" style="--h:'+h+'"><div><b>'+esc(L(c.title))+'</b> <small class="hint" style="display:inline">'+fa(c.events||0)+' رویداد · '+fa(c.tracks||0)+' ردیف'+(c['default']?' · پیش‌فرض':'')+(validCal(c.calendar)?' · تقویم '+CALS[c.calendar].name:'')+'</small> '+reviewBadge({review:c.review})+'<span class="hint">'+esc(L(c.desc))+'</span></div><button type="button" class="btn'+(on?' ghost':'')+'" data-'+(on?'un':'in')+'="'+esc(c.id)+'">'+(on?'برداشتن':'افزودن')+'</button> <button type="button" class="btn ghost" data-pcopy="'+esc(c.id)+'" title="یک نسخهٔ شخصی از این موضوع بسازید و ویرایش کنید">کپی و ویرایش</button></div>';
+  }).join(''):'<p class="hint">فهرست موضوع‌ها بارگذاری نشد.</p>';
   $('mgrCustom').innerHTML=CUSTOM.length?CUSTOM.map(function(p){
     var n=p.tracks.reduce(function(a,t){ return a+t.events.length; },0), sure=rmConfirm===p.id;
     return '<div class="mrow" style="--h:'+p.hue+'"><div><b>'+esc(L(p.title))+'</b> <small class="hint" style="display:inline">'+fa(n)+' رویداد</small></div><span>'+(sure?'<button type="button" class="btn ghost" data-ccancel="1">انصراف</button> ':'<button type="button" class="btn ghost" data-pedit="'+esc(p.id)+'">ویرایش</button> ')+'<button type="button" class="btn'+(sure?' warn':' ghost')+'" data-crm="'+esc(p.id)+'">'+(sure?'بله، برای همیشه حذف':'حذف')+'</button></span></div>';
-  }).join(''):'<p class="hint">هنوز بستهٔ شخصی ندارید. با «افزودن بستهٔ شخصی» یکی بسازید.</p>';
+  }).join(''):'<p class="hint">هنوز موضوع شخصی ندارید. با «افزودن موضوع شخصی» یکی بسازید.</p>';
 }
 function openMgr(){ rmConfirm=null; $('mgrMsg').textContent=''; buildMgr(); mgrEl.hidden=false; }
 function closeMgr(){ mgrEl.hidden=true; rmConfirm=null; }
@@ -1334,20 +1525,20 @@ mgrEl.addEventListener('click',function(e){
   var b=e.target.closest('button'); if(!b) return;
   var v;
   if((v=b.getAttribute('data-in'))){ var cc=catById(v); if(cc&&validCal(cc.calendar)&&!state.cals[cc.calendar]){ state.cals[cc.calendar]=true; store('tl.prefs.v1',{flip:state.flip,cals:state.cals}); buildCals(); }
-    setInstalled(installedIds().concat(v),'«'+L(catById(v).title)+'» روی قفسه نشست.'); }
-  else if((v=b.getAttribute('data-un'))){ setInstalled(installedIds().filter(function(x){ return x!==v; }),'«'+L(catById(v).title)+'» برداشته شد. هر وقت خواستید دوباره نصبش کنید.'); }
-  else if(b.id==='mgrDefaults'){ INSTALLED=null; store('tl.installed.v1',null); PSEL=[]; store('tl.profile.v1',null); setInstalled(installedIds(),'قفسه‌های پیش‌فرض برگشتند.'); }
-  else if(b.id==='mgrAll'){ setInstalled(CATALOG.map(function(c){ return c.id; }),'همهٔ قفسه‌ها پر شد.'); }
-  else if(b.id==='mgrNone'){ setInstalled([],'انبار خالی شد. هر بسته را هر وقت خواستید برگردانید.'); }
+    setInstalled(installedIds().concat(v),T('msg.added',{name:L(catById(v).title)})); }
+  else if((v=b.getAttribute('data-un'))){ setInstalled(installedIds().filter(function(x){ return x!==v; }),T('msg.removed',{name:L(catById(v).title)})); }
+  else if(b.id==='mgrDefaults'){ INSTALLED=null; store('tl.installed.v1',null); PSEL=[]; store('tl.profile.v1',null); setInstalled(installedIds(),T('msg.defaults')); }
+  else if(b.id==='mgrAll'){ setInstalled(CATALOG.map(function(c){ return c.id; }),T('msg.all')); }
+  else if(b.id==='mgrNone'){ setInstalled([],T('msg.none')); }
   else if(b.id==='mgrAdd'){ closeMgr(); openDrawer(); }
   else if((v=b.getAttribute('data-crm'))){
     if(rmConfirm!==v){ rmConfirm=v; buildMgr(); return; }
     rmConfirm=null; CUSTOM=CUSTOM.filter(function(p){ return p.id!==v; }); delete state.on[v];
     store('tl.custom.v1',CUSTOM.map(function(p){ return p.raw; }));
-    rebuild(); dropSelIfHidden(); layoutCache=null; buildPacks(); buildMgr(); render(); renderDetail(); $('mgrMsg').textContent='بستهٔ شخصی حذف شد.';
+    rebuild(); dropSelIfHidden(); layoutCache=null; buildPacks(); buildMgr(); render(); renderDetail(); $('mgrMsg').textContent='موضوع شخصی حذف شد.';
   }
   else if((v=b.getAttribute('data-pedit'))){ var cp=CUSTOM.filter(function(p){ return p.id===v; })[0]; if(cp) openPed(cp.raw,false); }
-  else if((v=b.getAttribute('data-pcopy'))){ var cc2=catById(v); if(cc2) fetchPack(cc2).then(function(raw){ openPed(JSON.parse(JSON.stringify(raw)),true); }).catch(function(){ $('mgrMsg').textContent='فایل بسته گرفته نشد.'; }); }
+  else if((v=b.getAttribute('data-pcopy'))){ var cc2=catById(v); if(cc2) fetchPack(cc2).then(function(raw){ openPed(JSON.parse(JSON.stringify(raw)),true); }).catch(function(){ $('mgrMsg').textContent='فایل موضوع گرفته نشد.'; }); }
   else if(b.getAttribute('data-ccancel')){ rmConfirm=null; buildMgr(); }
 });
 
@@ -1367,16 +1558,16 @@ function buildProf(){
   profView=profileList();
   $('profList').innerHTML=profView.map(function(p){
     var on=PSEL.indexOf(p.id)>=0;
-    return '<div class="pwrap"><button type="button" class="pcard" aria-pressed="'+on+'" data-pf="'+esc(p.id)+'"><span class="pi">'+esc(p.icon||'')+'</span><b>'+esc(L(p.title))+'</b><small>'+esc(L(p.desc))+'</small><small>'+fa(p.packs.length)+' بسته'+(p.custom?' · شخصی':(p.edited?' · ویرایش‌شده':''))+'</small></button><button type="button" class="pedit" data-pe="'+esc(p.id)+'" aria-label="ویرایش پروفایل «'+esc(L(p.title))+'»" title="ویرایش">✎</button></div>';
-  }).join('')+'<div class="pwrap"><button type="button" class="pcard pnew" data-pnew="1"><span class="pi">＋</span><b>پروفایل تازه</b><small>خودتان بسته‌های دلخواه را انتخاب کنید</small></button></div>';
+    return '<div class="pwrap"><button type="button" class="pcard" aria-pressed="'+on+'" data-pf="'+esc(p.id)+'"><span class="pi">'+esc(p.icon||'')+'</span><b>'+esc(L(p.title))+'</b><small>'+esc(L(p.desc))+'</small><small>'+fa(p.packs.length)+' موضوع'+(p.custom?' · شخصی':(p.edited?' · ویرایش‌شده':''))+'</small></button><button type="button" class="pedit" data-pe="'+esc(p.id)+'" aria-label="ویرایش علاقه‌مندی «'+esc(L(p.title))+'»" title="ویرایش">✎</button></div>';
+  }).join('')+'<div class="pwrap"><button type="button" class="pcard pnew" data-pnew="1"><span class="pi">＋</span><b>علاقه‌مندی تازه</b><small>خودتان موضوع‌های دلخواه را انتخاب کنید</small></button></div>';
 }
 function profShow(edit){ $('profMain').hidden=!!edit; $('profEdit').hidden=!edit; }
-function openProf(){ try{ if(!mgrEl.hidden) closeMgr(); }catch(_){} $('profMsg').textContent=''; profShow(false); profEl.hidden=false; try{ buildProf(); }catch(err){ $('profList').innerHTML='<p class="hint">فهرست پروفایل‌ها بارگذاری نشد. صفحه را تازه کنید (Ctrl+Shift+R) و اگر درست نشد، فایل packs/index.json را دوباره بسازید.</p>'; } }
-function closeProf(){ profEl.hidden=true; if(!Array.isArray(store('tl.profile.v1'))) store('tl.profile.v1',PSEL); }
+function openProf(){ try{ if(!mgrEl.hidden) closeMgr(); }catch(_){} $('profMsg').textContent=''; profShow(false); profEl.hidden=false; try{ buildProf(); }catch(err){ $('profList').innerHTML='<p class="hint">فهرست علاقه‌مندی‌ها بارگذاری نشد. صفحه را تازه کنید (Ctrl+Shift+R) و اگر درست نشد، فایل packs/index.json را دوباره بسازید.</p>'; } }
+function closeProf(){ profEl.hidden=true; if(!Array.isArray(store('tl.profile.v1'))) store('tl.profile.v1',PSEL); if(FIRSTRUN&&!PSEL.length) calmStart(); FIRSTRUN=false; maybeTour(); }
 function applyProfile(){
   if(!PSEL.length){ $('profMsg').textContent='دست‌کم یک مورد را انتخاب کنید.'; return; }
   var ids=[], mine=[]; profView.forEach(function(p){ if(PSEL.indexOf(p.id)>=0) p.packs.forEach(function(id){ if(catById(id)){ if(ids.indexOf(id)<0) ids.push(id); } else if(mine.indexOf(id)<0) mine.push(id); }); });
-  if(!ids.length&&!mine.length){ $('profMsg').textContent='پروفایل انتخاب‌شده بسته‌ای ندارد؛ با ✎ بسته‌هایش را مشخص کنید.'; return; }
+  if(!ids.length&&!mine.length){ $('profMsg').textContent='علاقه‌مندی انتخاب‌شده موضوعی ندارد؛ با ✎ موضوع‌هایش را مشخص کنید.'; return; }
   ids=CATALOG.map(function(c){ return c.id; }).filter(function(id){ return ids.indexOf(id)>=0; });
   ids.forEach(function(id){ var c=catById(id); if(validCal(c.calendar)) state.cals[c.calendar]=true; });
   CUSTOM.forEach(function(c){ if(mine.indexOf(c.id)>=0) state.on[c.id]=true; });
@@ -1385,36 +1576,36 @@ function applyProfile(){
   setInstalled(ids,'').then(function(){
     var xe=ext(), a0=xe.lo, b0=xe.hi; if(b0-a0<40){ a0-=20; b0+=20; }
     animateTo((a0+b0)/2,state.W*0.94/(b0-a0));
-    profEl.hidden=true; toast('پروفایل اعمال شد: '+(ids.length+mine.length)+' بسته روی قفسه است.');
+    FIRSTRUN=false; profEl.hidden=true; toast(T('toast.interest',{n:ids.length+mine.length})); maybeTour();
   });
 }
-/* ویرایش پروفایل */
+/* ویرایش علاقه‌مندی */
 function peAllPacks(){ return CATALOG.map(function(c){ return {id:c.id,title:L(c.title),n:c.events||0}; }).concat(CUSTOM.map(function(p){ return {id:p.id,title:L(p.title)+' (شخصی)',n:p.tracks.reduce(function(s,t){ return s+t.events.length; },0)}; })); }
 function openPE(id){
   var p=id?profView.filter(function(x){ return x.id===id; })[0]:null;
   peEdit={id:id||null,builtin:!!(p&&!p.custom),sel:p?p.packs.slice():[]};
   $('peName').value=p?L(p.title):''; $('peIcon').value=p?(p.icon||''):'⭐'; $('peDesc').value=p?L(p.desc):'';
-  $('peHead').textContent=p?'ویرایش پروفایل':'پروفایل تازه';
-  $('peDel').hidden=!p||(!p.custom&&!p.edited); $('peDel').textContent=p&&p.custom?'حذف پروفایل':'بازگردانی به حالت اولیه';
+  $('peHead').textContent=p?'ویرایش علاقه‌مندی':'علاقه‌مندی تازه';
+  $('peDel').hidden=!p||(!p.custom&&!p.edited); $('peDel').textContent=p&&p.custom?'حذف علاقه‌مندی':'بازگردانی به حالت اولیه';
   $('peMsg').textContent='';
   $('pePacks').innerHTML=peAllPacks().map(function(k){ return '<label class="mrow pck"><span><input type="checkbox" data-pk="'+esc(k.id)+'"'+(peEdit.sel.indexOf(k.id)>=0?' checked':'')+'> <b>'+esc(k.title)+'</b> <small class="hint" style="display:inline">'+fa(k.n)+' رویداد</small></span></label>'; }).join('');
   profShow(true);
 }
 function savePE(){
-  var name=$('peName').value.trim(); if(!name){ $('peMsg').textContent='برای پروفایل نام بنویسید.'; return; }
+  var name=$('peName').value.trim(); if(!name){ $('peMsg').textContent='برای علاقه‌مندی نام بنویسید.'; return; }
   var sel=[].slice.call($('pePacks').querySelectorAll('input:checked')).map(function(i){ return i.getAttribute('data-pk'); });
-  if(!sel.length){ $('peMsg').textContent='دست‌کم یک بسته را انتخاب کنید.'; return; }
+  if(!sel.length){ $('peMsg').textContent='دست‌کم یک موضوع را انتخاب کنید.'; return; }
   var rec={title:name,icon:$('peIcon').value.trim(),desc:$('peDesc').value.trim(),packs:sel};
   if(peEdit.builtin) PDEF.over[peEdit.id]=rec;
   else if(peEdit.id){ PDEF.custom=PDEF.custom.map(function(c){ return c.id===peEdit.id?Object.assign({id:c.id},rec):c; }); }
   else{ var nid='u-'+Date.now().toString(36); PDEF.custom.push(Object.assign({id:nid},rec)); PSEL.push(nid); }
-  savePdef(); buildProf(); profShow(false); $('profMsg').textContent='پروفایل ذخیره شد. برای دیدن نتیجه «اعمال پروفایل» را بزنید.';
+  savePdef(); buildProf(); profShow(false); $('profMsg').textContent='علاقه‌مندی ذخیره شد. برای دیدن نتیجه «نمایش موضوع‌های من» را بزنید.';
 }
 function delPE(){
   if(!peEdit||!peEdit.id) return;
   if(peEdit.builtin) delete PDEF.over[peEdit.id];
   else{ PDEF.custom=PDEF.custom.filter(function(c){ return c.id!==peEdit.id; }); PSEL=PSEL.filter(function(x){ return x!==peEdit.id; }); store('tl.profile.v1',PSEL); }
-  savePdef(); buildProf(); profShow(false); $('profMsg').textContent=peEdit.builtin?'پروفایل به حالت اولیه برگشت.':'پروفایل حذف شد.';
+  savePdef(); buildProf(); profShow(false); $('profMsg').textContent=peEdit.builtin?'علاقه‌مندی به حالت اولیه برگشت.':'علاقه‌مندی حذف شد.';
 }
 $('openProf').addEventListener('click',openProf);
 $('openProf2').addEventListener('click',openProf);
@@ -1491,10 +1682,10 @@ function evFormHtml(o,ti,ei){
 }
 function pedRender(){
   var p=ED.p, h='';
-  h+='<div class="pmeta"><label class="lab">نام بسته</label><input data-m="title" value="'+esc(p.title)+'" placeholder="مثلاً تاریخ ارمنستان">'+
+  h+='<div class="pmeta"><label class="lab">نام موضوع</label><input data-m="title" value="'+esc(p.title)+'" placeholder="مثلاً تاریخ ارمنستان">'+
      '<label class="lab">توضیح یک‌جمله‌ای</label><input data-m="desc" value="'+esc(p.desc)+'">'+
      '<div class="row"><label class="lab">تقویم پیش‌فرض</label><select data-m="calendar"><option value="">میلادی (پیش‌فرض)</option><option value="sh"'+(p.calendar==='sh'?' selected':'')+'>شمسی</option><option value="lunar"'+(p.calendar==='lunar'?' selected':'')+'>قمری</option></select>'+
-     '<label class="lab">رنگ</label><input type="range" min="0" max="360" data-m="hue" value="'+p.hue+'" aria-label="رنگ بسته"><span class="swatch" id="pedSw" style="background:hsl('+p.hue+' 60% 50%)"></span></div></div>';
+     '<label class="lab">رنگ</label><input type="range" min="0" max="360" data-m="hue" value="'+p.hue+'" aria-label="رنگ موضوع"><span class="swatch" id="pedSw" style="background:hsl('+p.hue+' 60% 50%)"></span></div></div>';
   h+='<p class="hint">قاعده: داده‌های هم‌نوع که بازه‌هایشان هم‌پوشانی ندارد (مثل حاکمان پشت‌سرهم) را در یک ردیف بگذارید؛ ردیف جدا فقط برای نوع متفاوت داده یا مقایسهٔ هم‌زمان است.</p>';
   ED.tracks.forEach(function(t,ti){
     h+='<section class="ptr"><div class="ptrh"><input data-t="'+ti+'" data-k="tname" value="'+esc(t.name)+'" placeholder="نام ردیف" aria-label="نام ردیف"><span class="row"><button type="button" class="btn ghost" data-a="tup" data-t="'+ti+'" aria-label="بالا">↑</button><button type="button" class="btn ghost" data-a="tdown" data-t="'+ti+'" aria-label="پایین">↓</button><button type="button" class="btn ghost" data-a="tdel" data-t="'+ti+'">حذف ردیف</button></span></div>';
@@ -1513,7 +1704,7 @@ function pedRender(){
 }
 function pedBuild(){
   var p=ED.p, raw={}; Object.keys(ED.extra).forEach(function(k){ raw[k]=ED.extra[k]; });
-  var title=p.title.trim(); if(!title) throw new Error('برای بسته نام بنویسید.');
+  var title=p.title.trim(); if(!title) throw new Error('برای موضوع نام بنویسید.');
   var id=ED.orig;
   if(!id){ id=slugId(title); var taken=function(x){ return CUSTOM.some(function(c){ return c.id===x; })||CATALOG.some(function(c){ return c.id===x; }); }; if(taken(id)) id=id+'-'+Date.now().toString(36).slice(-4); }
   raw.id=id; raw.title=title; raw.hue=+p.hue; if(p.desc.trim()) raw.desc=p.desc.trim(); if(p.calendar) raw.calendar=p.calendar;
@@ -1578,6 +1769,44 @@ $('pedClose').addEventListener('click',function(){ pedClose(false); });
 $('addNew').addEventListener('click',function(){ openPed({title:'',tracks:[{id:uid('t'),name:'',events:[]}]},false); });
 $('mgrNew').addEventListener('click',function(){ openPed({title:'',tracks:[{id:uid('t'),name:'',events:[]}]},false); });
 
+/* ---------- first-run tour + example ---------- */
+var tourEl=$('tour'), tourI=0, spotEl=null, FIRSTRUN=false;
+function calmStart(){ FIRSTRUN=false; var ti=0; ALLPACKS.forEach(function(p){ p.tracks.forEach(function(t){ if(ti++>=3) state.collapsed[p.id+'|'+t.id]=true; }); }); layoutCache=null; try{ render(); }catch(_){} }
+var TOUR=[
+  {t:'نمودار را بکشید',d:'نمودار را با ماوس یا انگشت بکشید تا در زمان جابه‌جا شوید و با دکمه‌های + و − بزرگ و کوچکش کنید. هر ردیف یک موضوع است و ردیف‌ها زیر هم چیده شده‌اند تا هم‌زمانی‌ها را ببینید.',sel:['#tracks']},
+  {t:'روی یک رویداد بزنید',d:'با زدن روی هر نام، توضیحش پایین صفحه باز می‌شود و فهرست کسانی را که هم‌زمان با او بوده‌اند می‌بینید.',sel:['.evchip']},
+  {t:'موضوع‌ها را خودتان انتخاب کنید',d:'از «علاقه‌مندی‌های من» موضوع‌های دلخواه را بیاورید و با «جستجو» یا «رفتن به سال» یک مورد مشخص را پیدا کنید. اگر گم شدید، دکمهٔ «راهنما» همین‌جاست.',sel:['#openProf','#menuBtn']}
+];
+function tourOff(){ if(spotEl){ spotEl.classList.remove('spot'); spotEl=null; } }
+function tourEnd(){ tourOff(); tourEl.hidden=true; store('tl.tour.v1','done'); }
+function tourShow(){
+  var st=TOUR[tourI]; tourOff();
+  var el=null; st.sel.some(function(q){ var c=document.querySelectorAll(q); for(var i=0;i<c.length;i++) if(c[i].offsetParent!==null){ el=c[i]; return true; } return false; });
+  if(el){ el.classList.add('spot'); spotEl=el; try{ el.scrollIntoView({block:'nearest',behavior:'smooth'}); }catch(_){} }
+  var last=tourI===TOUR.length-1;
+  tourEl.innerHTML='<div class="tsteps">مرحلهٔ '+fa(tourI+1)+' از '+fa(TOUR.length)+'</div><h3>'+esc(st.t)+'</h3><p>'+esc(st.d)+'</p><div class="row">'+(tourI>0?'<button class="btn ghost" type="button" data-tr="prev">قبلی</button>':'')+'<button class="btn" type="button" data-tr="next">'+(last?'تمام':'بعدی')+'</button>'+(last?'<button class="btn ghost" type="button" data-tr="ex">یک نمونه نشانم بده</button>':'<button class="btn ghost" type="button" data-tr="skip">رد کردن</button>')+'</div>';
+  tourEl.hidden=false;
+}
+function startTour(){ if(!profEl.hidden) profEl.hidden=true; tourI=0; tourShow(); }
+function maybeTour(){ if(store('tl.tour.v1')) return; setTimeout(function(){ if(!store('tl.tour.v1')&&profEl.hidden&&mgrEl.hidden&&pedEl.hidden&&$('admin').hidden) startTour(); },700); }
+tourEl.addEventListener('click',function(e){
+  var b=e.target.closest('[data-tr]'); if(!b) return; var a=b.getAttribute('data-tr');
+  if(a==='next'){ if(tourI>=TOUR.length-1) tourEnd(); else{ tourI++; tourShow(); } }
+  else if(a==='prev'){ tourI=Math.max(0,tourI-1); tourShow(); }
+  else if(a==='skip') tourEnd();
+  else if(a==='ex'){ tourEnd(); showExample(); }
+});
+function showExample(){
+  var ev=null, names=['کوروش بزرگ','داریوش یکم','اسکندر مقدونی','امام حسین (ع)'];
+  names.some(function(n){ return visiblePacks().some(function(p){ return p.tracks.some(function(t){ return t.events.some(function(x){ if(L(x.name)===n){ ev=x; return true; } return false; }); }); }); });
+  if(!ev){ var pool=poolEvents(); ev=pool[Math.floor(pool.length/3)]||pool[0]; }
+  if(!ev){ toast('برای دیدن نمونه، ابتدا یک موضوع روشن کنید.'); return; }
+  var k=ev.pack.id+'|'+ev.track.id; delete state.collapsed[k]; delete state.off[k];
+  state.sel=ev; layoutCache=null; var sp=Math.max(40,(ev.e-ev.s)*1.6); animateTo((ev.s+ev.e)/2,state.W*0.5/sp); setPanel(true); renderDetail(); setTimeout(function(){ revealTrack(ev); },160);
+}
+$('openHelp').addEventListener('click',startTour);
+document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('[data-help]')) startTour(); });
+
 /* ---------- mobile menus ---------- */
 (function(){
   var mb=$('menuBtn'), acts=$('acts'), tb=$('toolsBtn'), tools=$('tools');
@@ -1595,7 +1824,7 @@ function toast(t){ var el=$('toast'); el.textContent=t; el.hidden=false; clearTi
 var deferredInstall=null;
 window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); deferredInstall=e; $('installBtn').hidden=false; });
 $('installBtn').addEventListener('click',function(){ if(!deferredInstall) return; deferredInstall.prompt(); deferredInstall=null; $('installBtn').hidden=true; });
-window.addEventListener('appinstalled',function(){ $('installBtn').hidden=true; toast('تاریخ‌دونی نصب شد. از حالا تاریخ همیشه دم دست است.'); });
+window.addEventListener('appinstalled',function(){ $('installBtn').hidden=true; toast(T('toast.installed')); });
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&document.querySelector('link[rel="manifest"]')){
   try{
     navigator.serviceWorker.register('sw.js').then(function(reg){
@@ -1618,7 +1847,10 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&document.q
   return Promise.all(installedIds().map(catById).filter(Boolean).map(fetchPack));
 }).then(function(){
   (store('tl.custom.v1')||[]).forEach(function(raw){ try{ CUSTOM.push(normalizePack(raw,true)); }catch(_){} });
-  applyInstalled(); loaded=true; buildPacks();
+  var FIRST=!SHARE&&!Array.isArray(store('tl.profile.v1'))&&!store('tl.collapsed.v1');
+  applyInstalled(); loaded=true;
+  FIRSTRUN=FIRST; if(FIRST&&!PROFILES.length) calmStart();
+  buildPacks();
   var xe=ext(), a0=Math.max(h2a(-150),xe.lo), b0=Math.min(350,xe.hi); if(b0-a0<40){ a0=xe.lo; b0=xe.hi; }
   var f={c:(a0+b0)/2,ppy:state.W*0.94/(b0-a0)}, shEv=null;
   if(SHARE){
@@ -1631,6 +1863,7 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&document.q
   pendingEnter=true; fillGoto(); layoutCache=null; render(); renderDetail();
   if(shEv) setTimeout(function(){ revealTrack(shEv); },120);
   if(!SHARE&&!Array.isArray(store('tl.profile.v1'))&&!Array.isArray(store('tl.installed.v1'))&&PROFILES.length) setTimeout(function(){ openProf(); },350);
+  else if(!SHARE) maybeTour();
 }).catch(function(err){
   loadError='بارگذاری فایل‌های داده انجام نشد. اگر فایل را مستقیم از دیسک باز کرده‌اید، نسخهٔ تک‌فایل را باز کنید یا پوشه را روی یک میزبان وب بگذارید. ('+err.message+')'; render();
 });

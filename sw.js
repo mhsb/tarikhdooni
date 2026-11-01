@@ -1,5 +1,5 @@
 /* تاریخ‌دونی: کار بدون اینترنت. شمارهٔ نسخه هنگام ساخت عوض می‌شود. */
-const VERSION = 'f700633b';
+const VERSION = '__VERSION__';
 const CACHE = 'tarikhdooni-' + VERSION;
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'packs/index.json'];
 
@@ -31,9 +31,14 @@ self.addEventListener('fetch', e => {
   if (!same && !font) return;
   e.respondWith((async () => {
     const c = await caches.open(CACHE);
-    if (same && url.pathname.endsWith('/packs/index.json')) {   // فهرست بسته‌ها: اول شبکه تا بستهٔ تازه زود دیده شود
+    if (same && (url.pathname.endsWith('/packs/index.json') || url.pathname.endsWith('/site.json'))) {   // فهرست بسته‌ها: اول شبکه تا بستهٔ تازه زود دیده شود
       try { const r = await fetch(req, { cache: 'no-cache' }); if (r.ok) c.put(req, r.clone()); return r; }
       catch (_) { const h = await c.match(req, { ignoreSearch: true }); if (h) return h; }
+    }
+    if (same && (req.mode === 'navigate' || /\/(index\.html)?$/.test(url.pathname))) {   // خود صفحه: اول شبکه تا نسخهٔ تازه فوراً دیده شود
+      try { const r = await fetch(req, { cache: 'no-cache' }); if (r.ok) { c.put(req, r.clone()); return r; } }
+      catch (_) {}
+      const h = await c.match(req, { ignoreSearch: true }) || await c.match('index.html') || await c.match('./'); if (h) return h;
     }
     const hit = await c.match(req, { ignoreSearch: true });
     const net = fetch(req).then(r => { if (r && (r.ok || r.type === 'opaque')) c.put(req, r.clone()); return r; }).catch(() => null);
