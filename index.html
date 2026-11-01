@@ -1180,7 +1180,7 @@ function endPtr(e,cancel){
     }
     if(!cancel&&!d.moved){
       var el=d.target&&d.target.closest?d.target.closest('[data-k]'):null;
-      if(el&&tracksEl.contains(el)){ select(ALL[+el.getAttribute('data-k')],false); }
+      if(el&&tracksEl.contains(el)){ var ev0=ALL[+el.getAttribute('data-k')]; select(ev0,!ev0.pt); }
       else if(rec){
         state.sel=null; setCursor(yOf(localX(e))); renderDetail(); sched();
       }
