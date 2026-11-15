@@ -109,7 +109,7 @@ h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,5vw,40px);l
 .empty{padding:48px 16px;color:var(--mut);text-align:center;direction:rtl}
 
 /* z layers: track content 1-6 < year rulers 20 < description panel 22 < search results 28 < safe-area band 30 < add-data drawer 40 */
-.detail{position:sticky;bottom:env(safe-area-inset-bottom,0px);z-index:22;margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;max-height:44vh;overflow:auto;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+.detail{position:sticky;bottom:env(safe-area-inset-bottom,0px);z-index:22;margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 14px 12px;max-height:44vh;overflow:auto;overscroll-behavior:contain;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
 .dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
 .dh h2{margin:0;font-size:18px;line-height:1.4}
 .dh .meta{color:var(--mut);font-size:12px}
@@ -191,6 +191,14 @@ select:focus-visible,.linkbtn:focus-visible,.foot a:focus-visible,.credit a:focu
 .foot a{color:var(--accent)}
 .top .acts{align-items:center}
 .detail.peek{max-height:24vh}
+.detail.sized{max-height:none}
+.detail .grip{position:sticky;top:0;z-index:3;height:18px;margin:0 -14px;display:flex;align-items:center;justify-content:center;cursor:ns-resize;touch-action:none;background:var(--panel);border-radius:10px 10px 0 0}
+.detail .grip::before{content:"";width:44px;height:4px;border-radius:3px;background:var(--line)}
+.detail .grip:hover::before,.detail .grip:focus-visible::before{background:var(--mut)}
+.detail .acts{gap:4px;flex-wrap:nowrap;align-items:center}
+.detail .acts .btn{padding:4px 9px;font-size:12px;white-space:nowrap;min-height:0}
+.detail .acts .x{padding:0 10px;font-size:20px}
+.detail .dh{flex-wrap:wrap;position:sticky;top:18px;z-index:2;background:var(--panel);margin:0;padding:0 0 8px;border-bottom:1px solid var(--line);margin-bottom:8px}
 .settings{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:0 14px 2px;display:grid;gap:10px}
 .settings>summary{cursor:pointer;padding:8px 0;font-weight:500;display:flex;justify-content:space-between;align-items:center;list-style:none}
 .settings>summary::-webkit-details-marker{display:none}
@@ -303,9 +311,9 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
   h1{font-size:26px}
   .sub{font-size:12px;margin-top:0}
   .menubtn{padding:2px 14px;font-size:18px;line-height:1.6;display:inline-block}
-  .acts{display:none}
-  .acts.open{display:grid;position:absolute;inset-inline-start:0;top:100%;z-index:35;min-width:190px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;gap:6px;box-shadow:0 14px 34px -12px var(--shadowc)}
-  .acts.open .btn{width:100%;text-align:start;padding:9px 14px}
+  .top .acts{display:none}
+  .top .acts.open{display:grid;position:absolute;inset-inline-start:0;top:100%;z-index:35;min-width:190px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;gap:6px;box-shadow:0 14px 34px -12px var(--shadowc)}
+  .top .acts.open .btn{width:100%;text-align:start;padding:9px 14px}
   .controls{gap:6px;padding-block:2px 8px}
   .r1{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding-bottom:2px;margin-inline:-6px;padding-inline:6px}
   .r1::-webkit-scrollbar{display:none}
@@ -1048,6 +1056,23 @@ function activeAt(y){
   var tol=8/state.ppy;
   return poolEvents().filter(function(ev){ return ev.pt?Math.abs(ev.s-y)<=tol:(ev.s<=y&&y<=ev.e); });
 }
+var DH_KEY='tl.dh.v1';
+function dhClamp(h){ return Math.max(110,Math.min(h,Math.round(window.innerHeight*0.88))); }
+function applyDH(h){ if(h==null){ detailEl.style.height=''; detailEl.classList.remove('sized'); try{localStorage.removeItem(DH_KEY);}catch(_){} return; } h=dhClamp(h); detailEl.style.height=h+'px'; detailEl.classList.add('sized'); try{localStorage.setItem(DH_KEY,String(h));}catch(_){} }
+(function(){ try{ var v=+localStorage.getItem(DH_KEY); if(v>0){ detailEl.style.height=dhClamp(v)+'px'; detailEl.classList.add('sized'); } }catch(_){} })();
+detailEl.addEventListener('pointerdown',function(e){
+  var g=e.target.closest&&e.target.closest('.grip'); if(!g) return; e.preventDefault();
+  var y0=e.clientY, h0=detailEl.getBoundingClientRect().height;
+  function mv(ev){ applyDH(h0+(y0-ev.clientY)); }
+  function up(){ document.removeEventListener('pointermove',mv); document.removeEventListener('pointerup',up); document.removeEventListener('pointercancel',up); }
+  document.addEventListener('pointermove',mv); document.addEventListener('pointerup',up); document.addEventListener('pointercancel',up);
+});
+detailEl.addEventListener('dblclick',function(e){ if(e.target.closest&&e.target.closest('.grip')) applyDH(null); });
+detailEl.addEventListener('keydown',function(e){
+  if(!(e.target.classList&&e.target.classList.contains('grip'))) return;
+  var h=detailEl.getBoundingClientRect().height;
+  if(e.key==='ArrowUp'){ e.preventDefault(); applyDH(h+40); } else if(e.key==='ArrowDown'){ e.preventDefault(); applyDH(h-40); } else if(e.key==='Home'||e.key==='Enter'){ e.preventDefault(); applyDH(null); }
+});
 function renderDetail(){
   if(!state.panel) return;
   detailEl.classList.toggle('peek',!state.sel);
@@ -1072,7 +1097,7 @@ function renderDetail(){
     var d='<div class="dates">'; CAL_ORDER.forEach(function(c){ if(state.cals[c]) d+='<span><em>'+CALS[c].name+'</em>'+yearLabel(state.cur,c)+'</span>'; }); h+=d+'</div>';
     h+=act.length?groupHtml(act):'<div class="hint">در این سال رویدادی در موضوع‌های روشن ثبت نشده است.</div>';
   }
-  detailEl.innerHTML=h;
+  detailEl.innerHTML='<div class="grip" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="تغییر ارتفاع پنل (بکشید یا کلیدهای بالا و پایین؛ دوبار کلیک برای بازنشانی)" title="برای تغییر ارتفاع بکشید"></div>'+h;
 }
 var draf=0;
 function schedDetail(){ if(draf) return; draf=requestAnimationFrame(function(){ draf=0; renderDetail(); }); }
